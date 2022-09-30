@@ -12,6 +12,7 @@ class Listview1Screen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             title: const Text("AGII"),
+            centerTitle: true,
             elevation: 5,
             backgroundColor: Color.fromRGBO(8, 75, 129, 10)),
         body: ListView(
