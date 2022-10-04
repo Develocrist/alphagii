@@ -7,9 +7,9 @@ class Calculator2Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Calculadora EOQ"),
+        title: const Text("Calculadora EOQ"),
         elevation: 5,
-        backgroundColor: Color.fromRGBO(8, 75, 129, 10),
+        backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
       ),
       body: const Center(
         child: Text('Calculator2Screen'),

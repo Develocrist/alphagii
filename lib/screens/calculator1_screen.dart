@@ -13,16 +13,6 @@ class CalculatorScreen extends StatelessWidget {
       title: "Calculadora",
       home: MyCalculator(),
     );
-    // Scaffold(
-    //   appBar: AppBar(
-    //     title: const Text("Calculadora EOQ"),
-    //     elevation: 5,
-    //     backgroundColor: Color.fromRGBO(8, 75, 129, 10),
-    //   ),
-    //   body: const Center(
-    //     child: Text('CalculatorScreen'),
-    //   ),
-    // );
   }
 }
 
@@ -40,23 +30,31 @@ class Calculadora extends State<MyCalculator> {
         barrierDismissible: true,
         context: context,
         builder: (context) {
-          return AlertDialog(
-            elevation: 5,
-            title: const Text("Formulas"),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Text(
-                    "Aquí se insertaran las formulas y las variables segun corresponda"),
+          return Center(
+            child: AlertDialog(
+              elevation: 5,
+              title: const Text("Fórmulas"),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              content: ClipRRect(
+                  child: Container(
+                height: 100,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: const <Widget>[
+                    Text('Hola soy un mensaje'),
+                    // Image.asset(
+                    //   'assets/formulaeoq.png',
+                    //   fit: BoxFit.cover,
+                  ],
+                ),
+              )),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cerrar'))
               ],
             ),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cerrar'))
-            ],
           );
         }); //builder es un codigo que regresa un widget
   }
@@ -67,7 +65,7 @@ class Calculadora extends State<MyCalculator> {
   final controllerCostoUnitario = TextEditingController();
   final controllerMantencion = TextEditingController();
   final controllerDias = TextEditingController();
-  final my_form_key = GlobalKey<FormState>();
+  //final my_form_key = GlobalKey<FormState>();
 
   String mostrarCantidadOptima = "";
   String mostrarNumOrdenes = "";
@@ -85,18 +83,19 @@ class Calculadora extends State<MyCalculator> {
     double costoUnitario = 0;
     double costoMantencion = 0;
     double diasTrabajados = 0;
-    if (isNumericUsing_tryParse(controllerDemanda.text) &&
-        isNumericUsing_tryParse(controllerOrden.text) &&
-        isNumericUsing_tryParse(controllerMantencion.text) &&
-        isNumericUsing_tryParse(controllerCostoUnitario.text) &&
-        isNumericUsing_tryParse(controllerDias.text)) {
-      demanda = double.parse(controllerDemanda.text);
-      orden = double.parse(controllerOrden.text);
+
+    if (isNumericUsingtryParse(controllerDemanda.text) &&
+        isNumericUsingtryParse(controllerOrden.text) &&
+        isNumericUsingtryParse(controllerMantencion.text) &&
+        isNumericUsingtryParse(controllerCostoUnitario.text) &&
+        isNumericUsingtryParse(controllerDias.text)) {
       costoUnitario = double.parse(controllerCostoUnitario.text);
       costoMantencion = double.parse(controllerMantencion.text);
       diasTrabajados = double.parse(controllerDias.text);
+      demanda = double.parse(controllerDemanda.text);
+      orden = double.parse(controllerOrden.text);
+      costoMantencion = double.parse(controllerMantencion.text);
 
-      //formula cantidad optima
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
       String r = cantidadOptima.toStringAsFixed(0);
 
@@ -118,7 +117,7 @@ class Calculadora extends State<MyCalculator> {
 
       //formula costo total de mantencion
       double totalCostoMantener = ((cantidadOptima / 2) * costoMantencion);
-      String tcostoMantencion = totalCostoMantener.toStringAsFixed(0);
+      String tcostoMantener = totalCostoMantener.toStringAsFixed(0);
 
       double totalCostoTotal = (demanda * costoUnitario) +
           ((demanda / cantidadOptima) * orden) +
@@ -128,16 +127,27 @@ class Calculadora extends State<MyCalculator> {
 
       String tcostoTotal = totalCostoTotal.toStringAsFixed(0);
 
-      //este setstate imprime los resultados en los containers (estos estan codificados mas abajo)
       setState(() {
         mostrarCantidadOptima = 'Cantidad optima de pedido: $r unidades';
-        mostrarNumOrdenes = 'Numero de ordenes esperado: $ordenes ';
+        mostrarNumOrdenes = 'Numero de ordenes esperado: $ordenes pedidos  ';
         tiempoReorden = "Tiempo de reorden: $ord días";
         campoPuntoReorden = "Punto de reorden: $ptoReorden unidades";
 
         costoOrden = "Costo total orden:  $tcostoOrden";
-        //costoMantencion = "Costo total mantención: $tcostoMantencion";
+        costMantencion = "Costo total mantención: $tcostoMantener";
         costoTotal = "El costo total es de :  $tcostoTotal";
+      });
+    } else if (isNumericUsingtryParse(controllerDemanda.text) &&
+        isNumericUsingtryParse(controllerOrden.text) &&
+        isNumericUsingtryParse(controllerMantencion.text)) {
+      demanda = double.parse(controllerDemanda.text);
+      orden = double.parse(controllerOrden.text);
+      costoMantencion = double.parse(controllerMantencion.text);
+
+      double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
+      String r = cantidadOptima.toStringAsFixed(0);
+      setState(() {
+        mostrarCantidadOptima = 'Cantidad optima de pedido: $r unidades';
       });
     } else {
       MostrarDialogo();
@@ -158,14 +168,15 @@ class Calculadora extends State<MyCalculator> {
       campoPuntoReorden = "";
       costoOrden = "";
       costoTotal = "";
+      costMantencion = "";
     });
   }
 
 //------------------------------------------
 
 // Comprobar si es numero
-  bool isNumericUsing_tryParse(String string) {
-    if (string == null || string.isEmpty) {
+  bool isNumericUsingtryParse(String string) {
+    if (string.isEmpty) {
       return false;
     }
     final number = num.tryParse(string);
@@ -184,7 +195,10 @@ class Calculadora extends State<MyCalculator> {
           return AlertDialog(
             title: const Text("Error"),
             iconColor: Colors.red,
-            icon: Icon(Icons.error_outline_outlined),
+            icon: const Icon(
+              Icons.error_outline_outlined,
+              size: 60,
+            ),
             content: const Text("Ingrese valores numericos en las casillas."),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -202,8 +216,6 @@ class Calculadora extends State<MyCalculator> {
 //parte visual
   @override
   Widget build(BuildContext context) {
-    final logicalSize = MediaQuery.of(context).size;
-    final double _height = logicalSize.height;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -216,275 +228,278 @@ class Calculadora extends State<MyCalculator> {
             }),
         centerTitle: true,
         elevation: 5,
-        backgroundColor: Color.fromRGBO(8, 75, 129, 10),
+        backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
         title: const Text('Calculadora EOQ'),
       ),
-      body: ListView(key: my_form_key, children: [
-        Row(
-          //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: ListView(
+          //key: my_form_key,
           children: [
-            const Text(" Demanda (D): "),
-            Container(
-              width: 60,
-              height: 50,
-              child: TextFormField(
-                controller: controllerDemanda,
-                validator: (value) {
-                  if (value!.isEmpty) return "Ingresa la demanda";
-                },
-                keyboardType: TextInputType.phone,
+            Row(
+              //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(" Demanda (D): "),
+                SizedBox(
+                  width: 60,
+                  height: 50,
+                  child: TextFormField(
+                    controller: controllerDemanda,
+                    // validator: (value) {
+                    //   if (value!.isEmpty) return null;
+                    // },
+                    keyboardType: TextInputType.phone,
+                  ),
+                ),
+                const Text("Costo Orden (K): "),
+                SizedBox(
+                  width: 60,
+                  height: 50,
+                  child: TextFormField(
+                    controller: controllerOrden,
+                    // validator: (value) {
+                    //   if (value!.isEmpty) return "Ingresa el costo de orden";
+                    // },
+                    keyboardType: TextInputType.phone,
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                const Text("Mantención (H): "),
+                SizedBox(
+                  width: 60,
+                  height: 50,
+                  child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    controller: controllerMantencion,
+                    // validator: (value) {
+                    //   if (value!.isEmpty) {
+                    //     return "Ingresar costo de mantencion";
+                    //   }
+                    // }
+                  ),
+                ),
+                const Text("Costo unitario (C): "),
+                SizedBox(
+                  width: 60,
+                  height: 50,
+                  child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    controller: controllerCostoUnitario,
+                    // validator: (value) {
+                    //   if (value!.isEmpty) return "Ingresa el costo unitario";
+                    // },
+                  ),
+                )
+              ]),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Dias trabajados (anual): "),
+                  SizedBox(
+                    width: 60,
+                    height: 50,
+                    child: TextFormField(
+                      keyboardType: TextInputType.phone,
+                      controller: controllerDias,
+                      // validator: (value) {
+                      //   if (value!.isEmpty) return "Ingresa la cantidad de dias";
+                      // },
+                    ),
+                  )
+                ],
               ),
             ),
-            const Text("Costo Orden (K): "),
-            Container(
-              width: 60,
-              height: 50,
-              child: TextFormField(
-                controller: controllerOrden,
-                validator: (value) {
-                  if (value!.isEmpty) return "Ingresa el costo de orden";
-                },
-                keyboardType: TextInputType.phone,
-              ),
-            )
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text("Mantención (H): "),
-            Container(
-              width: 60,
-              height: 50,
-              child: TextFormField(
-                  keyboardType: TextInputType.phone,
-                  controller: controllerMantencion,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Ingresar costo de mantencion";
-                    }
-                  }),
+            const SizedBox(
+              height: 5,
             ),
-            const Text("Costo unitario (C): "),
+            //codigo que incluye la inserción de los botones con sus respectivos colores
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  onPressed: operacionMatematica,
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.amber,
+                    shape: const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                  ),
+                  child: Column(
+                    children: const <Widget>[
+                      Icon(Icons.calculate_outlined),
+                      Text('Calcular')
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: limpiaCampos,
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color.fromARGB(255, 52, 28, 236),
+                    shape: const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                  ),
+                  child: Column(
+                    children: const <Widget>[
+                      Icon(Icons.cleaning_services_outlined),
+                      Text('Limpiar')
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => displayDialog(context),
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color.fromARGB(255, 255, 1, 1),
+                    shape: const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                  ),
+                  child: Column(
+                    children: const <Widget>[
+                      Icon(Icons.info_outline),
+                      Text('Formulas')
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
+            //donde estan las operaciones de cálculo
             Container(
-              width: 60,
               height: 50,
-              child: TextFormField(
-                keyboardType: TextInputType.phone,
-                controller: controllerCostoUnitario,
-                validator: (value) {
-                  if (value!.isEmpty) return "Ingresa el costo unitario";
-                },
+              width: 30,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color(0xFFFE2E64), Color(0xFFfF7818)]),
               ),
-            )
+              child: Center(
+                child: Text(
+                  //aquí se inserta el resultado del textformfield
+                  mostrarCantidadOptima,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            Container(
+              height: 50,
+              width: 30,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color.fromARGB(255, 28, 107, 255),
+                  Color.fromARGB(255, 30, 203, 255)
+                ]),
+              ),
+              child: Center(
+                child: Text(
+                  mostrarNumOrdenes,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            Container(
+              height: 50,
+              width: 30,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color.fromARGB(255, 28, 107, 255),
+                  Color.fromARGB(255, 30, 203, 255)
+                ]),
+              ),
+              child: Center(
+                child: Text(
+                  tiempoReorden,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            Container(
+              height: 50,
+              width: 30,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color.fromARGB(255, 28, 107, 255),
+                  Color.fromARGB(255, 30, 203, 255)
+                ]),
+              ),
+              child: Center(
+                child: Text(
+                  campoPuntoReorden,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Container(
+              height: 50,
+              width: 30,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color.fromARGB(255, 0, 134, 9),
+                  Color.fromARGB(255, 80, 255, 60)
+                ]),
+              ),
+              child: Center(
+                child: Text(
+                  costoOrden,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            Container(
+              height: 50,
+              width: 30,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color.fromARGB(255, 0, 134, 9),
+                  Color.fromARGB(255, 80, 255, 60)
+                ]),
+              ),
+              //creamos el resultado del textformfield
+              child: Center(
+                child: Text(
+                  costMantencion,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            Container(
+              height: 50,
+              width: 30,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color.fromARGB(255, 0, 134, 9),
+                  Color.fromARGB(255, 80, 255, 60)
+                ]),
+              ),
+              //creamos el resultado del textformfield
+              child: Center(
+                child: Text(
+                  costoTotal,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
           ]),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Dias trabajados (anual): "),
-              Container(
-                width: 60,
-                height: 50,
-                child: TextFormField(
-                  keyboardType: TextInputType.phone,
-                  controller: controllerDias,
-                  validator: (value) {
-                    if (value!.isEmpty) return "Ingresa la cantidad de dias";
-                  },
-                ),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-
-          //codigo que incluye la inserción de los botones con sus respectivos colores
-
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextButton(
-                onPressed: operacionMatematica,
-                style: TextButton.styleFrom(
-                  primary: Colors.amber,
-                  shape: const BeveledRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                ),
-                child: Column(
-                  children: const <Widget>[
-                    Icon(Icons.calculate_outlined),
-                    Text('Calcular')
-                  ],
-                ),
-              ),
-              TextButton(
-                onPressed: limpiaCampos,
-                style: TextButton.styleFrom(
-                  primary: const Color.fromARGB(255, 52, 28, 236),
-                  shape: const BeveledRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                ),
-                child: Column(
-                  children: const <Widget>[
-                    Icon(Icons.cleaning_services_outlined),
-                    Text('Limpiar')
-                  ],
-                ),
-              ),
-              TextButton(
-                onPressed: () => displayDialog(context),
-                style: TextButton.styleFrom(
-                  primary: Color.fromARGB(255, 255, 1, 1),
-                  shape: const BeveledRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                ),
-                child: Column(
-                  children: const <Widget>[
-                    Icon(Icons.info_outline),
-                    Text('Formulas')
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
-        //donde estan las operaciones de cálculo
-        Container(
-          height: 50,
-          width: 30,
-          decoration: const BoxDecoration(
-            gradient:
-                LinearGradient(colors: [Color(0xFFFE2E64), Color(0xFFfF7818)]),
-          ),
-          child: Center(
-            child: Text(
-              //aquí se inserta el resultado del textformfield
-              mostrarCantidadOptima,
-              style: const TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        const SizedBox(height: 5),
-        Container(
-          height: 50,
-          width: 30,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 28, 107, 255),
-              Color.fromARGB(255, 30, 203, 255)
-            ]),
-          ),
-          child: Center(
-            child: Text(
-              mostrarNumOrdenes,
-              style: const TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-
-        Container(
-          height: 50,
-          width: 30,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 28, 107, 255),
-              Color.fromARGB(255, 30, 203, 255)
-            ]),
-          ),
-          child: Center(
-            child: Text(
-              tiempoReorden,
-              style: const TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-
-        Container(
-          height: 50,
-          width: 30,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 28, 107, 255),
-              Color.fromARGB(255, 30, 203, 255)
-            ]),
-          ),
-          child: Center(
-            child: Text(
-              campoPuntoReorden,
-              style: const TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Container(
-          height: 50,
-          width: 30,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 0, 134, 9),
-              Color.fromARGB(255, 80, 255, 60)
-            ]),
-          ),
-          child: Center(
-            child: Text(
-              costoOrden,
-              style: const TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-
-        Container(
-          height: 50,
-          width: 30,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 0, 134, 9),
-              Color.fromARGB(255, 80, 255, 60)
-            ]),
-          ),
-          //creamos el resultado del textformfield
-          child: Center(
-            child: Text(
-              costoTotal,
-              style: const TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-
-        Container(
-          height: 50,
-          width: 30,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 0, 134, 9),
-              Color.fromARGB(255, 80, 255, 60)
-            ]),
-          ),
-          //creamos el resultado del textformfield
-          child: Center(
-            child: Text(
-              costMantencion,
-              style: const TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      ]),
     );
   }
 }

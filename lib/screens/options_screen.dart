@@ -9,9 +9,9 @@ class OptionScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Opciones"),
         elevation: 5,
-        backgroundColor: Color.fromRGBO(8, 75, 129, 10),
+        backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
       ),
-      body: Center(
+      body: const Center(
         child: Text('OptionScreen'),
       ),
     );
