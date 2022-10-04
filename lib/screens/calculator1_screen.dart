@@ -50,8 +50,6 @@ class Calculadora extends State<MyCalculator> {
               children: const [
                 Text(
                     "Aquí se insertaran las formulas y las variables segun corresponda"),
-                SizedBox(height: 10),
-                FlutterLogo(size: 100)
               ],
             ),
             actions: [
@@ -130,6 +128,7 @@ class Calculadora extends State<MyCalculator> {
 
       String tcostoTotal = totalCostoTotal.toStringAsFixed(0);
 
+      //este setstate imprime los resultados en los containers (estos estan codificados mas abajo)
       setState(() {
         mostrarCantidadOptima = 'Cantidad optima de pedido: $r unidades';
         mostrarNumOrdenes = 'Numero de ordenes esperado: $ordenes ';
@@ -141,10 +140,11 @@ class Calculadora extends State<MyCalculator> {
         costoTotal = "El costo total es de :  $tcostoTotal";
       });
     } else {
-      print(isNumericUsing_tryParse(controllerDemanda.text)); // true
+      MostrarDialogo();
     }
   }
 
+//limpiar campos
   void limpiaCampos() {
     setState(() {
       controllerCostoUnitario.text = "";
@@ -152,8 +152,16 @@ class Calculadora extends State<MyCalculator> {
       controllerDemanda.text = "";
       controllerMantencion.text = "";
       controllerDias.text = "";
+      mostrarCantidadOptima = "";
+      mostrarNumOrdenes = "";
+      tiempoReorden = "";
+      campoPuntoReorden = "";
+      costoOrden = "";
+      costoTotal = "";
     });
   }
+
+//------------------------------------------
 
 // Comprobar si es numero
   bool isNumericUsing_tryParse(String string) {
@@ -165,6 +173,30 @@ class Calculadora extends State<MyCalculator> {
       return false;
     }
     return true;
+  }
+
+//-------------------------------------
+  void MostrarDialogo() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Error"),
+            iconColor: Colors.red,
+            icon: Icon(Icons.error_outline_outlined),
+            content: const Text("Ingrese valores numericos en las casillas."),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cerrar')),
+            ],
+          );
+        });
   }
 
 //parte visual
@@ -189,6 +221,7 @@ class Calculadora extends State<MyCalculator> {
       ),
       body: ListView(key: my_form_key, children: [
         Row(
+          //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(" Demanda (D): "),
@@ -200,7 +233,7 @@ class Calculadora extends State<MyCalculator> {
                 validator: (value) {
                   if (value!.isEmpty) return "Ingresa la demanda";
                 },
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.phone,
               ),
             ),
             const Text("Costo Orden (K): "),
@@ -212,7 +245,7 @@ class Calculadora extends State<MyCalculator> {
                 validator: (value) {
                   if (value!.isEmpty) return "Ingresa el costo de orden";
                 },
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.phone,
               ),
             )
           ],
@@ -225,7 +258,7 @@ class Calculadora extends State<MyCalculator> {
               width: 60,
               height: 50,
               child: TextFormField(
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.phone,
                   controller: controllerMantencion,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -238,7 +271,7 @@ class Calculadora extends State<MyCalculator> {
               width: 60,
               height: 50,
               child: TextFormField(
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.phone,
                 controller: controllerCostoUnitario,
                 validator: (value) {
                   if (value!.isEmpty) return "Ingresa el costo unitario";
@@ -248,7 +281,7 @@ class Calculadora extends State<MyCalculator> {
           ]),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+          padding: const EdgeInsets.symmetric(vertical: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -257,7 +290,7 @@ class Calculadora extends State<MyCalculator> {
                 width: 60,
                 height: 50,
                 child: TextFormField(
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.phone,
                   controller: controllerDias,
                   validator: (value) {
                     if (value!.isEmpty) return "Ingresa la cantidad de dias";
@@ -269,6 +302,9 @@ class Calculadora extends State<MyCalculator> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+
+          //codigo que incluye la inserción de los botones con sus respectivos colores
+
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -317,6 +353,9 @@ class Calculadora extends State<MyCalculator> {
             ],
           ),
         ),
+
+        //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
+        //donde estan las operaciones de cálculo
         Container(
           height: 50,
           width: 30,
@@ -324,18 +363,16 @@ class Calculadora extends State<MyCalculator> {
             gradient:
                 LinearGradient(colors: [Color(0xFFFE2E64), Color(0xFFfF7818)]),
           ),
-          //creamos el resultado del textformfield
           child: Center(
             child: Text(
+              //aquí se inserta el resultado del textformfield
               mostrarCantidadOptima,
               style: const TextStyle(fontSize: 20.0),
               textAlign: TextAlign.center,
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        ),
+        const SizedBox(height: 5),
         Container(
           height: 50,
           width: 30,
@@ -345,7 +382,6 @@ class Calculadora extends State<MyCalculator> {
               Color.fromARGB(255, 30, 203, 255)
             ]),
           ),
-          //creamos el resultado del textformfield
           child: Center(
             child: Text(
               mostrarNumOrdenes,
@@ -354,9 +390,7 @@ class Calculadora extends State<MyCalculator> {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        ),
+
         Container(
           height: 50,
           width: 30,
@@ -366,7 +400,6 @@ class Calculadora extends State<MyCalculator> {
               Color.fromARGB(255, 30, 203, 255)
             ]),
           ),
-          //creamos el resultado del textformfield
           child: Center(
             child: Text(
               tiempoReorden,
@@ -375,9 +408,7 @@ class Calculadora extends State<MyCalculator> {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        ),
+
         Container(
           height: 50,
           width: 30,
@@ -387,7 +418,6 @@ class Calculadora extends State<MyCalculator> {
               Color.fromARGB(255, 30, 203, 255)
             ]),
           ),
-          //creamos el resultado del textformfield
           child: Center(
             child: Text(
               campoPuntoReorden,
@@ -396,8 +426,8 @@ class Calculadora extends State<MyCalculator> {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+        const SizedBox(
+          height: 5,
         ),
         Container(
           height: 50,
@@ -408,7 +438,6 @@ class Calculadora extends State<MyCalculator> {
               Color.fromARGB(255, 80, 255, 60)
             ]),
           ),
-          //creamos el resultado del textformfield
           child: Center(
             child: Text(
               costoOrden,
@@ -417,9 +446,7 @@ class Calculadora extends State<MyCalculator> {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        ),
+
         Container(
           height: 50,
           width: 30,
@@ -438,9 +465,7 @@ class Calculadora extends State<MyCalculator> {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        ),
+
         Container(
           height: 50,
           width: 30,
