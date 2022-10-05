@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class alertas {
+class Alertas {
   void displayDialog(BuildContext context) {
     showDialog(
         barrierDismissible: false,

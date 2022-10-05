@@ -23,6 +23,7 @@ class Calculadora extends State<MyCalculator> {
   String mostrarNumOrdenes = "";
   String tiempoReorden = "";
   String campoPuntoReorden = "";
+  String tiempoentrePedidos = "";
 
   String costoOrden = "";
   String costMantencion = "";
@@ -74,13 +75,15 @@ class Calculadora extends State<MyCalculator> {
       double totalCostoTotal = (demanda * costoUnitario) +
           ((demanda / cantidadOptima) * orden) +
           ((cantidadOptima / 2) * costoMantencion);
-
-      //falta el total costo mantención
-
       String tcostoTotal = totalCostoTotal.toStringAsFixed(0);
+
+      //tiempo entre pedidos
+      double tentrePedidos = ((cantidadOptima / demanda) * diasTrabajados);
+      String t = tentrePedidos.toStringAsFixed(0);
 
       setState(() {
         mostrarCantidadOptima = 'Cantidad optima de pedido: $r unidades';
+        tiempoentrePedidos = 'El tiempo entre pedidos es de: $t días';
         mostrarNumOrdenes = 'Numero de ordenes esperado: $ordenes pedidos  ';
         tiempoReorden = "Tiempo de reorden: $ord días";
         campoPuntoReorden = "Punto de reorden: $ptoReorden unidades";
@@ -98,11 +101,15 @@ class Calculadora extends State<MyCalculator> {
 
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
       String r = cantidadOptima.toStringAsFixed(0);
+
+      double tentrePedidos = ((cantidadOptima / demanda) * 365);
+      String t = tentrePedidos.toStringAsFixed(0);
       setState(() {
         mostrarCantidadOptima = 'Cantidad optima de pedido: $r unidades';
+        tiempoentrePedidos = 'El tiempo entre pedidos es de: $t días';
       });
     } else {
-      MostrarDialogo();
+      mostrarDialogo();
     }
   }
 
@@ -121,6 +128,7 @@ class Calculadora extends State<MyCalculator> {
       costoOrden = "";
       costoTotal = "";
       costMantencion = "";
+      tiempoentrePedidos = "";
     });
   }
 
@@ -139,7 +147,7 @@ class Calculadora extends State<MyCalculator> {
   }
 
 //-------------------------------------
-  void MostrarDialogo() {
+  void mostrarDialogo() {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -303,7 +311,7 @@ class Calculadora extends State<MyCalculator> {
                 ),
                 TextButton(
                   onPressed: () {
-                    alertas().displayDialog(context);
+                    Alertas().displayDialog(context);
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: const Color.fromARGB(255, 255, 1, 1),
@@ -333,6 +341,22 @@ class Calculadora extends State<MyCalculator> {
                 child: Text(
                   //aquí se inserta el resultado del textformfield
                   mostrarCantidadOptima,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Container(
+              height: 50,
+              width: 30,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color(0xFFFE2E64), Color(0xFFfF7818)]),
+              ),
+              child: Center(
+                child: Text(
+                  //aquí se inserta el resultado del textformfield
+                  tiempoentrePedidos,
                   style: const TextStyle(fontSize: 20.0),
                   textAlign: TextAlign.center,
                 ),

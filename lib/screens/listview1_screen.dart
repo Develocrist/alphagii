@@ -72,7 +72,7 @@ class Listview1Screen extends StatelessWidget {
           size: 30,
         ),
         onPressed: () {
-          alertas().infoDialog(context);
+          Alertas().infoDialog(context);
         },
       ),
     );
