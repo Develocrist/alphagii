@@ -1,20 +1,7 @@
 import 'dart:math';
 
-import 'package:agii_alpha/screens/listview1_screen.dart';
+import 'package:agii_alpha/widgets/formula_alert.dart';
 import 'package:flutter/material.dart';
-
-class CalculatorScreen extends StatelessWidget {
-  const CalculatorScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Calculadora",
-      home: MyCalculator(),
-    );
-  }
-}
 
 class MyCalculator extends StatefulWidget {
   const MyCalculator({super.key});
@@ -24,41 +11,6 @@ class MyCalculator extends StatefulWidget {
 }
 
 class Calculadora extends State<MyCalculator> {
-  //dialogo de alerta para mostrar las formulas
-  void displayDialog(BuildContext context) {
-    showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (context) {
-          return Center(
-            child: AlertDialog(
-              elevation: 5,
-              title: const Text("Fórmulas"),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              content: ClipRRect(
-                  child: Container(
-                height: 100,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: const <Widget>[
-                    Text('Hola soy un mensaje'),
-                    // Image.asset(
-                    //   'assets/formulaeoq.png',
-                    //   fit: BoxFit.cover,
-                  ],
-                ),
-              )),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Cerrar'))
-              ],
-            ),
-          );
-        }); //builder es un codigo que regresa un widget
-  }
-
   //controladores para despues asignarles un campo de texto
   final controllerDemanda = TextEditingController();
   final controllerOrden = TextEditingController();
@@ -221,10 +173,7 @@ class Calculadora extends State<MyCalculator> {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              final route = MaterialPageRoute(
-                builder: (context) => const Listview1Screen(),
-              );
-              Navigator.push(context, route);
+              Navigator.pop(context);
             }),
         centerTitle: true,
         elevation: 5,
@@ -238,27 +187,27 @@ class Calculadora extends State<MyCalculator> {
               //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(" Demanda (D): "),
+                const Text(
+                  "  Demanda (D): ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 SizedBox(
-                  width: 60,
+                  width: 50,
                   height: 50,
                   child: TextFormField(
                     controller: controllerDemanda,
-                    // validator: (value) {
-                    //   if (value!.isEmpty) return null;
-                    // },
                     keyboardType: TextInputType.phone,
                   ),
                 ),
-                const Text("Costo Orden (K): "),
+                const Text(
+                  "Costo Orden (K): ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 SizedBox(
-                  width: 60,
+                  width: 50,
                   height: 50,
                   child: TextFormField(
                     controller: controllerOrden,
-                    // validator: (value) {
-                    //   if (value!.isEmpty) return "Ingresa el costo de orden";
-                    // },
                     keyboardType: TextInputType.phone,
                   ),
                 )
@@ -268,30 +217,30 @@ class Calculadora extends State<MyCalculator> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                const Text("Mantención (H): "),
+                const Text(
+                  "Mantención (H): ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 SizedBox(
-                  width: 60,
+                  width: 50,
                   height: 50,
                   child: TextFormField(
                     keyboardType: TextInputType.phone,
                     controller: controllerMantencion,
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Ingresar costo de mantencion";
-                    //   }
-                    // }
+                    decoration:
+                        InputDecoration(fillColor: Colors.blueAccent.shade100),
                   ),
                 ),
-                const Text("Costo unitario (C): "),
+                const Text(
+                  "Costo unitario (C): ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 SizedBox(
-                  width: 60,
+                  width: 50,
                   height: 50,
                   child: TextFormField(
                     keyboardType: TextInputType.phone,
                     controller: controllerCostoUnitario,
-                    // validator: (value) {
-                    //   if (value!.isEmpty) return "Ingresa el costo unitario";
-                    // },
                   ),
                 )
               ]),
@@ -301,16 +250,16 @@ class Calculadora extends State<MyCalculator> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Dias trabajados (anual): "),
+                  const Text(
+                    "Dias trabajados (anual): ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(
                     width: 60,
                     height: 50,
                     child: TextFormField(
                       keyboardType: TextInputType.phone,
                       controller: controllerDias,
-                      // validator: (value) {
-                      //   if (value!.isEmpty) return "Ingresa la cantidad de dias";
-                      // },
                     ),
                   )
                 ],
@@ -353,7 +302,9 @@ class Calculadora extends State<MyCalculator> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => displayDialog(context),
+                  onPressed: () {
+                    alertas().displayDialog(context);
+                  },
                   style: TextButton.styleFrom(
                     foregroundColor: const Color.fromARGB(255, 255, 1, 1),
                     shape: const BeveledRectangleBorder(
@@ -362,7 +313,7 @@ class Calculadora extends State<MyCalculator> {
                   child: Column(
                     children: const <Widget>[
                       Icon(Icons.info_outline),
-                      Text('Formulas')
+                      Text('Formulario')
                     ],
                   ),
                 ),
