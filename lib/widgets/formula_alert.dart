@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Alertas {
+  //ALERTDIALOG CORRESPONDIENTE AL FORMULARIO QUE SE DESPLIEGA EN LA SCREEN DE CALCULADORA
   void displayDialog(BuildContext context) {
     showDialog(
         barrierDismissible: false,
@@ -215,7 +216,9 @@ class Alertas {
           );
         }); //builder es un codigo que regresa un widget
   }
+//----------------------------------------------------------------
 
+  //DIALOGO CORRESPONDIENTE A LA INFORMACION QUE SE DESPLIEGA EN LA LISTVIEW 1
   void infoDialog(BuildContext context) {
     showDialog(
         barrierDismissible: false,
@@ -289,6 +292,34 @@ class Alertas {
               TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Cerrar'))
+            ],
+          );
+        });
+  }
+
+//--------------------------------------
+//DIALOGO CORRESPONDIENTE A LA ALERTA DE ERROR EN LA CALCULADORA CUANDO SE INGRESAN VALORES QUE NO CORRESPONDEN
+  void mostrarDialogo(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Error"),
+            iconColor: Colors.red,
+            icon: const Icon(
+              Icons.error_outline_outlined,
+              size: 60,
+            ),
+            content: const Text("Ingrese valores númericos en las casillas."),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cerrar')),
             ],
           );
         });

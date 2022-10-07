@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:agii_alpha/screens/graph_screen.dart';
 import 'package:agii_alpha/widgets/formula_alert.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,7 @@ class Calculadora extends State<MyCalculator> {
       costoMantencion = double.parse(controllerMantencion.text);
 
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
-      String r = cantidadOptima.toStringAsFixed(0);
+      String r = cantidadOptima.toStringAsFixed(2);
 
       // //formula numero esperado de ordenes
       double numOrdenes = demanda / cantidadOptima;
@@ -79,7 +80,7 @@ class Calculadora extends State<MyCalculator> {
 
       //tiempo entre pedidos
       double tentrePedidos = ((cantidadOptima / demanda) * diasTrabajados);
-      String t = tentrePedidos.toStringAsFixed(0);
+      String t = tentrePedidos.toStringAsFixed(1);
 
       setState(() {
         mostrarCantidadOptima = 'Cantidad optima de pedido: $r unidades';
@@ -90,7 +91,7 @@ class Calculadora extends State<MyCalculator> {
 
         costoOrden = "Costo total orden:  $tcostoOrden";
         costMantencion = "Costo total mantención: $tcostoMantener";
-        costoTotal = "El costo total es de :  $tcostoTotal";
+        costoTotal = "El Costo total es de :  $tcostoTotal";
       });
     } else if (isNumericUsingtryParse(controllerDemanda.text) &&
         isNumericUsingtryParse(controllerOrden.text) &&
@@ -100,16 +101,16 @@ class Calculadora extends State<MyCalculator> {
       costoMantencion = double.parse(controllerMantencion.text);
 
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
-      String r = cantidadOptima.toStringAsFixed(0);
+      String r = cantidadOptima.toStringAsFixed(2);
 
       double tentrePedidos = ((cantidadOptima / demanda) * 365);
-      String t = tentrePedidos.toStringAsFixed(0);
+      String t = tentrePedidos.toStringAsFixed(1);
       setState(() {
         mostrarCantidadOptima = 'Cantidad optima de pedido: $r unidades';
         tiempoentrePedidos = 'El tiempo entre pedidos es de: $t días';
       });
     } else {
-      mostrarDialogo();
+      Alertas().mostrarDialogo(context);
     }
   }
 
@@ -146,33 +147,6 @@ class Calculadora extends State<MyCalculator> {
     return true;
   }
 
-//-------------------------------------
-  void mostrarDialogo() {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Error"),
-            iconColor: Colors.red,
-            icon: const Icon(
-              Icons.error_outline_outlined,
-              size: 60,
-            ),
-            content: const Text("Ingrese valores numericos en las casillas."),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cerrar')),
-            ],
-          );
-        });
-  }
-
 //parte visual
   @override
   Widget build(BuildContext context) {
@@ -181,12 +155,13 @@ class Calculadora extends State<MyCalculator> {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
+              // Navigator.of(context).push(_createRoute());
               Navigator.pop(context);
             }),
         centerTitle: true,
         elevation: 5,
         backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
-        title: const Text('Calculadora EOQ'),
+        title: const Text('Calculadora EOQ Básica'),
       ),
       body: ListView(
           //key: my_form_key,
@@ -259,7 +234,7 @@ class Calculadora extends State<MyCalculator> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Dias trabajados (anual): ",
+                    "Dias trabajados: ",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -282,9 +257,12 @@ class Calculadora extends State<MyCalculator> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 TextButton(
-                  onPressed: operacionMatematica,
+                  onPressed: () {
+                    operacionMatematica();
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.amber,
+                    foregroundColor: Colors.indigo,
                     shape: const BeveledRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                   ),
@@ -298,7 +276,6 @@ class Calculadora extends State<MyCalculator> {
                 TextButton(
                   onPressed: limpiaCampos,
                   style: TextButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 52, 28, 236),
                     shape: const BeveledRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                   ),
@@ -314,18 +291,53 @@ class Calculadora extends State<MyCalculator> {
                     Alertas().displayDialog(context);
                   },
                   style: TextButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 255, 1, 1),
+                    foregroundColor: const Color.fromARGB(255, 11, 150, 11),
                     shape: const BeveledRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                   ),
                   child: Column(
                     children: const <Widget>[
                       Icon(Icons.info_outline),
-                      Text('Formulario')
+                      Text('Fórmulario')
                     ],
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: const StadiumBorder(),
+                elevation: 0,
+              ),
+              child: const SizedBox(
+                height: 50,
+                child: Center(child: Text('Ver Módelo')),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 700),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                        pageBuilder: ((context, animation, secondaryAnimation) {
+                          return const GraphScreen(
+                            title: 'Gráfico',
+                          );
+                        })));
+              },
+            ),
+            const SizedBox(
+              height: 5,
             ),
 
             //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
@@ -347,7 +359,7 @@ class Calculadora extends State<MyCalculator> {
               ),
             ),
             Container(
-              height: 50,
+              height: 80,
               width: 30,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
