@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:agii_alpha/screens/graph_screen.dart';
 import 'package:agii_alpha/widgets/formula_alert.dart';
 import 'package:flutter/material.dart';
 
@@ -326,6 +327,41 @@ class Calculadora extends State<MyCalculator> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: const StadiumBorder(),
+                elevation: 0,
+              ),
+              child: const SizedBox(
+                height: 50,
+                child: Center(child: Text('Ver Módelo')),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 700),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                        pageBuilder: ((context, animation, secondaryAnimation) {
+                          return const GraphScreen(
+                            title: 'Gráfico',
+                          );
+                        })));
+              },
+            ),
+            const SizedBox(
+              height: 5,
             ),
 
             //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion

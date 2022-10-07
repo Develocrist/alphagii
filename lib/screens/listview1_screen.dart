@@ -24,10 +24,24 @@ class Listview1Screen extends StatelessWidget {
             title: const Text('Calculadora EOQ Básica'),
             trailing: const Icon(Icons.arrow_forward_ios_outlined),
             onTap: () {
-              final route = MaterialPageRoute(
-                builder: (context) => const MyCalculator(),
-              );
-              Navigator.push(context, route);
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 700),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      pageBuilder: ((context, animation, secondaryAnimation) {
+                        return const MyCalculator();
+                      })));
+              // final route = MaterialPageRoute(
+              //   builder: (context) => const MyCalculator(),
+              // );
+              // Navigator.push(context, route);
             },
           ),
           const Divider(
@@ -39,10 +53,25 @@ class Listview1Screen extends StatelessWidget {
             title: const Text('Calculadora EOQ con Faltante'),
             trailing: const Icon(Icons.arrow_forward_ios_outlined),
             onTap: () {
-              final route = MaterialPageRoute(
-                builder: (context) => const Calculator2Screen(),
-              );
-              Navigator.push(context, route);
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 700),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      pageBuilder: ((context, animation, secondaryAnimation) {
+                        return const Calculator2Screen();
+                      })));
+
+              // final route = MaterialPageRoute(
+              //   builder: (context) => const Calculator2Screen(),
+              // );
+              // Navigator.push(context, route);
             },
           ),
           const Divider(
@@ -54,10 +83,24 @@ class Listview1Screen extends StatelessWidget {
             title: const Text('Opciones'),
             trailing: const Icon(Icons.arrow_forward_ios_outlined),
             onTap: () {
-              final route = MaterialPageRoute(
-                builder: (context) => const OptionScreen(),
-              );
-              Navigator.push(context, route);
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 700),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      pageBuilder: ((context, animation, secondaryAnimation) {
+                        return const OptionScreen();
+                      })));
+              // final route = MaterialPageRoute(
+              //   builder: (context) => const OptionScreen(),
+              // );
+              // Navigator.push(context, route);
             },
           ),
           const Divider(
