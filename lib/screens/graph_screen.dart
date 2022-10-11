@@ -33,7 +33,7 @@ class _GraphScreenState extends State<GraphScreen> {
         body: SizedBox(
           height: 400,
           child: SfCartesianChart(
-            title: ChartTitle(text: 'Grafico Referencial'),
+            title: ChartTitle(text: 'Gráfico Referencial'),
             legend: Legend(isVisible: true), //ver la leyenda
             tooltipBehavior: _tooltipBehavior,
             series: <ChartSeries>[
