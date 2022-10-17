@@ -11,12 +11,16 @@ class GraphScreen extends StatefulWidget {
 
 class _GraphScreenState extends State<GraphScreen> {
   late List<SalesData> _chartData;
+  late List<InventaryData> _inventaryData;
+  late List<LeadTimeData> _leadTimeData;
 
   late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _chartData = getChartData();
+    _inventaryData = getChartData2();
+    _leadTimeData = getChartData3();
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -26,50 +30,152 @@ class _GraphScreenState extends State<GraphScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Gráficos"),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          centerTitle: true,
           elevation: 5,
+          title: const Text('Módelo gráfico EOQ'),
           backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
         ),
-        body: SizedBox(
-          height: 400,
-          child: SfCartesianChart(
-            title: ChartTitle(text: 'Gráfico Referencial'),
-            legend: Legend(isVisible: true), //ver la leyenda
-            tooltipBehavior: _tooltipBehavior,
-            series: <ChartSeries>[
-              LineSeries<SalesData, double>(
-                  name: 'Sales', // nombre de la leyenda
-                  dataSource: _chartData,
-                  xValueMapper: (SalesData sales, _) => sales.dias,
-                  yValueMapper: (SalesData sales, _) => sales.unidades,
-                  dataLabelSettings: const DataLabelSettings(isVisible: true),
-                  enableTooltip: true)
-            ],
-            primaryXAxis:
-                NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-            // primaryYAxis: NumericAxis(
-            //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+        body: Center(
+          child: SizedBox(
+            width: 600,
+            height: 500,
+            child: SfCartesianChart(
+              borderWidth: 0,
+              margin: const EdgeInsets.all(10),
+              // annotations: <CartesianChartAnnotation>[
+              //   CartesianChartAnnotation(
+              //       widget: Container(
+              //         child: const Text(
+              //             'Para mejor visibilidad, ponga su dispositivo de lado'),
+              //       ),
+              //       coordinateUnit: CoordinateUnit.logicalPixel,
+              //       x: 50,
+              //       y: 50)
+              // ],
+              // primaryXAxis:
+              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
+              //     CategoryAxis(
+              //         title: AxisTitle(
+              //             text: 'Días',
+              //             textStyle: const TextStyle(fontSize: 10))),
+              // primaryYAxis: CategoryAxis(
+              //     title: AxisTitle(
+              //         text: 'Unidades',
+              //         textStyle: const TextStyle(fontSize: 10))),
+              title: ChartTitle(text: 'Gráfico de prueba'),
+              legend: Legend(
+                  isVisible: true,
+                  position: LegendPosition.bottom), //ver la leyenda
+              tooltipBehavior: _tooltipBehavior,
+              series: <ChartSeries>[
+                LineSeries<SalesData, int>(
+                    name: 'Nivel de Inventario', // nombre de la leyenda
+                    dataSource: _chartData,
+                    xValueMapper: (SalesData dias, _) => dias.dias,
+                    yValueMapper: (SalesData unidades, _) => unidades.unidades,
+                    dataLabelSettings:
+                        const DataLabelSettings(isVisible: false),
+                    enableTooltip: true),
+                LineSeries<InventaryData, int>(
+                    name: 'Inventario Medio',
+                    dataSource: _inventaryData,
+                    xValueMapper: (InventaryData inventary, _) =>
+                        inventary.inventary,
+                    yValueMapper: (InventaryData inventary, _) =>
+                        inventary.inventary2,
+                    dataLabelSettings:
+                        const DataLabelSettings(isVisible: false),
+                    enableTooltip: true),
+                LineSeries<LeadTimeData, int>(
+                    name: 'Lead Time',
+                    dataSource: _leadTimeData,
+                    xValueMapper: (LeadTimeData lead, _) => lead.diapedido,
+                    yValueMapper: (LeadTimeData lead, _) => lead.diallegada,
+                    dataLabelSettings:
+                        const DataLabelSettings(isVisible: false),
+                    enableTooltip: true)
+              ],
+
+              // primaryXAxis:
+              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
+              // primaryYAxis: NumericAxis(
+              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+            ),
           ),
         ),
       ),
     );
   }
 
+  int cantidadOptima = 25;
+  int inventarioMedio = 15;
+
   //lista donde se asigna la fuente de los datos y añadir las series de lineas
   List<SalesData> getChartData() {
     final List<SalesData> chartData = [
-      SalesData(5, 10),
-      SalesData(6, 50),
-      SalesData(7, 60),
-      SalesData(8, 30),
-      SalesData(9, 20),
+      SalesData(0, cantidadOptima),
+      SalesData(5, 0),
+      SalesData(5, cantidadOptima),
+      SalesData(10, 0),
+      SalesData(10, cantidadOptima),
+      SalesData(15, 0),
+      SalesData(15, cantidadOptima),
+      SalesData(20, 0),
+      SalesData(20, cantidadOptima),
+      SalesData(25, 0),
+      SalesData(25, cantidadOptima)
     ];
     return chartData;
+  }
+
+//SEGUNDA LINEA GRÁFICA EN EL MISMO MAPEO
+  List<InventaryData> getChartData2() {
+    final List<InventaryData> chartData2 = [
+      InventaryData(0, inventarioMedio),
+      InventaryData(5, inventarioMedio),
+      InventaryData(10, inventarioMedio),
+      InventaryData(15, inventarioMedio),
+      InventaryData(20, inventarioMedio),
+      InventaryData(25, inventarioMedio),
+    ];
+    return chartData2;
+  }
+
+// TERCERA LINEA GRAFICA EN EL MISMO MAPEO
+  List<LeadTimeData> getChartData3() {
+    final List<LeadTimeData> chartData3 = [
+      LeadTimeData(0, 0),
+      LeadTimeData(5, 0),
+
+      // LeadTimeData(10, 15),
+      // LeadTimeData(20, 25),
+    ];
+    return chartData3;
   }
 }
 
 class SalesData {
   SalesData(this.dias, this.unidades);
-  final double dias;
-  final double unidades;
+  final int dias;
+  final int unidades;
+}
+
+//CLASE CREADA PARA LA SEGUNDA LINEA GRÁFICA, CORRESPONDIENTE AL INVENTARIO MEDIO
+class InventaryData {
+  InventaryData(this.inventary, this.inventary2);
+  final int inventary;
+  final int inventary2;
+}
+
+//CLASE CREADA PARA LA TERCERA LINEA GRAFICA, CORRESPONDIENTE AL LEAD TIME
+class LeadTimeData {
+  LeadTimeData(this.diapedido, this.diallegada);
+  final int diapedido;
+  final int diallegada;
 }

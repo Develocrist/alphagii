@@ -18,6 +18,7 @@ class Calculadora extends State<MyCalculator> {
   final controllerCostoUnitario = TextEditingController();
   final controllerMantencion = TextEditingController();
   final controllerDias = TextEditingController();
+  bool cbFlag = false;
   //final my_form_key = GlobalKey<FormState>();
 
   String mostrarCantidadOptima = "";
@@ -53,15 +54,15 @@ class Calculadora extends State<MyCalculator> {
       costoMantencion = double.parse(controllerMantencion.text);
 
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
-      String r = cantidadOptima.toStringAsFixed(0);
+      String r = cantidadOptima.toStringAsFixed(1);
 
-      // //formula numero esperado de ordenes
+      //formula numero esperado de ordenes
       double numOrdenes = demanda / cantidadOptima;
       String ordenes = numOrdenes.toStringAsFixed(0);
 
       //formula tiempo de reorden
       double reOrden = diasTrabajados / numOrdenes;
-      String ord = reOrden.toStringAsFixed(0);
+      String ord = reOrden.toStringAsFixed(1);
 
       //formula punto de reorden
       double puntoReorden = ((demanda / diasTrabajados) * reOrden);
@@ -82,7 +83,7 @@ class Calculadora extends State<MyCalculator> {
 
       //tiempo entre pedidos
       double tentrePedidos = ((cantidadOptima / demanda) * diasTrabajados);
-      String t = tentrePedidos.toStringAsFixed(0);
+      String t = tentrePedidos.toStringAsFixed(1);
 
       setState(() {
         mostrarCantidadOptima = 'Cantidad óptima de pedido: $r unidades';
@@ -91,7 +92,62 @@ class Calculadora extends State<MyCalculator> {
         tiempoReorden = "Tiempo de reorden: $ord días";
         campoPuntoReorden = "Punto de reorden: $ptoReorden unidades";
 
-        costoOrden = "Costo total orden:  $tcostoOrden";
+        costoOrden = "Costo total orden : $tcostoOrden";
+        costMantencion = "Costo total mantención: $tcostoMantener";
+        costoTotal = "El costo total es de :  $tcostoTotal";
+      });
+    } else if (isNumericUsingtryParse(controllerDemanda.text) &&
+        isNumericUsingtryParse(controllerOrden.text) &&
+        isNumericUsingtryParse(controllerMantencion.text) &&
+        isNumericUsingtryParse(controllerCostoUnitario.text)) {
+      FocusScope.of(context)
+          .unfocus(); // linea para ocultar el teclado al presionar el botón de calculo
+      demanda = double.parse(controllerDemanda.text);
+      orden = double.parse(controllerOrden.text);
+      costoMantencion = double.parse(controllerMantencion.text);
+      costoUnitario = double.parse(controllerCostoUnitario.text);
+      costoMantencion = double.parse(controllerMantencion.text);
+      diasTrabajados = 365;
+
+      double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
+      String r = cantidadOptima.toStringAsFixed(1);
+
+      double tentrePedidos = ((cantidadOptima / demanda) * 365);
+      String t = tentrePedidos.toStringAsFixed(0);
+
+      //formula numero esperado de ordenes
+      double numOrdenes = demanda / cantidadOptima;
+      String ordenes = numOrdenes.toStringAsFixed(0);
+
+      //formula tiempo de reorden
+      double reOrden = diasTrabajados / numOrdenes;
+      String ord = reOrden.toStringAsFixed(1);
+
+      //formula punto de reorden
+      double puntoReorden = ((demanda / diasTrabajados) * reOrden);
+      String ptoReorden = puntoReorden.toStringAsFixed(0);
+
+      //formula costos
+      double totalCostoOrden = ((demanda / cantidadOptima) * orden);
+      String tcostoOrden = totalCostoOrden.toStringAsFixed(0);
+
+      //formula costo total de mantencion
+      double totalCostoMantener = ((cantidadOptima / 2) * costoMantencion);
+      String tcostoMantener = totalCostoMantener.toStringAsFixed(0);
+
+      double totalCostoTotal = (demanda * costoUnitario) +
+          ((demanda / cantidadOptima) * orden) +
+          ((cantidadOptima / 2) * costoMantencion);
+      String tcostoTotal = totalCostoTotal.toStringAsFixed(0);
+
+      setState(() {
+        mostrarCantidadOptima = 'Cantidad óptima de pedido: $r unidades';
+        tiempoentrePedidos = 'El tiempo entre pedidos es de: $t días';
+        mostrarNumOrdenes = 'Numero de ordenes esperado: $ordenes pedidos  ';
+        tiempoReorden = "Tiempo de reorden: $ord días";
+        campoPuntoReorden = "Punto de reorden: $ptoReorden unidades";
+
+        costoOrden = "Costo total orden : $tcostoOrden";
         costMantencion = "Costo total mantención: $tcostoMantener";
         costoTotal = "El costo total es de :  $tcostoTotal";
       });
@@ -105,10 +161,11 @@ class Calculadora extends State<MyCalculator> {
       costoMantencion = double.parse(controllerMantencion.text);
 
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
-      String r = cantidadOptima.toStringAsFixed(0);
+      String r = cantidadOptima.toStringAsFixed(1);
 
       double tentrePedidos = ((cantidadOptima / demanda) * 365);
       String t = tentrePedidos.toStringAsFixed(0);
+
       setState(() {
         mostrarCantidadOptima = 'Cantidad óptima de pedido: $r unidades';
         tiempoentrePedidos = 'El tiempo entre pedidos es de: $t días';
@@ -134,6 +191,7 @@ class Calculadora extends State<MyCalculator> {
       costoTotal = "";
       costMantencion = "";
       tiempoentrePedidos = "";
+      FocusScope.of(context).unfocus();
     });
   }
 
@@ -164,7 +222,10 @@ class Calculadora extends State<MyCalculator> {
               Icons.error_outline_outlined,
               size: 60,
             ),
-            content: const Text("Ingrese valores númericos en las casillas."),
+            content: const Text(
+              "Ingrese valores númericos en las casillas.",
+              textAlign: TextAlign.center,
+            ),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             actions: <Widget>[
@@ -205,84 +266,88 @@ class Calculadora extends State<MyCalculator> {
                     //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "  Demanda (D): ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                      // const Text(
+                      //   "  Demanda (D): ",
+                      //   style: TextStyle(fontWeight: FontWeight.bold),
+                      // ),
                       SizedBox(
-                        width: 50,
-                        height: 50,
+                        width: 150,
+                        height: 80,
                         child: TextFormField(
                           controller: controllerDemanda,
                           keyboardType: TextInputType.phone,
+                          decoration:
+                              const InputDecoration(labelText: 'Demanda (D):'),
                         ),
                       ),
-                      const Text(
-                        "Costo Orden (K): ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                      const VerticalDivider(),
+                      // const Text(
+                      //   "Costo Orden (K): ",
+                      //   style: TextStyle(fontWeight: FontWeight.bold),
+                      // ),
                       SizedBox(
-                        width: 50,
-                        height: 50,
+                        width: 150,
+                        height: 80,
                         child: TextFormField(
                           controller: controllerOrden,
                           keyboardType: TextInputType.phone,
+                          decoration: const InputDecoration(
+                              labelText: 'Costo orden (K):'),
                         ),
                       )
                     ],
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Mantención (H): ",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              controller: controllerMantencion,
-                              decoration: InputDecoration(
-                                  fillColor: Colors.blueAccent.shade100),
-                            ),
-                          ),
-                          const Text(
-                            "Costo unitario (C): ",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              controller: controllerCostoUnitario,
-                            ),
-                          )
-                        ]),
-                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    // const Text(
+                    //   "Mantención (H): ",
+                    //   style: TextStyle(fontWeight: FontWeight.bold),
+                    // ),
+                    SizedBox(
+                      width: 150,
+                      height: 80,
+                      child: TextFormField(
+                        keyboardType: TextInputType.phone,
+                        controller: controllerMantencion,
+                        decoration:
+                            const InputDecoration(labelText: 'Mantención (H):'),
+                      ),
+                    ),
+                    // const Text(
+                    //   "Costo unitario (C): ",
+                    //   style: TextStyle(fontWeight: FontWeight.bold),
+                    // ),
+                    const VerticalDivider(),
+                    SizedBox(
+                      width: 150,
+                      height: 80,
+                      child: TextFormField(
+                        keyboardType: TextInputType.phone,
+                        controller: controllerCostoUnitario,
+                        decoration: const InputDecoration(
+                            labelText: 'Costo unitario (C):'),
+                      ),
+                    )
+                  ]),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Dias trabajados (anual): ",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: 60,
-                          height: 50,
-                          child: TextFormField(
-                            keyboardType: TextInputType.phone,
-                            controller: controllerDias,
-                          ),
-                        )
-                      ],
+                    child: SizedBox(
+                      width: 250,
+                      height: 50,
+                      child: TextFormField(
+                        readOnly: !cbFlag,
+                        keyboardType: TextInputType.phone,
+                        controller: controllerDias,
+                        decoration: InputDecoration(
+                            labelText: 'Días trabajados (Opcional)',
+                            prefixIcon: Checkbox(
+                              value: cbFlag,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  cbFlag = value!;
+                                });
+                              },
+                            )),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -373,89 +438,10 @@ class Calculadora extends State<MyCalculator> {
                     icon: const Icon(Icons.auto_graph_outlined),
                   ),
 
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: <Widget>[
-
-                  //     TextButton(
-                  //       onPressed: operacionMatematica,
-                  //       style: TextButton.styleFrom(
-                  //         foregroundColor: Colors.amber,
-                  //         shape: const BeveledRectangleBorder(
-                  //             borderRadius: BorderRadius.all(Radius.circular(5))),
-                  //       ),
-                  //       child: Column(
-                  //         children: const <Widget>[
-                  //           Icon(Icons.calculate_outlined),
-                  //           Text('Calcular')
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     TextButton(
-                  //       onPressed: limpiaCampos,
-                  //       style: TextButton.styleFrom(
-                  //         foregroundColor: const Color.fromARGB(255, 52, 28, 236),
-                  //         shape: const BeveledRectangleBorder(
-                  //             borderRadius: BorderRadius.all(Radius.circular(5))),
-                  //       ),
-                  //       child: Column(
-                  //         children: const <Widget>[
-                  //           Icon(Icons.cleaning_services_outlined),
-                  //           Text('Limpiar')
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     TextButton(
-                  //       onPressed: () {
-                  //         Alertas().displayDialog(context);
-                  //       },
-                  //       style: TextButton.styleFrom(
-                  //         foregroundColor: const Color.fromARGB(255, 255, 1, 1),
-                  //         shape: const BeveledRectangleBorder(
-                  //             borderRadius: BorderRadius.all(Radius.circular(5))),
-                  //       ),
-                  //       child: Column(
-                  //         children: const <Widget>[
-                  //           Icon(Icons.info_outline),
-                  //           Text('Formulario')
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   const SizedBox(
                     height: 5,
                   ),
 
-                  // ElevatedButton(
-                  //   style: ElevatedButton.styleFrom(
-                  //     shape: const StadiumBorder(),
-                  //     elevation: 0,
-                  //   ),
-                  //   child: const SizedBox(
-                  //     height: 50,
-                  //     child: Center(child: Text('Ver Módelo')),
-                  //   ),
-                  //   onPressed: () {
-                  //     Navigator.push(
-                  //         context,
-                  //         PageRouteBuilder(
-                  //             transitionDuration: const Duration(milliseconds: 700),
-                  //             transitionsBuilder:
-                  //                 (context, animation, secondaryAnimation, child) {
-                  //               return FadeTransition(
-                  //                 opacity: animation,
-                  //                 child: child,
-                  //               );
-                  //             },
-                  //             pageBuilder:
-                  //                 ((context, animation, secondaryAnimation) {
-                  //               return const GraphScreen(
-                  //                 title: 'Gráfico',
-                  //               );
-                  //             })));
-                  //   },
-                  // ),
                   const SizedBox(
                     height: 5,
                   ),
@@ -466,14 +452,6 @@ class Calculadora extends State<MyCalculator> {
                     height: 50,
                     width: 450,
                     color: const Color.fromRGBO(28, 49, 108, 1),
-                    // decoration: const ColoredBox(color: Color.fromARGB(255, 28, 49, 108)),
-
-                    // const BoxDecoration(
-                    //   gradient: LinearGradient(colors: [
-                    //     Color.fromARGB(255, 230, 23, 23),
-                    //     Color(0xFFfF7818)
-                    //   ]),
-                    // ),
                     child: Center(
                       child: Text(
                         //aquí se inserta el resultado del textformfield
@@ -488,12 +466,6 @@ class Calculadora extends State<MyCalculator> {
                     height: 50,
                     width: 450,
                     color: const Color.fromRGBO(28, 49, 108, 1),
-                    // decoration: const BoxDecoration(
-                    //   gradient: LinearGradient(colors: [
-                    //     Color.fromARGB(255, 230, 23, 23),
-                    //     Color(0xFFfF7818)
-                    //   ]),
-                    // ),
                     child: Center(
                       child: Text(
                         //aquí se inserta el resultado del textformfield
@@ -508,13 +480,7 @@ class Calculadora extends State<MyCalculator> {
                   Container(
                     height: 50,
                     width: 450,
-                    color: Color.fromRGBO(221, 16, 100, 1),
-                    // decoration: const BoxDecoration(
-                    //   gradient: LinearGradient(colors: [
-                    //     Color.fromARGB(255, 28, 107, 255),
-                    //     Color.fromARGB(255, 30, 203, 255)
-                    //   ]),
-                    // ),
+                    color: const Color.fromRGBO(221, 16, 100, 1),
                     child: Center(
                       child: Text(
                         mostrarNumOrdenes,
@@ -528,13 +494,7 @@ class Calculadora extends State<MyCalculator> {
                   Container(
                     height: 50,
                     width: 450,
-                    color: Color.fromRGBO(221, 16, 100, 1),
-                    // decoration: const BoxDecoration(
-                    //   gradient: LinearGradient(colors: [
-                    //     Color.fromARGB(255, 28, 107, 255),
-                    //     Color.fromARGB(255, 30, 203, 255)
-                    //   ]),
-                    // ),
+                    color: const Color.fromRGBO(221, 16, 100, 1),
                     child: Center(
                       child: Text(
                         tiempoReorden,
@@ -548,13 +508,7 @@ class Calculadora extends State<MyCalculator> {
                   Container(
                     height: 50,
                     width: 450,
-                    color: Color.fromRGBO(221, 16, 100, 1),
-                    // decoration: const BoxDecoration(
-                    //   gradient: LinearGradient(colors: [
-                    //     Color.fromARGB(255, 28, 107, 255),
-                    //     Color.fromARGB(255, 30, 203, 255)
-                    //   ]),
-                    // ),
+                    color: const Color.fromRGBO(221, 16, 100, 1),
                     child: Center(
                       child: Text(
                         campoPuntoReorden,
@@ -570,7 +524,7 @@ class Calculadora extends State<MyCalculator> {
                   Container(
                     height: 50,
                     width: 450,
-                    color: Color.fromRGBO(14, 224, 148, 1),
+                    color: const Color.fromRGBO(14, 224, 148, 1),
                     // decoration: const BoxDecoration(
                     //   gradient: LinearGradient(colors: [
                     //     Color.fromARGB(255, 0, 134, 9),
@@ -590,7 +544,7 @@ class Calculadora extends State<MyCalculator> {
                   Container(
                     height: 50,
                     width: 450,
-                    color: Color.fromRGBO(14, 224, 148, 1),
+                    color: const Color.fromRGBO(14, 224, 148, 1),
                     // decoration: const BoxDecoration(
                     //   gradient: LinearGradient(colors: [
                     //     Color.fromARGB(255, 0, 134, 9),
@@ -611,7 +565,7 @@ class Calculadora extends State<MyCalculator> {
                   Container(
                     height: 50,
                     width: 450,
-                    color: Color.fromRGBO(14, 224, 148, 1),
+                    color: const Color.fromRGBO(14, 224, 148, 1),
                     // decoration: const BoxDecoration(
                     //   gradient: LinearGradient(colors: [
                     //     Color.fromARGB(255, 0, 134, 9),

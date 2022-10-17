@@ -6,12 +6,13 @@ class Calculator2Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Calculadora EOQ"),
-          elevation: 5,
-          backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
-        ),
-        body: Column(
+      appBar: AppBar(
+        title: const Text("Calculadora EOQ"),
+        elevation: 5,
+        backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
             Image.asset(
@@ -31,6 +32,8 @@ class Calculator2Screen extends StatelessWidget {
                       fontWeight: FontWeight.bold)),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
