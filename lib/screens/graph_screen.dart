@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphScreen extends StatefulWidget {
@@ -38,76 +39,91 @@ class _GraphScreenState extends State<GraphScreen> {
           ),
           centerTitle: true,
           elevation: 5,
-          title: const Text('Módelo gráfico EOQ'),
+          title: const Text('Modelo gráfico EOQ'),
           backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
         ),
-        body: Center(
-          child: SizedBox(
-            width: 600,
-            height: 500,
-            child: SfCartesianChart(
-              borderWidth: 0,
-              margin: const EdgeInsets.all(10),
-              // annotations: <CartesianChartAnnotation>[
-              //   CartesianChartAnnotation(
-              //       widget: Container(
-              //         child: const Text(
-              //             'Para mejor visibilidad, ponga su dispositivo de lado'),
-              //       ),
-              //       coordinateUnit: CoordinateUnit.logicalPixel,
-              //       x: 50,
-              //       y: 50)
-              // ],
-              // primaryXAxis:
-              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-              //     CategoryAxis(
-              //         title: AxisTitle(
-              //             text: 'Días',
-              //             textStyle: const TextStyle(fontSize: 10))),
-              // primaryYAxis: CategoryAxis(
-              //     title: AxisTitle(
-              //         text: 'Unidades',
-              //         textStyle: const TextStyle(fontSize: 10))),
-              title: ChartTitle(text: 'Gráfico de prueba'),
-              legend: Legend(
-                  isVisible: true,
-                  position: LegendPosition.bottom), //ver la leyenda
-              tooltipBehavior: _tooltipBehavior,
-              series: <ChartSeries>[
-                LineSeries<SalesData, int>(
-                    name: 'Nivel de Inventario', // nombre de la leyenda
-                    dataSource: _chartData,
-                    xValueMapper: (SalesData dias, _) => dias.dias,
-                    yValueMapper: (SalesData unidades, _) => unidades.unidades,
-                    dataLabelSettings:
-                        const DataLabelSettings(isVisible: false),
-                    enableTooltip: true),
-                LineSeries<InventaryData, int>(
-                    name: 'Inventario Medio',
-                    dataSource: _inventaryData,
-                    xValueMapper: (InventaryData inventary, _) =>
-                        inventary.inventary,
-                    yValueMapper: (InventaryData inventary, _) =>
-                        inventary.inventary2,
-                    dataLabelSettings:
-                        const DataLabelSettings(isVisible: false),
-                    enableTooltip: true),
-                LineSeries<LeadTimeData, int>(
-                    name: 'Lead Time',
-                    dataSource: _leadTimeData,
-                    xValueMapper: (LeadTimeData lead, _) => lead.diapedido,
-                    yValueMapper: (LeadTimeData lead, _) => lead.diallegada,
-                    dataLabelSettings:
-                        const DataLabelSettings(isVisible: false),
-                    enableTooltip: true)
-              ],
+        body: Column(
+          children: [
+            Center(
+              child: SizedBox(
+                width: 320,
+                height: 400,
+                child: SfCartesianChart(
+                  annotations: <CartesianChartAnnotation>[
+                    CartesianChartAnnotation(
+                        widget: const Text(
+                          'Unidades',
+                          textAlign: TextAlign.center,
+                        ),
+                        coordinateUnit: CoordinateUnit.point,
+                        region: AnnotationRegion.chart,
+                        x: 1,
+                        y: cantidadOptima + 2),
+                    // const CartesianChartAnnotation(
+                    //     widget: Text('Días'),
+                    //     coordinateUnit: CoordinateUnit.point,
+                    //     region: AnnotationRegion.chart,
+                    //     x: 23,
+                    //     y: 1),
+                  ],
+                  borderWidth: 0,
+                  margin: const EdgeInsets.all(10),
+                  primaryXAxis: NumericAxis(labelFormat: '{value} días'),
 
-              // primaryXAxis:
-              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-              // primaryYAxis: NumericAxis(
-              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+                  // primaryXAxis: CategoryAxis(
+                  //     title: AxisTitle(
+                  //         text: 'Tiempo (días)',
+                  //         textStyle: const TextStyle(fontSize: 10))),
+                  // primaryYAxis: CategoryAxis(
+                  //     title: AxisTitle(
+                  //         text: 'Stock (unidades)',
+                  //         textStyle: const TextStyle(fontSize: 10))),
+                  title: ChartTitle(text: 'Gráfico de prueba'),
+                  legend: Legend(
+                      isVisible: true,
+                      position: LegendPosition.bottom), //ver la leyenda
+                  tooltipBehavior: _tooltipBehavior,
+                  series: <ChartSeries>[
+                    LineSeries<SalesData, int>(
+                        name: 'Nivel de Inventario', // nombre de la leyenda
+                        dataSource: _chartData,
+                        xValueMapper: (SalesData dias, _) => dias.dias,
+                        yValueMapper: (SalesData unidades, _) =>
+                            unidades.unidades,
+                        dataLabelSettings:
+                            const DataLabelSettings(isVisible: false),
+                        enableTooltip: true),
+                    LineSeries<InventaryData, int>(
+                        name: 'Inventario Medio',
+                        dataSource: _inventaryData,
+                        xValueMapper: (InventaryData inventary, _) =>
+                            inventary.inventary,
+                        yValueMapper: (InventaryData inventary, _) =>
+                            inventary.inventary2,
+                        dataLabelSettings:
+                            const DataLabelSettings(isVisible: false),
+                        enableTooltip: true),
+                    LineSeries<LeadTimeData, int>(
+                        name: 'Lead Time',
+                        dataSource: _leadTimeData,
+                        xValueMapper: (LeadTimeData lead, _) => lead.diapedido,
+                        yValueMapper: (LeadTimeData lead, _) => lead.diallegada,
+                        dataLabelSettings:
+                            const DataLabelSettings(isVisible: false),
+                        enableTooltip: true)
+                  ],
+
+                  // primaryXAxis:
+                  //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
+                  // primaryYAxis: NumericAxis(
+                  //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+                ),
+              ),
             ),
-          ),
+            Container(
+              child: Text('hola estoy probando'),
+            )
+          ],
         ),
       ),
     );
@@ -129,7 +145,7 @@ class _GraphScreenState extends State<GraphScreen> {
       SalesData(20, 0),
       SalesData(20, cantidadOptima),
       SalesData(25, 0),
-      SalesData(25, cantidadOptima)
+      SalesData(25, cantidadOptima),
     ];
     return chartData;
   }

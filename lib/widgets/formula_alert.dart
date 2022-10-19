@@ -59,7 +59,7 @@ class Alertas {
                   text: const TextSpan(
                       text: 'Q* ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
@@ -75,12 +75,13 @@ class Alertas {
                   text: const TextSpan(
                       text: 'D ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
                         TextSpan(
-                            text: '= Tasa de demanda (unidades/año)',
+                            text:
+                                '= Tasa de demanda (unidades, lotes, paquetes por año)',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))
@@ -91,7 +92,7 @@ class Alertas {
                   text: const TextSpan(
                       text: 'K ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
@@ -108,7 +109,7 @@ class Alertas {
                   text: const TextSpan(
                       text: 'C ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
@@ -125,7 +126,7 @@ class Alertas {
                   text: const TextSpan(
                       text: 'H ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
@@ -142,7 +143,7 @@ class Alertas {
                   text: const TextSpan(
                       text: 'i ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
@@ -159,7 +160,7 @@ class Alertas {
                   text: const TextSpan(
                       text: 'L ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
@@ -176,7 +177,7 @@ class Alertas {
                   text: const TextSpan(
                       text: 'N ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
@@ -193,7 +194,7 @@ class Alertas {
                   text: const TextSpan(
                       text: 'R ',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
                       children: [
