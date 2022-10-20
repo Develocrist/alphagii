@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Alertas {
-  void displayDialog(BuildContext context) {
+  void infoFormulas(BuildContext context) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -217,7 +217,7 @@ class Alertas {
         }); //builder es un codigo que regresa un widget
   }
 
-  void infoDialog(BuildContext context) {
+  void infoModelos(BuildContext context) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -290,6 +290,36 @@ class Alertas {
               TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Cerrar'))
+            ],
+          );
+        });
+  }
+
+  //-------------------------------------
+  void mostrarDialogo(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Error de Ingreso"),
+            iconColor: Colors.red,
+            icon: const Icon(
+              Icons.error_outline_outlined,
+              size: 50,
+            ),
+            content: const Text(
+              "Ingrese valores númericos en al menos las siguientes casillas: Demanda, Costo orden, Mantención.",
+              textAlign: TextAlign.center,
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Entendido.")),
             ],
           );
         });

@@ -12,6 +12,18 @@ class MyCalculator extends StatefulWidget {
   State<MyCalculator> createState() => Calculadora();
 }
 
+class Datos {
+  late final String cantidadOptima;
+  late final String costo;
+
+  Datos(this.cantidadOptima, this.costo);
+}
+
+final datos = List<Datos>.generate(
+  2,
+  (index) => Datos('Soy una cantidad optima', 'Soy un costo'),
+);
+
 class Calculadora extends State<MyCalculator> {
   //controladores para despues asignarles un campo de texto
   final controllerDemanda = TextEditingController();
@@ -142,12 +154,11 @@ class Calculadora extends State<MyCalculator> {
       String tcostoTotal = totalCostoTotal.toStringAsFixed(0);
 
       setState(() {
-        mostrarCantidadOptima = 'Cantidad óptima de pedido: $r unidades';
-        tiempoentrePedidos = 'El tiempo entre pedidos es de: $t días';
-        mostrarNumOrdenes = 'Numero de ordenes esperado: $ordenes pedidos  ';
+        mostrarCantidadOptima = "Cantidad óptima de pedido: $r unidades";
+        tiempoentrePedidos = "El tiempo entre pedidos es de: $t días";
+        mostrarNumOrdenes = "Numero de ordenes esperado: $ordenes pedidos  ";
         tiempoReorden = "Tiempo de reorden: $ord días";
         campoPuntoReorden = "Punto de reorden: $ptoReorden unidades";
-
         costoOrden = "Costo total orden :\$$tcostoOrden";
         costMantencion = "Costo total mantención: \$$tcostoMantener";
         costoTotal = "El costo total es de :\$$tcostoTotal";
@@ -168,8 +179,8 @@ class Calculadora extends State<MyCalculator> {
       String t = tentrePedidos.toStringAsFixed(0);
 
       setState(() {
-        mostrarCantidadOptima = 'Cantidad óptima de pedido: $r unidades';
-        tiempoentrePedidos = 'El tiempo entre pedidos es de: $t días';
+        mostrarCantidadOptima = "Cantidad óptima de pedido: $r unidades";
+        tiempoentrePedidos = "El tiempo entre pedidos es de: $t días";
       });
     } else {
       mostrarDialogo();
@@ -221,7 +232,7 @@ class Calculadora extends State<MyCalculator> {
             iconColor: Colors.red,
             icon: const Icon(
               Icons.error_outline_outlined,
-              size: 60,
+              size: 50,
             ),
             content: const Text(
               "Ingrese valores númericos en al menos las siguientes casillas: Demanda, Costo orden, Mantención.",
@@ -234,7 +245,7 @@ class Calculadora extends State<MyCalculator> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Entendido.')),
+                  child: const Text("Entendido.")),
             ],
           );
         });
@@ -261,7 +272,6 @@ class Calculadora extends State<MyCalculator> {
           },
           child: SingleChildScrollView(
             child: Column(
-
                 //key: my_form_key,
                 children: [
                   const SizedBox(
@@ -271,11 +281,6 @@ class Calculadora extends State<MyCalculator> {
                     //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // const Text(
-                      //   "  Demanda (D): ",
-                      //   style: TextStyle(fontWeight: FontWeight.bold),
-                      // ),
-
                       SizedBox(
                         width: 150,
                         height: 70,
@@ -283,7 +288,8 @@ class Calculadora extends State<MyCalculator> {
                           controller: controllerDemanda,
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(10),
                           ],
                           decoration: const InputDecoration(
                               contentPadding:
@@ -296,10 +302,6 @@ class Calculadora extends State<MyCalculator> {
                         ),
                       ),
                       const VerticalDivider(),
-                      // const Text(
-                      //   "Costo Orden (K): ",
-                      //   style: TextStyle(fontWeight: FontWeight.bold),
-                      // ),
                       SizedBox(
                         width: 150,
                         height: 70,
@@ -307,7 +309,8 @@ class Calculadora extends State<MyCalculator> {
                           controller: controllerOrden,
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(10),
                           ],
                           decoration: const InputDecoration(
                               contentPadding:
@@ -324,10 +327,6 @@ class Calculadora extends State<MyCalculator> {
                     height: 10,
                   ),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    // const Text(
-                    //   "Mantención (H): ",
-                    //   style: TextStyle(fontWeight: FontWeight.bold),
-                    // ),
                     SizedBox(
                       width: 150,
                       height: 50,
@@ -335,7 +334,8 @@ class Calculadora extends State<MyCalculator> {
                         keyboardType: TextInputType.phone,
                         controller: controllerMantencion,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
+                          FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                          LengthLimitingTextInputFormatter(10),
                         ],
                         decoration: const InputDecoration(
                             contentPadding:
@@ -346,10 +346,6 @@ class Calculadora extends State<MyCalculator> {
                             labelText: '(H) Mantención \$'),
                       ),
                     ),
-                    // const Text(
-                    //   "Costo unitario (C): ",
-                    //   style: TextStyle(fontWeight: FontWeight.bold),
-                    // ),
                     const VerticalDivider(),
                     SizedBox(
                       width: 150,
@@ -358,7 +354,8 @@ class Calculadora extends State<MyCalculator> {
                         keyboardType: TextInputType.phone,
                         controller: controllerCostoUnitario,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
+                          FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                          LengthLimitingTextInputFormatter(10),
                         ],
                         decoration: const InputDecoration(
                             contentPadding: EdgeInsets.only(left: 5, bottom: 1),
@@ -381,7 +378,8 @@ class Calculadora extends State<MyCalculator> {
                         readOnly: !cbFlag,
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(3),
                         ],
                         controller: controllerDias,
                         decoration: InputDecoration(
@@ -444,7 +442,7 @@ class Calculadora extends State<MyCalculator> {
                       ),
                       ElevatedButton.icon(
                         onPressed: () {
-                          Alertas().displayDialog(context);
+                          Alertas().infoFormulas(context);
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -520,20 +518,7 @@ class Calculadora extends State<MyCalculator> {
                       ),
                     ),
                   ),
-                  // Container(
-                  //   height: 50,
-                  //   width: 450,
-                  //   color: const Color.fromRGBO(28, 49, 108, 1),
-                  //   child: Center(
-                  //     child: Text(
-                  //aquí se inserta el resultado del textformfield
-                  //       tiempoentrePedidos,
-                  //       style: const TextStyle(
-                  //           fontSize: 18.0, color: Colors.white),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
-                  // ),
+
                   const SizedBox(height: 5),
                   Container(
                     height: 100,
@@ -549,33 +534,6 @@ class Calculadora extends State<MyCalculator> {
                     ),
                   ),
 
-                  // Container(
-                  //   height: 50,
-                  //   width: 450,
-                  //   color: const Color.fromRGBO(221, 16, 100, 1),
-                  //   child: Center(
-                  //     child: Text(
-                  //       tiempoReorden,
-                  //       style: const TextStyle(
-                  //           fontSize: 18.0, color: Colors.white),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
-                  // ),
-
-                  // Container(
-                  //   height: 50,
-                  //   width: 450,
-                  //   color: const Color.fromRGBO(221, 16, 100, 1),
-                  //   child: Center(
-                  //     child: Text(
-                  //       campoPuntoReorden,
-                  //       style: const TextStyle(
-                  //           fontSize: 18.0, color: Colors.white),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 5,
                   ),
@@ -592,37 +550,6 @@ class Calculadora extends State<MyCalculator> {
                       ),
                     ),
                   ),
-
-                  // Container(
-                  //   height: 50,
-                  //   width: 450,
-                  //   color: const Color.fromRGBO(14, 224, 148, 1),
-                  //   //creamos el resultado del textformfield
-                  //   child: Center(
-                  //     child: Text(
-                  //       costMantencion,
-                  //       style: const TextStyle(
-                  //           fontSize: 18.0, color: Colors.white),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
-                  // ),
-
-                  // Container(
-                  //   height: 50,
-                  //   width: 450,
-                  //   color: const Color.fromRGBO(14, 224, 148, 1),
-
-                  //   //creamos el resultado del textformfield
-                  //   child: Center(
-                  //     child: Text(
-                  //       costoTotal,
-                  //       style: const TextStyle(
-                  //           fontSize: 18.0, color: Colors.white),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
-                  // ),
                 ]),
           ),
         ));

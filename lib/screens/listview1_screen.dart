@@ -115,7 +115,7 @@ class Listview1Screen extends StatelessWidget {
           size: 30,
         ),
         onPressed: () {
-          Alertas().infoDialog(context);
+          Alertas().infoModelos(context);
         },
       ),
     );
