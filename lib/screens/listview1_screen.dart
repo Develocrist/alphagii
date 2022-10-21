@@ -21,7 +21,7 @@ class Listview1Screen extends StatelessWidget {
           ListTile(
             iconColor: const Color.fromRGBO(8, 75, 129, 10),
             leading: const Icon(Icons.calculate_outlined),
-            title: const Text('Calculadora EOQ Básica'),
+            title: const Text('Modelo EOQ Básico'),
             trailing: const Icon(Icons.arrow_forward_ios_outlined),
             onTap: () {
               Navigator.push(
@@ -50,7 +50,7 @@ class Listview1Screen extends StatelessWidget {
           ListTile(
             iconColor: const Color.fromRGBO(8, 75, 129, 10),
             leading: const Icon(Icons.calculate_outlined),
-            title: const Text('Calculadora EOQ con Faltante'),
+            title: const Text('Modelo EOQ con Faltante'),
             trailing: const Icon(Icons.arrow_forward_ios_outlined),
             onTap: () {
               Navigator.push(

@@ -14,43 +14,57 @@ class Alertas {
               title: RichText(
                 textAlign: TextAlign.center,
                 text: const TextSpan(
-                  text: 'Fórmulas',
+                  text: 'Fórmulario',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue,
+                    color: Color.fromRGBO(8, 75, 129, 10),
                   ),
-                  // children: [
-                  //   TextSpan(
-                  //       text: 'y ',
-                  //       style: TextStyle(
-                  //           color: Colors.black,
-                  //           fontWeight: FontWeight.normal),
-                  //       children: [
-                  //         TextSpan(
-                  //             text: 'Variables',
-                  //             style: TextStyle(
-                  //                 fontSize: 25,
-                  //                 fontWeight: FontWeight.bold,
-                  //                 color: Colors.red))
-                  //       ])
                 ),
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               content: ClipRRect(
                   child: Column(mainAxisSize: MainAxisSize.max, children: [
+                const Text('Cantidad óptima de pedido:'),
                 Image.asset(
-                  'assets/formulaeoq.png',
+                  'assets/formulacantidadeconomica.png',
                   fit: BoxFit.cover,
                 ),
                 const Divider(),
+                const Text('Lead Time:'),
+                Image.asset(
+                  'assets/formulaleadtime.png',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                ),
+                const Divider(),
+                const Text('Punto de reorden:'),
+                const SizedBox(
+                  height: 5,
+                ),
+                Image.asset(
+                  'assets/formulareorden.png',
+                  fit: BoxFit.cover,
+                  // alignment: Alignment.center,
+                ),
+                const Divider(),
+                const Text('Costos:'),
+                Image.asset(
+                  'assets/formulascostos.png',
+                  fit: BoxFit.cover,
+                  // alignment: Alignment.center,
+                ),
+                const Divider(
+                  height: 30,
+                  color: Colors.deepOrange,
+                ),
                 RichText(
                   textAlign: TextAlign.center,
                   text: const TextSpan(
                       text: 'Variables',
                       style: TextStyle(
-                          fontSize: 25,
+                          fontSize: 20,
                           color: Colors.red,
                           fontWeight: FontWeight.bold)),
                 ),
@@ -64,7 +78,7 @@ class Alertas {
                           fontWeight: FontWeight.bold),
                       children: [
                         TextSpan(
-                            text: '= Representa la cantidad optima de pedido.',
+                            text: '= Representa la cantidad óptima de pedido.',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))
@@ -98,7 +112,7 @@ class Alertas {
                       children: [
                         TextSpan(
                             text:
-                                '= Costo de orden o preparación, dada en unidades monetarias por unidad',
+                                '= Costo de orden o preparación, dado en unidades monetarias por unidad.',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))
@@ -115,7 +129,7 @@ class Alertas {
                       children: [
                         TextSpan(
                             text:
-                                '= Costo del ítem, dada en unidades monetarias por unidad',
+                                '= Costo del ítem, dado en unidades monetarias por unidad.',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))
@@ -132,7 +146,7 @@ class Alertas {
                       children: [
                         TextSpan(
                             text:
-                                '= Costo anual de Mantención, dado en unidades monetarias. Este es el resultado de la multiplicación entre el costo unitario y la tasa de mantenimiento (H = i * C)',
+                                '= Costo anual de Mantención, dado en unidades monetarias. Este es el resultado de la multiplicación entre el costo unitario y la tasa de mantenimiento (H = i * C).',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))
@@ -149,7 +163,7 @@ class Alertas {
                       children: [
                         TextSpan(
                             text:
-                                '= Tasa anual de mantenimiento, esta se da en unidades porcentuales',
+                                '= Tasa anual de mantenimiento, esta se da en unidades porcentuales.',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))
@@ -166,7 +180,7 @@ class Alertas {
                       children: [
                         TextSpan(
                             text:
-                                '= (Lead Time) Representa el tiempo de espera en que llega el pedido, tiene relación con el proveedor.',
+                                '= (Lead Time) Representa el tiempo de espera en que llega el pedido, se relaciona con el proveedor.',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))
@@ -183,7 +197,7 @@ class Alertas {
                       children: [
                         TextSpan(
                             text:
-                                '= Número de pedidos a realizar en base a los dias trabajados, generalmente es anual',
+                                '= Número de pedidos a realizar en base a los días trabajados, generalmente es anual.',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))

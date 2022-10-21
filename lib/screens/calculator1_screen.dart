@@ -12,18 +12,6 @@ class MyCalculator extends StatefulWidget {
   State<MyCalculator> createState() => Calculadora();
 }
 
-class Datos {
-  late final String cantidadOptima;
-  late final String costo;
-
-  Datos(this.cantidadOptima, this.costo);
-}
-
-final datos = List<Datos>.generate(
-  2,
-  (index) => Datos('Soy una cantidad optima', 'Soy un costo'),
-);
-
 class Calculadora extends State<MyCalculator> {
   //controladores para despues asignarles un campo de texto
   final controllerDemanda = TextEditingController();
@@ -35,6 +23,7 @@ class Calculadora extends State<MyCalculator> {
   //final my_form_key = GlobalKey<FormState>();
 
   String mostrarCantidadOptima = "";
+  // String mostrarLeadtime = "";
   String mostrarNumOrdenes = "";
   String tiempoReorden = "";
   String campoPuntoReorden = "";
@@ -66,6 +55,7 @@ class Calculadora extends State<MyCalculator> {
       orden = double.parse(controllerOrden.text);
       costoMantencion = double.parse(controllerMantencion.text);
 
+      //formula cantidad optima
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
       String r = cantidadOptima.toStringAsFixed(1);
 
@@ -89,6 +79,7 @@ class Calculadora extends State<MyCalculator> {
       double totalCostoMantener = ((cantidadOptima / 2) * costoMantencion);
       String tcostoMantener = totalCostoMantener.toStringAsFixed(0);
 
+      //formula costo total de todo
       double totalCostoTotal = (demanda * costoUnitario) +
           ((demanda / cantidadOptima) * orden) +
           ((cantidadOptima / 2) * costoMantencion);
@@ -99,15 +90,14 @@ class Calculadora extends State<MyCalculator> {
       String t = tentrePedidos.toStringAsFixed(1);
 
       setState(() {
-        mostrarCantidadOptima = 'Cantidad óptima de pedido: $r unidades';
-        tiempoentrePedidos = 'El tiempo entre pedidos es de: $t días';
-        mostrarNumOrdenes = 'Numero de ordenes esperado: $ordenes pedidos  ';
-        tiempoReorden = "Tiempo de reorden: $ord días";
-        campoPuntoReorden = "Punto de reorden: $ptoReorden unidades";
-
-        costoOrden = "Costo total orden : \$$tcostoOrden";
-        costMantencion = "Costo total mantención: \$$tcostoMantener";
-        costoTotal = "El costo total es de : \$$tcostoTotal";
+        mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
+        // tiempoentrePedidos = "Tiempo entre pedidos: \n $t días";
+        mostrarNumOrdenes = "Número de ordenes esperado: \n $ordenes pedidos  ";
+        tiempoReorden = "Tiempo de reorden (Lead Time): \n $ord días";
+        campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
+        costoOrden = "Costo total orden: \n \$$tcostoOrden";
+        costMantencion = "Costo total mantención: \n \$$tcostoMantener";
+        costoTotal = "Costo total: \n \$$tcostoTotal";
       });
     } else if (isNumericUsingtryParse(controllerDemanda.text) &&
         isNumericUsingtryParse(controllerOrden.text) &&
@@ -154,14 +144,14 @@ class Calculadora extends State<MyCalculator> {
       String tcostoTotal = totalCostoTotal.toStringAsFixed(0);
 
       setState(() {
-        mostrarCantidadOptima = "Cantidad óptima de pedido: $r unidades";
-        tiempoentrePedidos = "El tiempo entre pedidos es de: $t días";
-        mostrarNumOrdenes = "Numero de ordenes esperado: $ordenes pedidos  ";
-        tiempoReorden = "Tiempo de reorden: $ord días";
-        campoPuntoReorden = "Punto de reorden: $ptoReorden unidades";
-        costoOrden = "Costo total orden :\$$tcostoOrden";
-        costMantencion = "Costo total mantención: \$$tcostoMantener";
-        costoTotal = "El costo total es de :\$$tcostoTotal";
+        mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
+        // tiempoentrePedidos = "Tiempo entre pedidos: \n $t días";
+        mostrarNumOrdenes = "Número de ordenes esperado: \n $ordenes pedidos  ";
+        tiempoReorden = "Tiempo de reorden (Lead Time): \n $ord días";
+        campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
+        costoOrden = "Costo total orden: \n \$$tcostoOrden";
+        costMantencion = "Costo total mantención: \n \$$tcostoMantener";
+        costoTotal = "Costo total: \n \$$tcostoTotal";
       });
     } else if (isNumericUsingtryParse(controllerDemanda.text) &&
         isNumericUsingtryParse(controllerOrden.text) &&
@@ -176,11 +166,11 @@ class Calculadora extends State<MyCalculator> {
       String r = cantidadOptima.toStringAsFixed(1);
 
       double tentrePedidos = ((cantidadOptima / demanda) * 365);
-      String t = tentrePedidos.toStringAsFixed(0);
+      String t = tentrePedidos.toStringAsFixed(1);
 
       setState(() {
-        mostrarCantidadOptima = "Cantidad óptima de pedido: $r unidades";
-        tiempoentrePedidos = "El tiempo entre pedidos es de: $t días";
+        mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
+        tiempoentrePedidos = "Tiempo entre pedidos: \n $t días";
       });
     } else {
       mostrarDialogo();
@@ -265,6 +255,9 @@ class Calculadora extends State<MyCalculator> {
           elevation: 5,
           backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
           title: const Text('Calculadora EOQ'),
+          actions: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.info)),
+          ],
         ),
         body: GestureDetector(
           onTap: () {
@@ -298,7 +291,7 @@ class Calculadora extends State<MyCalculator> {
                                   borderSide: BorderSide(
                                 color: Color.fromRGBO(8, 75, 129, 10),
                               )),
-                              labelText: '(D) Demanda :'),
+                              labelText: '(D) Demanda'),
                         ),
                       ),
                       const VerticalDivider(),
@@ -410,15 +403,15 @@ class Calculadora extends State<MyCalculator> {
                         backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        fixedSize: const Size(280, 45)),
+                        fixedSize: const Size(280, 40)),
                     label: const Text(
                       'Calcular',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 16),
                     ),
                     icon: const Icon(Icons.calculate_outlined),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 2,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -426,16 +419,25 @@ class Calculadora extends State<MyCalculator> {
                       ElevatedButton.icon(
                         onPressed: limpiaCampos,
                         style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(8, 75, 129, 10),
-                            fixedSize: const Size(120, 45),
+                            backgroundColor: Colors.white,
+                            shadowColor: Colors.transparent.withOpacity(0.1),
+                            side: const BorderSide(
+                              width: 2,
+                              color: Color.fromRGBO(8, 75, 129, 1),
+                            ),
+                            fixedSize: const Size(120, 40),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         label: const Text(
                           'Limpiar',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromRGBO(8, 75, 129, 1)),
                         ),
-                        icon: const Icon(Icons.cleaning_services_outlined),
+                        icon: const Icon(
+                          Icons.cleaning_services_outlined,
+                          color: Color.fromRGBO(8, 75, 129, 1),
+                        ),
                       ),
                       const VerticalDivider(
                         width: 10,
@@ -449,7 +451,7 @@ class Calculadora extends State<MyCalculator> {
                                 const Color.fromRGBO(8, 75, 129, 10),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
-                            fixedSize: const Size(150, 45)),
+                            fixedSize: const Size(150, 40)),
                         label: const Text(
                           'Fórmulario',
                           style: TextStyle(fontSize: 16),
@@ -459,43 +461,47 @@ class Calculadora extends State<MyCalculator> {
                     ],
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 2,
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
                           context,
-                          PageRouteBuilder(
-                              transitionDuration:
-                                  const Duration(milliseconds: 700),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                              pageBuilder:
-                                  ((context, animation, secondaryAnimation) {
-                                return const GraphScreen(
-                                  title: 'Gráfico',
-                                );
-                              })));
+                          MaterialPageRoute(
+                              builder: (context) => GraphScreen(
+                                    valor: controllerDemanda.text,
+                                  ))
+
+                          // PageRouteBuilder(
+                          //     transitionDuration:
+                          //         const Duration(milliseconds: 700),
+                          //     transitionsBuilder: (context, animation,
+                          //         secondaryAnimation, child) {
+                          //       return FadeTransition(
+                          //         opacity: animation,
+                          //         child: child,
+                          //       );
+                          //     },
+                          //     pageBuilder:
+                          //         ((context, animation, secondaryAnimation) {
+                          //       return GraphScreen(
+                          //         ,
+                          //       );
+                          //     }
+                          //     )
+                          //     )
+                          );
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        fixedSize: const Size(280, 45)),
+                        fixedSize: const Size(280, 40)),
                     label: const Text(
                       'Gráfico',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 16),
                     ),
                     icon: const Icon(Icons.auto_graph_outlined),
-                  ),
-
-                  const SizedBox(
-                    height: 5,
                   ),
 
                   const SizedBox(
@@ -505,13 +511,14 @@ class Calculadora extends State<MyCalculator> {
                   //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
                   //donde estan las operaciones de cálculo
                   Container(
-                    height: 100,
-                    width: 450,
+                    height: 420,
+                    width: 420,
+                    padding: const EdgeInsets.only(top: 10),
                     color: const Color.fromRGBO(28, 49, 108, 1),
-                    child: Center(
+                    child: SingleChildScrollView(
                       child: Text(
                         //aquí se inserta el resultado del textformfield
-                        '$mostrarCantidadOptima \n $tiempoentrePedidos',
+                        '$mostrarCantidadOptima \n $tiempoReorden \n $tiempoentrePedidos \n $campoPuntoReorden \n $mostrarNumOrdenes  \n $costoOrden \n $costMantencion \n $costoTotal',
                         style: const TextStyle(
                             fontSize: 18.0, color: Colors.white),
                         textAlign: TextAlign.center,
@@ -519,37 +526,37 @@ class Calculadora extends State<MyCalculator> {
                     ),
                   ),
 
-                  const SizedBox(height: 5),
-                  Container(
-                    height: 100,
-                    width: 450,
-                    color: const Color.fromRGBO(221, 16, 100, 1),
-                    child: Center(
-                      child: Text(
-                        '$mostrarNumOrdenes \n $tiempoReorden \n $campoPuntoReorden',
-                        style: const TextStyle(
-                            fontSize: 18.0, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                  // const SizedBox(height: 5),
+                  // Container(
+                  //   height: 100,
+                  //   width: 450,
+                  //   color: const Color.fromRGBO(221, 16, 100, 1),
+                  //   child: Center(
+                  //     child: Text(
+                  //       '  \n $tiempoentrePedidos',
+                  //       style: const TextStyle(
+                  //           fontSize: 18.0, color: Colors.white),
+                  //       textAlign: TextAlign.center,
+                  //     ),
+                  //   ),
+                  // ),
 
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    height: 100,
-                    width: 450,
-                    color: const Color.fromRGBO(14, 224, 148, 1),
-                    child: Center(
-                      child: Text(
-                        '$costoOrden \n $costMantencion \n $costoTotal',
-                        style: const TextStyle(
-                            fontSize: 18.0, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   height: 100,
+                  //   width: 450,
+                  //   color: const Color.fromRGBO(14, 224, 148, 1),
+                  //   child: Center(
+                  //     child: Text(
+                  //       '',
+                  //       style: const TextStyle(
+                  //           fontSize: 18.0, color: Colors.white),
+                  //       textAlign: TextAlign.center,
+                  //     ),
+                  //   ),
+                  // ),
                 ]),
           ),
         ));
