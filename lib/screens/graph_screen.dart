@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphScreen extends StatefulWidget {
-  const GraphScreen({super.key, required this.valor});
-  final String valor;
+  const GraphScreen(
+      {super.key, required this.dem, required this.ord, required this.man});
+  final String dem;
+  final String ord;
+  final String man;
 
   @override
   State<GraphScreen> createState() => _GraphScreenState();
@@ -28,6 +33,8 @@ class _GraphScreenState extends State<GraphScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // late double hola = widget.dato;
+    // Text(widget.dato);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -50,23 +57,23 @@ class _GraphScreenState extends State<GraphScreen> {
                   width: 320,
                   height: 400,
                   child: SfCartesianChart(
-                    annotations: <CartesianChartAnnotation>[
-                      CartesianChartAnnotation(
-                          widget: const Text(
-                            'Unidades',
-                            textAlign: TextAlign.center,
-                          ),
-                          coordinateUnit: CoordinateUnit.point,
-                          region: AnnotationRegion.chart,
-                          x: 1,
-                          y: demanda + 2),
-                      // const CartesianChartAnnotation(
-                      //     widget: Text('Días'),
-                      //     coordinateUnit: CoordinateUnit.point,
-                      //     region: AnnotationRegion.chart,
-                      //     x: 23,
-                      //     y: 1),
-                    ],
+                    // annotations: <CartesianChartAnnotation>[
+                    // CartesianChartAnnotation(
+                    //     widget: const Text(
+                    //       'Unidades',
+                    //       textAlign: TextAlign.center,
+                    //     ),
+                    //     coordinateUnit: CoordinateUnit.point,
+                    //     region: AnnotationRegion.chart,
+                    //     x: 1,
+                    //     y: demanda + 2),
+                    // const CartesianChartAnnotation(
+                    //     widget: Text('Días'),
+                    //     coordinateUnit: CoordinateUnit.point,
+                    //     region: AnnotationRegion.chart,
+                    //     x: 23,
+                    //     y: 1),
+                    // ],
                     borderWidth: 0,
                     margin: const EdgeInsets.all(10),
                     primaryXAxis: NumericAxis(labelFormat: '{value} días'),
@@ -86,7 +93,7 @@ class _GraphScreenState extends State<GraphScreen> {
                     tooltipBehavior: _tooltipBehavior,
                     series: <ChartSeries>[
                       LineSeries<SalesData, double>(
-                          name: 'Nivel de Inventario', // nombre de la leyenda
+                          name: 'Cantidad optima', // nombre de la leyenda
                           dataSource: _chartData,
                           xValueMapper: (SalesData dias, _) => dias.dias,
                           yValueMapper: (SalesData unidades, _) =>
@@ -123,7 +130,9 @@ class _GraphScreenState extends State<GraphScreen> {
                   ),
                 ),
               ),
-              const Text('hola estoy probando'),
+              Text('La demanda ingresada fue de: ${widget.dem}'),
+              Text('La orden ingresada fue de: ${widget.ord}'),
+              Text('La mantención ingresada fue de: ${widget.man}'),
             ],
           ),
         ),
@@ -131,35 +140,43 @@ class _GraphScreenState extends State<GraphScreen> {
     );
   }
 
-  double demanda = 1500;
-
   //lista donde se asigna la fuente de los datos y añadir las series de lineas
   List<SalesData> getChartData() {
+    double demanda = double.tryParse(widget.dem) ?? 0;
+    double orden = double.tryParse(widget.ord) ?? 0;
+    double mantencion = double.tryParse(widget.man) ?? 0;
+    double cantidadOptima = sqrt((2 * demanda * orden) / mantencion);
+
     final List<SalesData> chartData = [
-      SalesData(0, demanda),
+      SalesData(0, cantidadOptima),
       SalesData(5, 0),
-      SalesData(5, demanda),
+      SalesData(5, cantidadOptima),
       SalesData(10, 0),
-      SalesData(10, demanda),
+      SalesData(10, cantidadOptima),
       SalesData(15, 0),
-      SalesData(15, demanda),
+      SalesData(15, cantidadOptima),
       SalesData(20, 0),
-      SalesData(20, demanda),
+      SalesData(20, cantidadOptima),
       SalesData(25, 0),
-      SalesData(25, demanda),
+      SalesData(25, cantidadOptima),
     ];
     return chartData;
   }
 
 //SEGUNDA LINEA GRÁFICA EN EL MISMO MAPEO
   List<InventaryData> getChartData2() {
+    double demanda = double.tryParse(widget.dem) ?? 0;
+    double orden = double.tryParse(widget.ord) ?? 0;
+    double mantencion = double.tryParse(widget.man) ?? 0;
+    double cantidadOptima = sqrt((2 * demanda * orden) / mantencion);
+
     final List<InventaryData> chartData2 = [
-      InventaryData(0, demanda / 2),
-      InventaryData(5, demanda / 2),
-      InventaryData(10, demanda / 2),
-      InventaryData(15, demanda / 2),
-      InventaryData(20, demanda / 2),
-      InventaryData(25, demanda / 2),
+      InventaryData(0, cantidadOptima / 2),
+      InventaryData(5, cantidadOptima / 2),
+      InventaryData(10, cantidadOptima / 2),
+      InventaryData(15, cantidadOptima / 2),
+      InventaryData(20, cantidadOptima / 2),
+      InventaryData(25, cantidadOptima / 2),
     ];
     return chartData2;
   }

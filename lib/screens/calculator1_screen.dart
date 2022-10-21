@@ -86,8 +86,8 @@ class Calculadora extends State<MyCalculator> {
       String tcostoTotal = totalCostoTotal.toStringAsFixed(0);
 
       //tiempo entre pedidos
-      double tentrePedidos = ((cantidadOptima / demanda) * diasTrabajados);
-      String t = tentrePedidos.toStringAsFixed(1);
+      // double tentrePedidos = ((cantidadOptima / demanda) * diasTrabajados);
+      // String t = tentrePedidos.toStringAsFixed(1);
 
       setState(() {
         mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
@@ -115,8 +115,8 @@ class Calculadora extends State<MyCalculator> {
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
       String r = cantidadOptima.toStringAsFixed(1);
 
-      double tentrePedidos = ((cantidadOptima / demanda) * 365);
-      String t = tentrePedidos.toStringAsFixed(0);
+      // double tentrePedidos = ((cantidadOptima / demanda) * 365);
+      // String t = tentrePedidos.toStringAsFixed(0);
 
       //formula numero esperado de ordenes
       double numOrdenes = demanda / cantidadOptima;
@@ -469,8 +469,9 @@ class Calculadora extends State<MyCalculator> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => GraphScreen(
-                                    valor: controllerDemanda.text,
-                                  ))
+                                  dem: controllerDemanda.text,
+                                  ord: controllerOrden.text,
+                                  man: controllerMantencion.text))
 
                           // PageRouteBuilder(
                           //     transitionDuration:
