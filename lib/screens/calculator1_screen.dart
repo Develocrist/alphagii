@@ -20,6 +20,8 @@ class Calculadora extends State<MyCalculator> {
   final controllerMantencion = TextEditingController();
   final controllerDias = TextEditingController();
   bool cbFlag = false;
+  //grflag es para habilitar el boton de graficos unicamente cuando se hayan generado los resultados
+  bool grFlag = true;
   //final my_form_key = GlobalKey<FormState>();
 
   String mostrarCantidadOptima = "";
@@ -98,6 +100,7 @@ class Calculadora extends State<MyCalculator> {
         costoOrden = "Costo total orden: \n \$$tcostoOrden";
         costMantencion = "Costo total mantención: \n \$$tcostoMantener";
         costoTotal = "Costo total: \n \$$tcostoTotal";
+        grFlag = false;
       });
     } else if (isNumericUsingtryParse(controllerDemanda.text) &&
         isNumericUsingtryParse(controllerOrden.text) &&
@@ -152,6 +155,7 @@ class Calculadora extends State<MyCalculator> {
         costoOrden = "Costo total orden: \n \$$tcostoOrden";
         costMantencion = "Costo total mantención: \n \$$tcostoMantener";
         costoTotal = "Costo total: \n \$$tcostoTotal";
+        grFlag = false;
       });
     } else if (isNumericUsingtryParse(controllerDemanda.text) &&
         isNumericUsingtryParse(controllerOrden.text) &&
@@ -171,6 +175,7 @@ class Calculadora extends State<MyCalculator> {
       setState(() {
         mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
         tiempoentrePedidos = "Tiempo entre pedidos: \n $t días";
+        grFlag = false;
       });
     } else {
       mostrarDialogo();
@@ -194,6 +199,7 @@ class Calculadora extends State<MyCalculator> {
       costMantencion = "";
       tiempoentrePedidos = "";
       FocusScope.of(context).unfocus();
+      grFlag = true;
     });
   }
 
@@ -368,6 +374,15 @@ class Calculadora extends State<MyCalculator> {
                       width: 250,
                       height: 50,
                       child: TextFormField(
+                        // onChanged: (String value) {
+                        //   value = controllerDias.text;
+                        //   try {
+                        //     if (int.parse(value) >= 0 &&
+                        //         int.parse(value) <= 366) {
+                        //       controllerDias.text = value;
+                        //     }
+                        //   } catch (e) {}
+                        // },
                         readOnly: !cbFlag,
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
@@ -464,35 +479,45 @@ class Calculadora extends State<MyCalculator> {
                     height: 2,
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => GraphScreen(
-                                  dem: controllerDemanda.text,
-                                  ord: controllerOrden.text,
-                                  man: controllerMantencion.text))
+                    onPressed: grFlag
+                        ? null
+                        : () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => GraphScreen(
+                                    dem: controllerDemanda.text,
+                                    ord: controllerOrden.text,
+                                    man: controllerMantencion.text))),
+                    // onPressed: () {
+                    //   Navigator.push(
+                    //       context,
+                    // MaterialPageRoute(
+                    //     builder: (context) => GraphScreen(
+                    //         dem: controllerDemanda.text,
+                    //         ord: controllerOrden.text,
+                    //         man: controllerMantencion.text))
 
-                          // PageRouteBuilder(
-                          //     transitionDuration:
-                          //         const Duration(milliseconds: 700),
-                          //     transitionsBuilder: (context, animation,
-                          //         secondaryAnimation, child) {
-                          //       return FadeTransition(
-                          //         opacity: animation,
-                          //         child: child,
-                          //       );
-                          //     },
-                          //     pageBuilder:
-                          //         ((context, animation, secondaryAnimation) {
-                          //       return GraphScreen(
-                          //         ,
-                          //       );
-                          //     }
-                          //     )
-                          //     )
-                          );
-                    },
+                    //       // PageRouteBuilder(
+                    //       //     transitionDuration:
+                    //       //         const Duration(milliseconds: 700),
+                    //       //     transitionsBuilder: (context, animation,
+                    //       //         secondaryAnimation, child) {
+                    //       //       return FadeTransition(
+                    //       //         opacity: animation,
+                    //       //         child: child,
+                    //       //       );
+                    //       //     },
+                    //       //     pageBuilder:
+                    //       //         ((context, animation, secondaryAnimation) {
+                    //       //       return GraphScreen(
+                    //       //         ,
+                    //       //       );
+                    //       //     }
+                    //       //     )
+                    //       //     )
+                    //       );
+                    // },
+
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
                         shape: RoundedRectangleBorder(
@@ -527,37 +552,9 @@ class Calculadora extends State<MyCalculator> {
                     ),
                   ),
 
-                  // const SizedBox(height: 5),
-                  // Container(
-                  //   height: 100,
-                  //   width: 450,
-                  //   color: const Color.fromRGBO(221, 16, 100, 1),
-                  //   child: Center(
-                  //     child: Text(
-                  //       '  \n $tiempoentrePedidos',
-                  //       style: const TextStyle(
-                  //           fontSize: 18.0, color: Colors.white),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
-                  // ),
-
                   const SizedBox(
                     height: 5,
                   ),
-                  // Container(
-                  //   height: 100,
-                  //   width: 450,
-                  //   color: const Color.fromRGBO(14, 224, 148, 1),
-                  //   child: Center(
-                  //     child: Text(
-                  //       '',
-                  //       style: const TextStyle(
-                  //           fontSize: 18.0, color: Colors.white),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
-                  // ),
                 ]),
           ),
         ));

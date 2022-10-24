@@ -86,7 +86,7 @@ class _GraphScreenState extends State<GraphScreen> {
                     //     title: AxisTitle(
                     //         text: 'Stock (unidades)',
                     //         textStyle: const TextStyle(fontSize: 10))),
-                    title: ChartTitle(text: 'Gráfico de prueba'),
+                    title: ChartTitle(text: 'Gráfico.'),
                     legend: Legend(
                         isVisible: true,
                         position: LegendPosition.bottom), //ver la leyenda
