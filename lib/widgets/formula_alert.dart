@@ -353,7 +353,7 @@ class Alertas {
               size: 30,
             ),
             content: const Text(
-              "El modelo gráfico observado en la pantalla permite observar el comportamiento de la demanda, la cual según el modelo EOQ es constante",
+              "El modelo gráfico en pantalla permite observar el comportamiento de la demanda en base a la cantidad optima de pedido obtenida en lo calculado anteriormente. Ademas de incorporar gráficamente el inventario medio e incluir el tiempo transcurrido entre pedidos.",
               textAlign: TextAlign.center,
             ),
             shape:

@@ -175,6 +175,7 @@ class Calculadora extends State<MyCalculator> {
       String t = tentrePedidos.toStringAsFixed(1);
 
       setState(() {
+        limpiaCampoRespuestas();
         mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
         tiempoentrePedidos = "Tiempo entre pedidos: \n $t días";
         grFlag = false;
@@ -191,6 +192,25 @@ class Calculadora extends State<MyCalculator> {
       controllerOrden.text = "";
       controllerDemanda.text = "";
       controllerMantencion.text = "";
+      controllerDias.text = "";
+      mostrarCantidadOptima = "";
+      mostrarNumOrdenes = "";
+      tiempoReorden = "";
+      campoPuntoReorden = "";
+      costoOrden = "";
+      costoTotal = "";
+      costMantencion = "";
+      tiempoentrePedidos = "";
+      FocusScope.of(context).unfocus();
+      grFlag = true;
+    });
+  }
+
+  //limpiar campos
+  void limpiaCampoRespuestas() {
+    setState(() {
+      controllerCostoUnitario.text = "";
+
       controllerDias.text = "";
       mostrarCantidadOptima = "";
       mostrarNumOrdenes = "";

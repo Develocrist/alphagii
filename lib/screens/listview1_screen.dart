@@ -1,5 +1,5 @@
 import 'package:agii_alpha/widgets/formula_alert.dart';
-import 'package:expandable/expandable.dart';
+
 import 'package:flutter/material.dart';
 
 import 'calculator1_screen.dart';
@@ -17,6 +17,9 @@ class Listview1Screen extends StatelessWidget {
           backgroundColor: const Color.fromRGBO(8, 75, 129, 10)),
       body: Column(
         children: [
+          const SizedBox(
+            height: 50,
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(
@@ -50,35 +53,35 @@ class Listview1Screen extends StatelessWidget {
             height: 60,
           ),
           //container se adapta al list view, por eso ocupa la totalidad de la pantalla
-          SingleChildScrollView(
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5), color: Colors.indigo),
-              padding:
-                  const EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
-              height: 200,
-              width: 300,
-              child: Column(
-                children: const <Widget>[
-                  ExpansionTile(
-                    title: Text(
-                      'Proposito de la App',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                            'La aplicación que estan a punto de utilizar fue desarrollada para los estudiantes de ingenieria, con la finalidad de reforzar el tópico de modelos de inventario'),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+          // SingleChildScrollView(
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(5), color: Colors.indigo),
+          //     padding:
+          //         const EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
+          //     height: 200,
+          //     width: 300,
+          //     child: Column(
+          //       children: const <Widget>[
+          //         ExpansionTile(
+          //           title: Text(
+          //             'Proposito de la App',
+          //             textAlign: TextAlign.center,
+          //             style: TextStyle(fontSize: 18),
+          //           ),
+          //           children: [
+          //             Padding(
+          //               padding: EdgeInsets.all(8.0),
+          //               child: Text(
+          //                   'La aplicación que estan a punto de utilizar fue desarrollada para los estudiantes de ingenieria, con la finalidad de reforzar el tópico de modelos de inventario'),
+          //             )
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          const SizedBox(
             height: 5,
           ),
 
