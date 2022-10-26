@@ -157,6 +157,7 @@ class Calculadora extends State<MyCalculator> {
         costMantencion =
             "Costo total anual de mantención: \n \$$tcostoMantener CLP";
         costoTotal = "Costo total: \n \$$tcostoTotal CLP";
+
         grFlag = false;
       });
     } else if (isNumericUsingtryParse(controllerDemanda.text) &&
@@ -284,7 +285,11 @@ class Calculadora extends State<MyCalculator> {
           backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
           title: const Text('Calculadora EOQ'),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.info)),
+            IconButton(
+                onPressed: () {
+                  Alertas().descripcionCalculadora(context);
+                },
+                icon: const Icon(Icons.info)),
           ],
         ),
         body: GestureDetector(
@@ -310,7 +315,7 @@ class Calculadora extends State<MyCalculator> {
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(10),
+                            LengthLimitingTextInputFormatter(8),
                           ],
                           decoration: const InputDecoration(
                               contentPadding:
@@ -331,7 +336,7 @@ class Calculadora extends State<MyCalculator> {
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(10),
+                            LengthLimitingTextInputFormatter(8),
                           ],
                           decoration: const InputDecoration(
                               contentPadding:
@@ -356,7 +361,7 @@ class Calculadora extends State<MyCalculator> {
                         controller: controllerMantencion,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
-                          LengthLimitingTextInputFormatter(10),
+                          LengthLimitingTextInputFormatter(8),
                         ],
                         decoration: const InputDecoration(
                             contentPadding:
@@ -376,7 +381,7 @@ class Calculadora extends State<MyCalculator> {
                         controller: controllerCostoUnitario,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
-                          LengthLimitingTextInputFormatter(10),
+                          LengthLimitingTextInputFormatter(8),
                         ],
                         decoration: const InputDecoration(
                             contentPadding: EdgeInsets.only(left: 5, bottom: 1),
@@ -407,7 +412,14 @@ class Calculadora extends State<MyCalculator> {
                         // },
                         readOnly: !cbFlag,
                         keyboardType: TextInputType.phone,
-                        inputFormatters: [
+                        // validator: (numero) {
+                        //   final doubleNumber = double.tryParse(numero!);
+                        //   if (doubleNumber != null && doubleNumber <= 365) {
+                        //     return null;
+                        //   }
+                        //   return 'Ingrese el numero';
+                        // },
+                        inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly,
                           LengthLimitingTextInputFormatter(3),
                         ],
@@ -507,9 +519,10 @@ class Calculadora extends State<MyCalculator> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GraphScreen(
-                                    dem: controllerDemanda.text,
-                                    ord: controllerOrden.text,
-                                    man: controllerMantencion.text))),
+                                      dem: controllerDemanda.text,
+                                      ord: controllerOrden.text,
+                                      man: controllerMantencion.text,
+                                    ))),
                     // onPressed: () {
                     //   Navigator.push(
                     //       context,

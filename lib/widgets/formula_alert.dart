@@ -324,8 +324,8 @@ class Alertas {
               size: 50,
             ),
             content: const Text(
-              "Ingrese valores númericos en al menos las siguientes casillas: Demanda, Costo orden, Mantención.",
-              textAlign: TextAlign.center,
+              "Ingrese valores númericos en al menos las siguientes casillas: \n - Demanda. \n - Costo orden. \n - Mantención.",
+              textAlign: TextAlign.justify,
             ),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -353,8 +353,8 @@ class Alertas {
               size: 30,
             ),
             content: const Text(
-              "El modelo gráfico en pantalla permite observar el comportamiento de la demanda en base a la cantidad optima de pedido obtenida en lo calculado anteriormente. Ademas de incorporar gráficamente el inventario medio e incluir el tiempo transcurrido entre pedidos.",
-              textAlign: TextAlign.center,
+              "El modelo gráfico en pantalla permite observar el comportamiento de la demanda en base a la cantidad óptima de pedido obtenida anteriormente. Además de incorporar gráficamente el inventario medio e incluir el tiempo transcurrido entre pedidos, a fin de analizar como se visualizan y comportan estas variables.",
+              textAlign: TextAlign.justify,
             ),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -378,13 +378,22 @@ class Alertas {
             title: const Text("Calculadora EOQ"),
             iconColor: Colors.blue,
             icon: const Icon(
-              Icons.error_outline_outlined,
-              size: 30,
+              Icons.info,
+              size: 50,
             ),
-            content: const Text(
-              "El metodo EOQ como modelo matematico permite obtener",
-              textAlign: TextAlign.center,
-            ),
+            content: Column(children: const <Widget>[
+              Text(
+                "El metodo EOQ como modelo matemático permite obtener los siguientes resultados: ",
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                ' - Cantidad optima de pedido. \n - Tiempo entre pedidos. \n - Punto de reorden. \n - Número de ordenes esperado. \n - Costo anual orden. \n - Costo anual de mantención. \n - Costo total.',
+                textAlign: TextAlign.justify,
+              )
+            ]),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             actions: <Widget>[

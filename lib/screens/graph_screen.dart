@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphScreen extends StatefulWidget {
-  const GraphScreen(
-      {super.key, required this.dem, required this.ord, required this.man});
+  const GraphScreen({
+    super.key,
+    required this.dem,
+    required this.ord,
+    required this.man,
+  });
   final String dem;
   final String ord;
   final String man;
@@ -85,6 +89,7 @@ class _GraphScreenState extends State<GraphScreen> {
                     borderWidth: 0,
                     margin: const EdgeInsets.all(10),
                     primaryXAxis: NumericAxis(labelFormat: '{value} días'),
+                    primaryYAxis: NumericAxis(labelFormat: '{value} uni'),
 
                     // primaryXAxis: CategoryAxis(
                     //     title: AxisTitle(
@@ -107,9 +112,12 @@ class _GraphScreenState extends State<GraphScreen> {
                           xValueMapper: (SalesData dias, _) => dias.dias,
                           yValueMapper: (SalesData unidades, _) =>
                               unidades.unidades,
-                          dataLabelSettings:
-                              const DataLabelSettings(isVisible: false),
-                          enableTooltip: true),
+                          dataLabelSettings: const DataLabelSettings(
+                              isVisible: true, showZeroValue: false),
+                          enableTooltip: true,
+                          markerSettings: const MarkerSettings(
+                            isVisible: true,
+                          )),
                       LineSeries<InventaryData, double>(
                           name: 'Inventario Medio',
                           dataSource: _inventaryData,
@@ -141,9 +149,26 @@ class _GraphScreenState extends State<GraphScreen> {
               ),
               Column(
                 children: [
-                  Text('La demanda ingresada fue de: ${widget.dem}'),
-                  Text('La orden ingresada fue de: ${widget.ord}'),
-                  Text('La mantención ingresada fue de: ${widget.man}'),
+                  Text(
+                    'Demanda ingresada: \n ${widget.dem} unidades.',
+                    style: const TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Costo de orden ingresado: \n ${widget.ord} CLP',
+                    style: const TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Costo de mantención anual ingresado: \n ${widget.man} CLP',
+                    style: const TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                  // const Text(
+                  //   'Días trabajados: \n 365 días',
+                  //   style: TextStyle(fontSize: 20),
+                  //   textAlign: TextAlign.center,
+                  // ),
                 ],
               )
             ],
@@ -249,6 +274,7 @@ class LeadTimeData {
   final double diapedido;
   final double diallegada;
 }
+
 
 // void mostrarDialogo(BuildContext context) {
 //   showDialog(
