@@ -32,7 +32,7 @@ class Alertas {
                   fit: BoxFit.cover,
                 ),
                 const Divider(),
-                const Text('Lead Time:'),
+                const Text('Tiempo entre pedidos:'),
                 Image.asset(
                   'assets/formulaleadtime.png',
                   fit: BoxFit.cover,
@@ -213,7 +213,8 @@ class Alertas {
                           fontWeight: FontWeight.bold),
                       children: [
                         TextSpan(
-                            text: '= Punto de Reorden (unidades).',
+                            text:
+                                '= Punto de Reorden (unidades), representa el punto en que se debería hacer el siguiente pedido.',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal))
@@ -324,6 +325,64 @@ class Alertas {
             ),
             content: const Text(
               "Ingrese valores númericos en al menos las siguientes casillas: Demanda, Costo orden, Mantención.",
+              textAlign: TextAlign.center,
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Entendido.")),
+            ],
+          );
+        });
+  }
+
+  void descripcionGrafico(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Modelo Gráfico EOQ"),
+            iconColor: Colors.blue,
+            icon: const Icon(
+              Icons.error_outline_outlined,
+              size: 30,
+            ),
+            content: const Text(
+              "El modelo gráfico observado en la pantalla permite observar el comportamiento de la demanda, la cual según el modelo EOQ es constante",
+              textAlign: TextAlign.center,
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Entendido.")),
+            ],
+          );
+        });
+  }
+
+  void descripcionCalculadora(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Calculadora EOQ"),
+            iconColor: Colors.blue,
+            icon: const Icon(
+              Icons.error_outline_outlined,
+              size: 30,
+            ),
+            content: const Text(
+              "El metodo EOQ como modelo matematico permite obtener",
               textAlign: TextAlign.center,
             ),
             shape:

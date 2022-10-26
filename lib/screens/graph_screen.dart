@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:agii_alpha/widgets/formula_alert.dart';
 import 'package:flutter/material.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -46,8 +47,15 @@ class _GraphScreenState extends State<GraphScreen> {
           ),
           centerTitle: true,
           elevation: 5,
-          title: const Text('Modelo gráfico EOQ'),
+          title: const Text('Gráfico'),
           backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Alertas().descripcionGrafico(context);
+                },
+                icon: const Icon(Icons.info)),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -86,9 +94,10 @@ class _GraphScreenState extends State<GraphScreen> {
                     //     title: AxisTitle(
                     //         text: 'Stock (unidades)',
                     //         textStyle: const TextStyle(fontSize: 10))),
-                    title: ChartTitle(text: 'Gráfico.'),
+                    title: ChartTitle(text: 'Modelo EOQ Básico.'),
                     legend: Legend(
                         isVisible: true,
+                        overflowMode: LegendItemOverflowMode.wrap,
                         position: LegendPosition.bottom), //ver la leyenda
                     tooltipBehavior: _tooltipBehavior,
                     series: <ChartSeries>[
@@ -111,8 +120,8 @@ class _GraphScreenState extends State<GraphScreen> {
                           dataLabelSettings:
                               const DataLabelSettings(isVisible: false),
                           enableTooltip: true),
-                      LineSeries<LeadTimeData, int>(
-                          name: 'Lead Time',
+                      LineSeries<LeadTimeData, double>(
+                          name: 'Tiempo entre pedidos',
                           dataSource: _leadTimeData,
                           xValueMapper: (LeadTimeData lead, _) =>
                               lead.diapedido,
@@ -130,9 +139,13 @@ class _GraphScreenState extends State<GraphScreen> {
                   ),
                 ),
               ),
-              Text('La demanda ingresada fue de: ${widget.dem}'),
-              Text('La orden ingresada fue de: ${widget.ord}'),
-              Text('La mantención ingresada fue de: ${widget.man}'),
+              Column(
+                children: [
+                  Text('La demanda ingresada fue de: ${widget.dem}'),
+                  Text('La orden ingresada fue de: ${widget.ord}'),
+                  Text('La mantención ingresada fue de: ${widget.man}'),
+                ],
+              )
             ],
           ),
         ),
@@ -146,19 +159,26 @@ class _GraphScreenState extends State<GraphScreen> {
     double orden = double.tryParse(widget.ord) ?? 0;
     double mantencion = double.tryParse(widget.man) ?? 0;
     double cantidadOptima = sqrt((2 * demanda * orden) / mantencion);
+    String cantOptim = cantidadOptima.toStringAsFixed(1);
+    double co = double.parse(cantOptim);
+
+    double numOrdenes = demanda / cantidadOptima;
+    double reOrden = 365 / numOrdenes;
+    String rorden = reOrden.toStringAsFixed(1);
+    double ro = double.parse(rorden);
 
     final List<SalesData> chartData = [
-      SalesData(0, cantidadOptima),
-      SalesData(5, 0),
-      SalesData(5, cantidadOptima),
-      SalesData(10, 0),
-      SalesData(10, cantidadOptima),
-      SalesData(15, 0),
-      SalesData(15, cantidadOptima),
-      SalesData(20, 0),
-      SalesData(20, cantidadOptima),
-      SalesData(25, 0),
-      SalesData(25, cantidadOptima),
+      SalesData(0, co),
+      SalesData(ro, 0),
+      SalesData(ro, co),
+      SalesData(ro * 2, 0),
+      SalesData(ro * 2, co),
+      SalesData(ro * 3, 0),
+      // SalesData(ro * 3, co),
+      // SalesData(ro * 4, 0),
+      // SalesData(ro * 4, co),
+      // SalesData(reOrden * 5, 0),
+      // SalesData(reOrden * 5, cantidadOptima),
     ];
     return chartData;
   }
@@ -169,23 +189,39 @@ class _GraphScreenState extends State<GraphScreen> {
     double orden = double.tryParse(widget.ord) ?? 0;
     double mantencion = double.tryParse(widget.man) ?? 0;
     double cantidadOptima = sqrt((2 * demanda * orden) / mantencion);
+    String cantOptim = cantidadOptima.toStringAsFixed(1);
+    double co = double.parse(cantOptim);
+
+    double numOrdenes = demanda / cantidadOptima;
+    double reOrden = 365 / numOrdenes;
+    String rorden = reOrden.toStringAsFixed(1);
+    double ro = double.parse(rorden);
 
     final List<InventaryData> chartData2 = [
-      InventaryData(0, cantidadOptima / 2),
-      InventaryData(5, cantidadOptima / 2),
-      InventaryData(10, cantidadOptima / 2),
-      InventaryData(15, cantidadOptima / 2),
-      InventaryData(20, cantidadOptima / 2),
-      InventaryData(25, cantidadOptima / 2),
+      InventaryData(0, co / 2),
+      InventaryData(ro, co / 2),
+      InventaryData(ro * 3, co / 2),
+      // InventaryData(ro * 2, co / 2),
+      // InventaryData(ro * 4, co / 2),
+      // InventaryData(reOrden * 5, cantidadOptima / 2),
     ];
     return chartData2;
   }
 
 // TERCERA LINEA GRAFICA EN EL MISMO MAPEO
   List<LeadTimeData> getChartData3() {
+    double demanda = double.tryParse(widget.dem) ?? 0;
+    double orden = double.tryParse(widget.ord) ?? 0;
+    double mantencion = double.tryParse(widget.man) ?? 0;
+    double cantidadOptima = sqrt((2 * demanda * orden) / mantencion);
+    double numOrdenes = demanda / cantidadOptima;
+    double reOrden = 365 / numOrdenes;
+    String rorden = reOrden.toStringAsFixed(1);
+    double ro = double.parse(rorden);
+
     final List<LeadTimeData> chartData3 = [
       LeadTimeData(0, 0),
-      LeadTimeData(5, 0),
+      LeadTimeData(ro, 0),
 
       // LeadTimeData(10, 15),
       // LeadTimeData(20, 25),
@@ -210,6 +246,35 @@ class InventaryData {
 //CLASE CREADA PARA LA TERCERA LINEA GRAFICA, CORRESPONDIENTE AL LEAD TIME
 class LeadTimeData {
   LeadTimeData(this.diapedido, this.diallegada);
-  final int diapedido;
-  final int diallegada;
+  final double diapedido;
+  final double diallegada;
 }
+
+// void mostrarDialogo(BuildContext context) {
+//   showDialog(
+//       barrierDismissible: false,
+//       context: context,
+//       builder: (context) {
+//         return AlertDialog(
+//           title: const Text("Error de Ingreso"),
+//           iconColor: Colors.red,
+//           icon: const Icon(
+//             Icons.error_outline_outlined,
+//             size: 50,
+//           ),
+//           content: const Text(
+//             "Ingrese valores númericos en al menos las siguientes casillas: Demanda, Costo orden, Mantención.",
+//             textAlign: TextAlign.center,
+//           ),
+//           shape:
+//               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+//           actions: <Widget>[
+//             TextButton(
+//                 onPressed: () {
+//                   Navigator.pop(context);
+//                 },
+//                 child: const Text("Entendido.")),
+//           ],
+//         );
+//       });
+// }

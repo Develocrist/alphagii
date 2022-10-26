@@ -93,13 +93,14 @@ class Calculadora extends State<MyCalculator> {
 
       setState(() {
         mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
-        // tiempoentrePedidos = "Tiempo entre pedidos: \n $t días";
+        tiempoentrePedidos = "Tiempo entre pedidos: \n $ord días";
+        //tiempoReorden = "Tiempo entre pedidos : \n $ord días";
         mostrarNumOrdenes = "Número de ordenes esperado: \n $ordenes pedidos  ";
-        tiempoReorden = "Tiempo de reorden (Lead Time): \n $ord días";
         campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
-        costoOrden = "Costo total orden: \n \$$tcostoOrden";
-        costMantencion = "Costo total mantención: \n \$$tcostoMantener";
-        costoTotal = "Costo total: \n \$$tcostoTotal";
+        costoOrden = "Costo total anual orden: \n \$$tcostoOrden CLP";
+        costMantencion =
+            "Costo total anual mantención: \n \$$tcostoMantener CLP";
+        costoTotal = "Costo total: \n \$$tcostoTotal CLP";
         grFlag = false;
       });
     } else if (isNumericUsingtryParse(controllerDemanda.text) &&
@@ -148,13 +149,14 @@ class Calculadora extends State<MyCalculator> {
 
       setState(() {
         mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
-        // tiempoentrePedidos = "Tiempo entre pedidos: \n $t días";
+        tiempoentrePedidos = "Tiempo entre pedidos: \n $ord días";
+        //tiempoReorden = "Tiempo entre pedidos: \n $ord días";
         mostrarNumOrdenes = "Número de ordenes esperado: \n $ordenes pedidos  ";
-        tiempoReorden = "Tiempo de reorden (Lead Time): \n $ord días";
         campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
-        costoOrden = "Costo total orden: \n \$$tcostoOrden";
-        costMantencion = "Costo total mantención: \n \$$tcostoMantener";
-        costoTotal = "Costo total: \n \$$tcostoTotal";
+        costoOrden = "Costo total anual de orden: \n \$$tcostoOrden CLP";
+        costMantencion =
+            "Costo total anual de mantención: \n \$$tcostoMantener CLP";
+        costoTotal = "Costo total: \n \$$tcostoTotal CLP";
         grFlag = false;
       });
     } else if (isNumericUsingtryParse(controllerDemanda.text) &&
@@ -544,7 +546,7 @@ class Calculadora extends State<MyCalculator> {
                     child: SingleChildScrollView(
                       child: Text(
                         //aquí se inserta el resultado del textformfield
-                        '$mostrarCantidadOptima \n $tiempoReorden \n $tiempoentrePedidos \n $campoPuntoReorden \n $mostrarNumOrdenes  \n $costoOrden \n $costMantencion \n $costoTotal',
+                        '$mostrarCantidadOptima \n $tiempoentrePedidos \n $campoPuntoReorden \n $mostrarNumOrdenes  \n $costoOrden \n $costMantencion \n $costoTotal',
                         style: const TextStyle(
                             fontSize: 18.0, color: Colors.white),
                         textAlign: TextAlign.center,
