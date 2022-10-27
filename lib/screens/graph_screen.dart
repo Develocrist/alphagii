@@ -24,6 +24,7 @@ class _GraphScreenState extends State<GraphScreen> {
   late List<SalesData> _chartData;
   late List<InventaryData> _inventaryData;
   late List<LeadTimeData> _leadTimeData;
+  late List<PuntoReordenData> _reOrdenData;
 
   late TooltipBehavior _tooltipBehavior;
 
@@ -32,6 +33,7 @@ class _GraphScreenState extends State<GraphScreen> {
     _chartData = getChartData();
     _inventaryData = getChartData2();
     _leadTimeData = getChartData3();
+    //_reOrdenData = getChartData4();
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -233,7 +235,7 @@ class _GraphScreenState extends State<GraphScreen> {
     return chartData2;
   }
 
-// TERCERA LINEA GRAFICA EN EL MISMO MAPEO
+// TERCERA LINEA GRAFICA EN EL MISMO MAPEO // CORRESPONDIENTE AL TIEMPO ENTRE PEDIDOS
   List<LeadTimeData> getChartData3() {
     double demanda = double.tryParse(widget.dem) ?? 0;
     double orden = double.tryParse(widget.ord) ?? 0;
@@ -253,6 +255,27 @@ class _GraphScreenState extends State<GraphScreen> {
     ];
     return chartData3;
   }
+
+  // CUARTA LINEA GRAFICA EN EL MISMO MAPEO // CORRESPONDIENTE AL PUNTO DE REORDEN
+  // List<PuntoReordenData> getChartData4() {
+  //   double demanda = double.tryParse(widget.dem) ?? 0;
+  //   double orden = double.tryParse(widget.ord) ?? 0;
+  //   double mantencion = double.tryParse(widget.man) ?? 0;
+  //   double cantidadOptima = sqrt((2 * demanda * orden) / mantencion);
+  //   double numOrdenes = demanda / cantidadOptima;
+  //   double reOrden = 365 / numOrdenes;
+  //   String rorden = reOrden.toStringAsFixed(1);
+  //   double ro = double.parse(rorden);
+
+  //   final List<LeadTimeData> chartData3 = [
+  //     LeadTimeData(0, 0),
+  //     LeadTimeData(ro, 0),
+
+  //     // LeadTimeData(10, 15),
+  //     // LeadTimeData(20, 25),
+  //   ];
+  //   return ;
+  // }
 }
 
 class SalesData {
@@ -273,6 +296,13 @@ class LeadTimeData {
   LeadTimeData(this.diapedido, this.diallegada);
   final double diapedido;
   final double diallegada;
+}
+
+//CLASE CREADA PARA LA CUARTA LINEA GRAFICA, CORRESPONDIENTE AL PUNTO DE REORDEN
+class PuntoReordenData {
+  PuntoReordenData(this.punto1, this.punto2);
+  final double punto1;
+  final double punto2;
 }
 
 

@@ -19,9 +19,13 @@ class Calculadora extends State<MyCalculator> {
   final controllerCostoUnitario = TextEditingController();
   final controllerMantencion = TextEditingController();
   final controllerDias = TextEditingController();
+  final controllerLead = TextEditingController();
   bool cbFlag = false;
   //grflag es para habilitar el boton de graficos unicamente cuando se hayan generado los resultados
   bool grFlag = true;
+
+  //blflag es para activar o no la casilla de lead time
+  bool blFlag = false;
   //final my_form_key = GlobalKey<FormState>();
 
   String mostrarCantidadOptima = "";
@@ -42,8 +46,71 @@ class Calculadora extends State<MyCalculator> {
     double costoUnitario = 0;
     double costoMantencion = 0;
     double diasTrabajados = 0;
+    double leadTime = 0;
 
     if (isNumericUsingtryParse(controllerDemanda.text) &&
+        isNumericUsingtryParse(controllerOrden.text) &&
+        isNumericUsingtryParse(controllerMantencion.text) &&
+        isNumericUsingtryParse(controllerCostoUnitario.text) &&
+        isNumericUsingtryParse(controllerDias.text) &&
+        isNumericUsingtryParse(controllerLead.text)) {
+      FocusScope.of(context)
+          .unfocus(); // linea para ocultar el teclado al presionar el botón de calculo
+      costoUnitario = double.parse(controllerCostoUnitario.text);
+      costoMantencion = double.parse(controllerMantencion.text);
+      diasTrabajados = double.parse(controllerDias.text);
+      demanda = double.parse(controllerDemanda.text);
+      orden = double.parse(controllerOrden.text);
+      costoMantencion = double.parse(controllerMantencion.text);
+      leadTime = double.parse(controllerLead.text);
+
+      //formula cantidad optima
+      double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
+      String r = cantidadOptima.toStringAsFixed(1);
+
+      //formula numero esperado de ordenes
+      double numOrdenes = demanda / cantidadOptima;
+      String ordenes = numOrdenes.toStringAsFixed(0);
+
+      //formula tiempo de reorden
+      double reOrden = diasTrabajados / numOrdenes;
+      String ord = reOrden.toStringAsFixed(1);
+
+      //formula punto de reorden
+      double puntoReorden = ((demanda / diasTrabajados) * leadTime);
+      String ptoReorden = puntoReorden.toStringAsFixed(0);
+
+      //formula costos
+      double totalCostoOrden = ((demanda / cantidadOptima) * orden);
+      String tcostoOrden = totalCostoOrden.toStringAsFixed(0);
+
+      //formula costo total de mantencion
+      double totalCostoMantener = ((cantidadOptima / 2) * costoMantencion);
+      String tcostoMantener = totalCostoMantener.toStringAsFixed(0);
+
+      //formula costo total de todo
+      double totalCostoTotal = (demanda * costoUnitario) +
+          ((demanda / cantidadOptima) * orden) +
+          ((cantidadOptima / 2) * costoMantencion);
+      String tcostoTotal = totalCostoTotal.toStringAsFixed(0);
+
+      //tiempo entre pedidos
+      // double tentrePedidos = ((cantidadOptima / demanda) * diasTrabajados);
+      // String t = tentrePedidos.toStringAsFixed(1);
+
+      setState(() {
+        mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades";
+        tiempoentrePedidos = "Tiempo entre pedidos: \n $ord días";
+        //tiempoReorden = "Tiempo entre pedidos : \n $ord días";
+        mostrarNumOrdenes = "Número de ordenes esperado: \n $ordenes pedidos  ";
+        campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
+        costoOrden = "Costo total anual orden: \n \$$tcostoOrden CLP";
+        costMantencion =
+            "Costo total anual mantención: \n \$$tcostoMantener CLP";
+        costoTotal = "Costo total: \n \$$tcostoTotal CLP";
+        grFlag = false;
+      });
+    } else if (isNumericUsingtryParse(controllerDemanda.text) &&
         isNumericUsingtryParse(controllerOrden.text) &&
         isNumericUsingtryParse(controllerMantencion.text) &&
         isNumericUsingtryParse(controllerCostoUnitario.text) &&
@@ -96,7 +163,7 @@ class Calculadora extends State<MyCalculator> {
         tiempoentrePedidos = "Tiempo entre pedidos: \n $ord días";
         //tiempoReorden = "Tiempo entre pedidos : \n $ord días";
         mostrarNumOrdenes = "Número de ordenes esperado: \n $ordenes pedidos  ";
-        campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
+        //campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
         costoOrden = "Costo total anual orden: \n \$$tcostoOrden CLP";
         costMantencion =
             "Costo total anual mantención: \n \$$tcostoMantener CLP";
@@ -152,7 +219,7 @@ class Calculadora extends State<MyCalculator> {
         tiempoentrePedidos = "Tiempo entre pedidos: \n $ord días";
         //tiempoReorden = "Tiempo entre pedidos: \n $ord días";
         mostrarNumOrdenes = "Número de ordenes esperado: \n $ordenes pedidos  ";
-        campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
+        //campoPuntoReorden = "Punto de reorden: \n $ptoReorden unidades";
         costoOrden = "Costo total anual de orden: \n \$$tcostoOrden CLP";
         costMantencion =
             "Costo total anual de mantención: \n \$$tcostoMantener CLP";
@@ -442,6 +509,55 @@ class Calculadora extends State<MyCalculator> {
                       ),
                     ),
                   ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: SizedBox(
+                      width: 250,
+                      height: 50,
+                      child: TextFormField(
+                        // onChanged: (String value) {
+                        //   value = controllerDias.text;
+                        //   try {
+                        //     if (int.parse(value) >= 0 &&
+                        //         int.parse(value) <= 366) {
+                        //       controllerDias.text = value;
+                        //     }
+                        //   } catch (e) {}
+                        // },
+                        readOnly: !blFlag,
+                        keyboardType: TextInputType.phone,
+                        // validator: (numero) {
+                        //   final doubleNumber = double.tryParse(numero!);
+                        //   if (doubleNumber != null && doubleNumber <= 365) {
+                        //     return null;
+                        //   }
+                        //   return 'Ingrese el numero';
+                        // },
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(3),
+                        ],
+                        controller: controllerLead,
+                        decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.only(left: 10, bottom: 1),
+                            focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromRGBO(8, 75, 129, 10))),
+                            labelText: 'Lead Time del proveedor (Opcional)',
+                            prefixIcon: Checkbox(
+                              value: blFlag,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  blFlag = value!;
+                                });
+                              },
+                            )),
+                      ),
+                    ),
+                  ),
+
                   const SizedBox(
                     height: 20,
                   ),
