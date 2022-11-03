@@ -11,10 +11,18 @@ class Listview1Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("AGII"),
-          centerTitle: true,
-          elevation: 5,
-          backgroundColor: const Color.fromRGBO(8, 75, 129, 10)),
+        title: const Text("AGII"),
+        centerTitle: true,
+        elevation: 5,
+        backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Alertas().descripcionApp(context);
+              },
+              icon: const Icon(Icons.info))
+        ],
+      ),
       body: Column(
         children: [
           const SizedBox(

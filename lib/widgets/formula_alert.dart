@@ -232,6 +232,8 @@ class Alertas {
         }); //builder es un codigo que regresa un widget
   }
 
+  //--------------------------------------------------------------------------
+
   void infoModelos(BuildContext context) {
     showDialog(
         barrierDismissible: false,
@@ -310,90 +312,143 @@ class Alertas {
         });
   }
 
-  //-------------------------------------
+  //-----------------------------------------------------
+
   void mostrarDialogo(BuildContext context) {
     showDialog(
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: const Text("Error de Ingreso"),
-            iconColor: Colors.red,
-            icon: const Icon(
-              Icons.error_outline_outlined,
-              size: 50,
+          return SingleChildScrollView(
+            child: AlertDialog(
+              title: const Text("Error de Ingreso"),
+              iconColor: Colors.red,
+              icon: const Icon(
+                Icons.error_outline_outlined,
+                size: 50,
+              ),
+              content: const Text(
+                "Ingrese valores númericos en al menos las siguientes casillas: \n - Demanda. \n - Costo orden. \n - Mantención.",
+                textAlign: TextAlign.justify,
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Entendido.")),
+              ],
             ),
-            content: const Text(
-              "Ingrese valores númericos en al menos las siguientes casillas: \n - Demanda. \n - Costo orden. \n - Mantención.",
-              textAlign: TextAlign.justify,
-            ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Entendido.")),
-            ],
           );
         });
   }
+
+  //-----------------------------------------------------------
 
   void descripcionGrafico(BuildContext context) {
     showDialog(
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: const Text("Modelo Gráfico EOQ"),
-            iconColor: Colors.blue,
-            icon: const Icon(
-              Icons.error_outline_outlined,
-              size: 30,
+          return SingleChildScrollView(
+            child: AlertDialog(
+              title: const Text("Modelo Gráfico EOQ"),
+              iconColor: Colors.blue,
+              icon: const Icon(
+                Icons.error_outline_outlined,
+                size: 30,
+              ),
+              content: const Text(
+                "El modelo gráfico en pantalla permite observar el comportamiento de la demanda en base a la cantidad óptima de pedido obtenida anteriormente. Además de incorporar gráficamente el inventario medio e incluir el tiempo transcurrido entre pedidos, a fin de analizar como se visualizan y comportan estas variables.",
+                textAlign: TextAlign.justify,
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Entendido.")),
+              ],
             ),
-            content: const Text(
-              "El modelo gráfico en pantalla permite observar el comportamiento de la demanda en base a la cantidad óptima de pedido obtenida anteriormente. Además de incorporar gráficamente el inventario medio e incluir el tiempo transcurrido entre pedidos, a fin de analizar como se visualizan y comportan estas variables.",
-              textAlign: TextAlign.justify,
-            ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Entendido.")),
-            ],
           );
         });
   }
+
+  //----------------------------------------------------------
 
   void descripcionCalculadora(BuildContext context) {
     showDialog(
         barrierDismissible: false,
         context: context,
         builder: (context) {
+          return SingleChildScrollView(
+            child: AlertDialog(
+              title: const Text("Calculadora EOQ"),
+              iconColor: Colors.blue,
+              icon: const Icon(
+                Icons.info,
+                size: 50,
+              ),
+              content: Column(children: const <Widget>[
+                Text(
+                  "El método EOQ como modelo matemático permite obtener los siguientes resultados: ",
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  ' - Cantidad optima de pedido. \n - Tiempo entre pedidos. \n - Punto de reorden. \n - Número de ordenes esperado. \n - Costo anual orden. \n - Costo anual de mantención. \n - Costo total.',
+                  textAlign: TextAlign.justify,
+                ),
+                Text(
+                  '- Los resultados que se entregan tienen como base un año de días trabajados (365), si se quiere variar esto existe el campo opcional llamado "Días trabajados"',
+                  textAlign: TextAlign.justify,
+                ),
+                Text(
+                  '- El Campo (L) correspondiente al Lead Time del Proveedor nos ayudará a obtener el resultado "Punto de reorden"',
+                  textAlign: TextAlign.justify,
+                ),
+              ]),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Entendido.")),
+              ],
+            ),
+          );
+        });
+  }
+
+  //----------------------------------------------------------
+
+  void descripcionApp(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
           return AlertDialog(
-            title: const Text("Calculadora EOQ"),
+            title: const Text(
+              "AGII \n Apoyo a la Gestión de Ingenieria en los Inventarios. ",
+              textAlign: TextAlign.center,
+            ),
             iconColor: Colors.blue,
             icon: const Icon(
               Icons.info,
-              size: 50,
+              size: 40,
             ),
-            content: Column(children: const <Widget>[
-              Text(
-                "El metodo EOQ como modelo matemático permite obtener los siguientes resultados: ",
-                textAlign: TextAlign.justify,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                ' - Cantidad optima de pedido. \n - Tiempo entre pedidos. \n - Punto de reorden. \n - Número de ordenes esperado. \n - Costo anual orden. \n - Costo anual de mantención. \n - Costo total.',
-                textAlign: TextAlign.justify,
-              )
-            ]),
+            content: const Text(
+              "Aplicación de Apoyo a la gestión de los Inventarios. \n Creada gracias a la gestión de la UMD, para los estudiantes de Ingenieria de la Universidad de la Serena. \n Desarrolladores: \n - Cristofer Torrejón. \n - Cristian Araya. ",
+              textAlign: TextAlign.justify,
+            ),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             actions: <Widget>[

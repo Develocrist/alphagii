@@ -22,15 +22,17 @@ class GraphScreen extends StatefulWidget {
 
 class _GraphScreenState extends State<GraphScreen> {
   late List<SalesData> _chartData;
+  late List<SalesData2> _chartData2;
   late List<InventaryData> _inventaryData;
   late List<LeadTimeData> _leadTimeData;
-  late List<PuntoReordenData> _reOrdenData;
+  //late List<PuntoReordenData> _reOrdenData;
 
   late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _chartData = getChartData();
+    _chartData2 = getChartData5();
     _inventaryData = getChartData2();
     _leadTimeData = getChartData3();
     //_reOrdenData = getChartData4();
@@ -109,14 +111,29 @@ class _GraphScreenState extends State<GraphScreen> {
                     tooltipBehavior: _tooltipBehavior,
                     series: <ChartSeries>[
                       LineSeries<SalesData, double>(
-                          name: 'Cantidad optima', // nombre de la leyenda
+                          name: 'Demanda', // nombre de la leyenda
                           dataSource: _chartData,
                           xValueMapper: (SalesData dias, _) => dias.dias,
                           yValueMapper: (SalesData unidades, _) =>
                               unidades.unidades,
                           dataLabelSettings: const DataLabelSettings(
-                              isVisible: true, showZeroValue: false),
-                          enableTooltip: true,
+                              isVisible: false, showZeroValue: false),
+                          enableTooltip: false,
+                          markerSettings: const MarkerSettings(
+                            isVisible: false,
+                          )),
+                      LineSeries<SalesData2, double>(
+                          name:
+                              'Cantidad óptima de pedido', // nombre de la leyenda
+                          dataSource: _chartData2,
+                          xValueMapper: (SalesData2 dias, _) => dias.dias,
+                          yValueMapper: (SalesData2 unidades, _) =>
+                              unidades.unidades,
+                          dataLabelSettings: const DataLabelSettings(
+                              isVisible: true,
+                              showZeroValue: false,
+                              labelAlignment: ChartDataLabelAlignment.top),
+                          enableTooltip: false,
                           markerSettings: const MarkerSettings(
                             isVisible: true,
                           )),
@@ -129,7 +146,9 @@ class _GraphScreenState extends State<GraphScreen> {
                               inventary.inventary2,
                           dataLabelSettings:
                               const DataLabelSettings(isVisible: false),
-                          enableTooltip: true),
+                          enableTooltip: true,
+                          markerSettings:
+                              const MarkerSettings(isVisible: true)),
                       LineSeries<LeadTimeData, double>(
                           name: 'Tiempo entre pedidos',
                           dataSource: _leadTimeData,
@@ -139,7 +158,10 @@ class _GraphScreenState extends State<GraphScreen> {
                               lead.diallegada,
                           dataLabelSettings:
                               const DataLabelSettings(isVisible: false),
-                          enableTooltip: true)
+                          enableTooltip: true,
+                          markerSettings: const MarkerSettings(
+                            isVisible: true,
+                          ))
                     ],
 
                     // primaryXAxis:
@@ -181,6 +203,7 @@ class _GraphScreenState extends State<GraphScreen> {
   }
 
   //lista donde se asigna la fuente de los datos y añadir las series de lineas
+  //GRAFICO DE LA DEMANDA
   List<SalesData> getChartData() {
     double demanda = double.tryParse(widget.dem) ?? 0;
     double orden = double.tryParse(widget.ord) ?? 0;
@@ -210,7 +233,41 @@ class _GraphScreenState extends State<GraphScreen> {
     return chartData;
   }
 
+//_-------------------------------------------------------------------
+
+  //lista donde se asigna la fuente de los datos y añadir las series de lineas
+  //GRAFICO DE LA CANTIDAD OPTIMA
+  List<SalesData2> getChartData5() {
+    double demanda = double.tryParse(widget.dem) ?? 0;
+    double orden = double.tryParse(widget.ord) ?? 0;
+    double mantencion = double.tryParse(widget.man) ?? 0;
+    double cantidadOptima = sqrt((2 * demanda * orden) / mantencion);
+    String cantOptim = cantidadOptima.toStringAsFixed(1);
+    double co = double.parse(cantOptim);
+
+    double numOrdenes = demanda / cantidadOptima;
+    double reOrden = 365 / numOrdenes;
+    String rorden = reOrden.toStringAsFixed(1);
+    double ro = double.parse(rorden);
+
+    final List<SalesData2> chartData5 = [
+      SalesData2(0, co),
+      SalesData2(ro, co),
+      SalesData2(ro * 2, co),
+      SalesData2(ro * 3, co),
+      // SalesData(ro * 3, co),
+      // SalesData(ro * 4, 0),
+      // SalesData(ro * 4, co),
+      // SalesData(reOrden * 5, 0),
+      // SalesData(reOrden * 5, cantidadOptima),
+    ];
+    return chartData5;
+  }
+
+//---------------------------------------------------------------------
+
 //SEGUNDA LINEA GRÁFICA EN EL MISMO MAPEO
+//GRAFICO DEL INVENTARIO MEDIO
   List<InventaryData> getChartData2() {
     double demanda = double.tryParse(widget.dem) ?? 0;
     double orden = double.tryParse(widget.ord) ?? 0;
@@ -226,7 +283,6 @@ class _GraphScreenState extends State<GraphScreen> {
 
     final List<InventaryData> chartData2 = [
       InventaryData(0, co / 2),
-      InventaryData(ro, co / 2),
       InventaryData(ro * 3, co / 2),
       // InventaryData(ro * 2, co / 2),
       // InventaryData(ro * 4, co / 2),
@@ -236,6 +292,7 @@ class _GraphScreenState extends State<GraphScreen> {
   }
 
 // TERCERA LINEA GRAFICA EN EL MISMO MAPEO // CORRESPONDIENTE AL TIEMPO ENTRE PEDIDOS
+//GRAFICO DEL tiempo entre pedidos
   List<LeadTimeData> getChartData3() {
     double demanda = double.tryParse(widget.dem) ?? 0;
     double orden = double.tryParse(widget.ord) ?? 0;
@@ -280,6 +337,12 @@ class _GraphScreenState extends State<GraphScreen> {
 
 class SalesData {
   SalesData(this.dias, this.unidades);
+  final double dias;
+  final double unidades;
+}
+
+class SalesData2 {
+  SalesData2(this.dias, this.unidades);
   final double dias;
   final double unidades;
 }
