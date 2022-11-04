@@ -437,7 +437,7 @@ class Alertas {
         builder: (context) {
           return AlertDialog(
             title: const Text(
-              "AGII \n Apoyo a la Gestión de Ingenieria en los Inventarios. ",
+              "AGII \n Apoyo a la Gestión de Ingeniería en los Inventarios. ",
               textAlign: TextAlign.center,
             ),
             iconColor: Colors.blue,
@@ -446,8 +446,9 @@ class Alertas {
               size: 40,
             ),
             content: const Text(
-              "Aplicación de Apoyo a la gestión de los Inventarios. \n Creada gracias a la gestión de la UMD, para los estudiantes de Ingenieria de la Universidad de la Serena. \n Desarrolladores: \n - Cristofer Torrejón. \n - Cristian Araya. ",
+              "Aplicación de Apoyo a la gestión de los Inventarios. \n Creada gracias a la gestión de la Unidad de Mejoramiento Docente para los estudiantes de Ingenieria de la Universidad de La Serena. \n \n Desarrolladores: \n - Cristofer Torrejón. \n - Cristian Araya. ",
               textAlign: TextAlign.justify,
+              style: TextStyle(fontSize: 16),
             ),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

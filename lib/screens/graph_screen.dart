@@ -133,7 +133,7 @@ class _GraphScreenState extends State<GraphScreen> {
                               isVisible: true,
                               showZeroValue: false,
                               labelAlignment: ChartDataLabelAlignment.top),
-                          enableTooltip: false,
+                          enableTooltip: true,
                           markerSettings: const MarkerSettings(
                             isVisible: true,
                           )),

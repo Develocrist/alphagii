@@ -460,11 +460,11 @@ class Calculadora extends State<MyCalculator> {
                     height: 20,
                   ),
                   const Text(
-                    'Campos principales:',
-                    style: TextStyle(fontSize: 14),
+                    'Variables:',
+                    style: TextStyle(fontSize: 18),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Row(
                     //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
@@ -556,7 +556,7 @@ class Calculadora extends State<MyCalculator> {
                     )
                   ]),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Column(
                     children: [
@@ -564,13 +564,13 @@ class Calculadora extends State<MyCalculator> {
                         height: 15,
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 10,
                       ),
-                      const Text('Campos opcionales:',
-                          style: TextStyle(fontSize: 14)),
-                      const SizedBox(
-                        height: 15,
-                      ),
+                      // const Text('Campos opcionales:',
+                      //     style: TextStyle(fontSize: 14)),
+                      // const SizedBox(
+                      //   height: 15,
+                      // ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: SizedBox(
@@ -715,15 +715,15 @@ class Calculadora extends State<MyCalculator> {
                         backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        fixedSize: const Size(280, 40)),
+                        fixedSize: const Size(300, 50)),
                     label: const Text(
                       'Calcular',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 18),
                     ),
                     icon: const Icon(Icons.calculate_outlined),
                   ),
                   const SizedBox(
-                    height: 2,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -743,13 +743,13 @@ class Calculadora extends State<MyCalculator> {
                               width: 2,
                               color: Color.fromRGBO(8, 75, 129, 1),
                             ),
-                            fixedSize: const Size(120, 40),
+                            fixedSize: const Size(150, 50),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         label: const Text(
                           'Limpiar',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               color: Color.fromRGBO(8, 75, 129, 1)),
                         ),
                         icon: const Icon(
@@ -769,17 +769,17 @@ class Calculadora extends State<MyCalculator> {
                                 const Color.fromRGBO(8, 75, 129, 10),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
-                            fixedSize: const Size(150, 40)),
+                            fixedSize: const Size(170, 50)),
                         label: const Text(
                           'Fórmulario',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 18),
                         ),
                         icon: const Icon(Icons.class_outlined),
                       ),
                     ],
                   ),
                   const SizedBox(
-                    height: 2,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -830,10 +830,10 @@ class Calculadora extends State<MyCalculator> {
                                 const Color.fromRGBO(8, 75, 129, 10),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
-                            fixedSize: const Size(220, 40)),
+                            fixedSize: const Size(250, 50)),
                         label: const Text(
                           'Gráfico',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 18),
                         ),
                         icon: const Icon(Icons.auto_graph_outlined),
                       ),
