@@ -105,7 +105,7 @@ class _GraphScreenState extends State<GraphScreen> {
                     //         textStyle: const TextStyle(fontSize: 10))),
                     title: ChartTitle(text: 'Modelo EOQ Básico.'),
                     legend: Legend(
-                        textStyle: TextStyle(fontSize: 18),
+                        textStyle: const TextStyle(fontSize: 18),
                         isVisible: true,
                         overflowMode: LegendItemOverflowMode.wrap,
                         position: LegendPosition.bottom), //ver la leyenda
@@ -177,7 +177,7 @@ class _GraphScreenState extends State<GraphScreen> {
                   const Divider(
                     height: 5,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(

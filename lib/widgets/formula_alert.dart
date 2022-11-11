@@ -285,7 +285,6 @@ class Alertas {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.red,
                     fontSize: 20,
                   ),
                 ),
@@ -296,45 +295,22 @@ class Alertas {
                 Divider(
                   height: 10,
                 ),
-                // Text(
-                //   'Modelo EOQ: \n',
-                //   textAlign: TextAlign.center,
-                //   style: TextStyle(
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.bold,
-                //       color: Color.fromARGB(255, 115, 10, 207)),
-                // ),
-                // Text(
-                //     'El Módelo de Wilson, también denominado Sistema EOQ (Economic Order Quantity) es una de las herramientas que se utilizan para determinar el monto óptimo de pedido para un articulo de inventario. Este, tiene en cuenta los diferentes costos financieros, de operación y determina el monto de pedido que minimice los costos de inventario de la empresa. \n',
-                //     // textAlign: TextAlign.justify,
-                //     style: TextStyle(fontSize: 18)),
-                // Text(
-                //     'Para poder desarrollar el método EOQ se deben cumplir las siguientes condiciones o supuestos básicos en la empresa, de lo contrario los cálculos no se podrán llevar a cabo de forma precisa: \n',
-                //     style: TextStyle(fontSize: 18)),
-                // Text(
-                //     '1.- La demanda es conocida, independiente y sin grandes fluctuaciones a lo largo del año, por lo tanto, constante. \n',
-                //     // textAlign: TextAlign.justify,
-                //     style: TextStyle(fontSize: 18)),
-                // Text(
-                //     '2.- El coste unitario de cada producto o compra tambien debe ser conocido y fijo.\n',
-                //     // textAlign: TextAlign.justify,
-                //     style: TextStyle(fontSize: 18)),
-                // Text(
-                //     '3.- Los costes de almacenamiento tambien son conocidos y dependen del nivel de existencias. \n',
-                //     // textAlign: TextAlign.justify,
-                //     style: TextStyle(fontSize: 18)),
-                // Text(
-                //     '4.- No se consideran (al menos en el módelo básico) potenciales descuentos por volumen de compra o pedido. \n',
-                //     // textAlign: TextAlign.justify,
-                //     style: TextStyle(fontSize: 18)),
-                // Text(
-                //     '5.- Los tiempos de abastecimiento y carga del proveedor se consideran tambien constantes y conocidos. \n',
-                //     // textAlign: TextAlign.justify,
-                //     style: TextStyle(fontSize: 18)),
-                // Text(
-                //     '6.- Se toma el supuesto de que no hay roturas de stock y de que en cualquier momento se puede solicitar cualquier cantidad de producto al proveedor.',
-                //     // textAlign: TextAlign.justify,
-                //     style: TextStyle(fontSize: 18)),
+                Text(
+                  "Tipos de modelos: \n ",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  'Modelos Deterministicos: Son aquellos donde se toma como supuesto que tenemos certeza de la demanda. Esta puede estar dada por pronósticos de demanda o pedidos reales de los clientes.',
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  'Modelos Probabilisticos: Cuando la demanda no es conocida, está sujeta a una cantidad significativa de incertidumbre y variabilidad.',
+                  style: TextStyle(fontSize: 18),
+                ),
               ],
             ),
             actions: [

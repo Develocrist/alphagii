@@ -393,6 +393,8 @@ class Calculadora extends State<MyCalculator> {
     return true;
   }
 
+//-------------------------------------------------
+
 //---------------------------------------------------------------------
   void mostrarDialogo() {
     showDialog(
@@ -498,7 +500,7 @@ class Calculadora extends State<MyCalculator> {
                           controller: controllerOrden,
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                            FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                             LengthLimitingTextInputFormatter(8),
                           ],
                           decoration: const InputDecoration(
@@ -523,7 +525,7 @@ class Calculadora extends State<MyCalculator> {
                         keyboardType: TextInputType.phone,
                         controller: controllerMantencion,
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                           LengthLimitingTextInputFormatter(8),
                         ],
                         decoration: const InputDecoration(
@@ -543,7 +545,7 @@ class Calculadora extends State<MyCalculator> {
                         keyboardType: TextInputType.phone,
                         controller: controllerCostoUnitario,
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                           LengthLimitingTextInputFormatter(8),
                         ],
                         decoration: const InputDecoration(

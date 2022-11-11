@@ -8,6 +8,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // ignore: deprecated_member_use
   FlutterNativeSplash.removeAfter(initialization);
 
   runApp(const MyApp());
