@@ -70,8 +70,8 @@ class _GraphScreenState extends State<GraphScreen> {
             children: [
               Center(
                 child: SizedBox(
-                  width: 320,
-                  height: 400,
+                  width: 350,
+                  height: 600,
                   child: SfCartesianChart(
                     // annotations: <CartesianChartAnnotation>[
                     // CartesianChartAnnotation(
@@ -105,6 +105,7 @@ class _GraphScreenState extends State<GraphScreen> {
                     //         textStyle: const TextStyle(fontSize: 10))),
                     title: ChartTitle(text: 'Modelo EOQ Básico.'),
                     legend: Legend(
+                        textStyle: TextStyle(fontSize: 18),
                         isVisible: true,
                         overflowMode: LegendItemOverflowMode.wrap,
                         position: LegendPosition.bottom), //ver la leyenda
@@ -173,19 +174,25 @@ class _GraphScreenState extends State<GraphScreen> {
               ),
               Column(
                 children: [
+                  const Divider(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     'Demanda ingresada: \n ${widget.dem} unidades.',
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     'Costo de orden ingresado: \n ${widget.ord} CLP',
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     'Costo de mantención anual ingresado: \n ${widget.man} CLP',
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                   // const Text(

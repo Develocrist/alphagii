@@ -1,11 +1,19 @@
 import 'package:agii_alpha/widgets/formula_alert.dart';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'calculator1_screen.dart';
 
-class Listview1Screen extends StatelessWidget {
+class Listview1Screen extends StatefulWidget {
   const Listview1Screen({Key? key}) : super(key: key);
+
+  @override
+  State<Listview1Screen> createState() => _Listview1ScreenState();
+}
+
+class _Listview1ScreenState extends State<Listview1Screen> {
+  final Uri _url = Uri.parse('https://sibuls.userena.cl/');
 
   @override
   Widget build(BuildContext context) {
@@ -93,106 +101,39 @@ class Listview1Screen extends StatelessWidget {
             height: 5,
           ),
 
-          // ListTile(
-          //   iconColor: const Color.fromRGBO(8, 75, 129, 10),
-          //   leading: const Icon(Icons.calculate_outlined),
-          //   title: const Text('Modelo EOQ Básico'),
-          //   trailing: const Icon(Icons.arrow_forward_ios_outlined),
-          //   onTap: () {
-          //     Navigator.push(
-          //         context,
-          //         PageRouteBuilder(
-          //             transitionDuration: const Duration(milliseconds: 700),
-          //             transitionsBuilder:
-          //                 (context, animation, secondaryAnimation, child) {
-          //               return FadeTransition(
-          //                 opacity: animation,
-          //                 child: child,
-          //               );
-          //             },
-          //             pageBuilder: ((context, animation, secondaryAnimation) {
-          //               return const MyCalculator();
-          //             })));
-          //     // final route = MaterialPageRoute(
-          //     //   builder: (context) => const MyCalculator(),
-          //     // );
-          //     // Navigator.push(context, route);
-          //   },
-          // ),
-          // const Divider(
-          //   height: 1,
-          // ),
-          // ListTile(
-          //   iconColor: const Color.fromRGBO(8, 75, 129, 10),
-          //   leading: const Icon(Icons.calculate_outlined),
-          //   title: const Text('Modelo EOQ con Faltante'),
-          //   trailing: const Icon(Icons.arrow_forward_ios_outlined),
-          //   onTap: () {
-          //     Navigator.push(
-          //         context,
-          //         PageRouteBuilder(
-          //             transitionDuration: const Duration(milliseconds: 700),
-          //             transitionsBuilder:
-          //                 (context, animation, secondaryAnimation, child) {
-          //               return FadeTransition(
-          //                 opacity: animation,
-          //                 child: child,
-          //               );
-          //             },
-          //             pageBuilder: ((context, animation, secondaryAnimation) {
-          //               return const Calculator2Screen();
-          //             })));
-
-          //     // final route = MaterialPageRoute(
-          //     //   builder: (context) => const Calculator2Screen(),
-          //     // );
-          //     // Navigator.push(context, route);
-          //   },
-          // ),
-          // const Divider(
-          //   height: 1,
-          // ),
-          // ListTile(
-          //   iconColor: const Color.fromRGBO(8, 75, 129, 10),
-          //   leading: const Icon(Icons.engineering_outlined),
-          //   title: const Text('Opciones'),
-          //   trailing: const Icon(Icons.arrow_forward_ios_outlined),
-          //   onTap: () {
-          //     Navigator.push(
-          //         context,
-          //         PageRouteBuilder(
-          //             transitionDuration: const Duration(milliseconds: 700),
-          //             transitionsBuilder:
-          //                 (context, animation, secondaryAnimation, child) {
-          //               return FadeTransition(
-          //                 opacity: animation,
-          //                 child: child,
-          //               );
-          //             },
-          //             pageBuilder: ((context, animation, secondaryAnimation) {
-          //               return const OptionScreen();
-          //             })));
-          //     // final route = MaterialPageRoute(
-          //     //   builder: (context) => const OptionScreen(),
-          //     // );
-          //     // Navigator.push(context, route);
-          //   },
-          // ),
           const Divider(
             height: 1,
           ),
+
+          ElevatedButton(
+              onPressed: () {
+                Alertas().infoModelos(context);
+              },
+              child: const Text('Información sobre modelos')),
+
+          const SizedBox(
+            height: 10,
+          ),
+
+          ElevatedButton(onPressed: _launchUrl, child: const Text('SIBULS')),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo,
-        child: const Icon(
-          Icons.info_outline,
-          size: 30,
-        ),
-        onPressed: () {
-          Alertas().infoModelos(context);
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.indigo,
+      //   child: const Icon(
+      //     Icons.info_outline,
+      //     size: 30,
+      //   ),
+      //   onPressed: () {
+      //     Alertas().infoModelos(context);
+      //   },
+      // ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw 'No se puede lanzar $_url';
+    }
   }
 }

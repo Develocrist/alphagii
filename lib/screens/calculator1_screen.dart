@@ -498,7 +498,7 @@ class Calculadora extends State<MyCalculator> {
                           controller: controllerOrden,
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
+                            FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
                             LengthLimitingTextInputFormatter(8),
                           ],
                           decoration: const InputDecoration(
@@ -566,6 +566,51 @@ class Calculadora extends State<MyCalculator> {
                       const SizedBox(
                         height: 10,
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: SizedBox(
+                          width: 250,
+                          height: 50,
+                          child: TextFormField(
+                            //readOnly: !blFlag,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp('[1-9]')),
+                              //FilteringTextInputFormatter.digitsOnly,
+
+                              LengthLimitingTextInputFormatter(1),
+                            ],
+                            controller: controllerLead,
+                            // validator: (controllerLead) {
+                            //   final intNumber =
+                            //       double.tryParse(controllerLead!);
+                            //   if (intNumber != null && intNumber <= 10) {
+                            //     return null;
+                            //   }
+                            //   return 'Ingrese el numero';
+                            // },
+                            decoration: const InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.only(left: 10, bottom: 1),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color.fromRGBO(8, 75, 129, 10))),
+                              labelText:
+                                  '(L) Tiempo de espera del proveedor (días):',
+                              //prefixIcon:
+                              // Checkbox(
+                              //   value: blFlag,
+                              //   onChanged: (bool? value) {
+                              //     setState(() {
+                              //       blFlag = value!;
+                              //     });
+                              //   },
+                              // )
+                            ),
+                          ),
+                        ),
+                      ),
                       // const Text('Campos opcionales:',
                       //     style: TextStyle(fontSize: 14)),
                       // const SizedBox(
@@ -604,50 +649,6 @@ class Calculadora extends State<MyCalculator> {
                         ),
                       ),
                       const VerticalDivider(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: SizedBox(
-                          width: 250,
-                          height: 50,
-                          child: TextFormField(
-                            //readOnly: !blFlag,
-                            keyboardType: TextInputType.phone,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp('[0-9]')),
-                              //FilteringTextInputFormatter.digitsOnly,
-
-                              LengthLimitingTextInputFormatter(2),
-                            ],
-                            controller: controllerLead,
-                            validator: (controllerLead) {
-                              final intNumber =
-                                  double.tryParse(controllerLead!);
-                              if (intNumber != null && intNumber <= 10) {
-                                return null;
-                              }
-                              return 'Ingrese el numero';
-                            },
-                            decoration: const InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.only(left: 10, bottom: 1),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromRGBO(8, 75, 129, 10))),
-                              labelText: '(L) Lead Time del proveedor (días):',
-                              //prefixIcon:
-                              // Checkbox(
-                              //   value: blFlag,
-                              //   onChanged: (bool? value) {
-                              //     setState(() {
-                              //       blFlag = value!;
-                              //     });
-                              //   },
-                              // )
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
 
@@ -861,18 +862,21 @@ class Calculadora extends State<MyCalculator> {
 
                   //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
                   //donde estan las operaciones de cálculo
-                  Container(
-                    height: 400,
-                    width: 400,
-                    padding: const EdgeInsets.only(top: 10),
-                    color: const Color.fromRGBO(28, 49, 108, 1),
-                    child: SingleChildScrollView(
-                      child: Text(
-                        //aquí se inserta el resultado del textformfield
-                        '$mostrarCantidadOptima \n $tiempoentrePedidos \n $campoPuntoReorden \n $mostrarNumOrdenes  \n $costoOrden \n $costMantencion \n $costoTotal',
-                        style: const TextStyle(
-                            fontSize: 18.0, color: Colors.white),
-                        textAlign: TextAlign.center,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      height: 400,
+                      width: 400,
+                      padding: const EdgeInsets.only(top: 10),
+                      color: const Color.fromRGBO(28, 49, 108, 1),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          //aquí se inserta el resultado del textformfield
+                          '$mostrarCantidadOptima \n $tiempoentrePedidos \n $campoPuntoReorden \n $mostrarNumOrdenes  \n $costoOrden \n $costMantencion \n $costoTotal',
+                          style: const TextStyle(
+                              fontSize: 18.0, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),

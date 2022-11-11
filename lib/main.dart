@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'package:agii_alpha/screens/listview1_screen.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-void main() => runApp(const MyApp());
+//void main() => runApp(const MyApp());
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterNativeSplash.removeAfter(initialization);
+
+  runApp(const MyApp());
+}
+
+Future initialization(BuildContext? context) async {
+  await Future.delayed(const Duration(seconds: 2));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
