@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:agii_alpha/screens/graph_screen.dart';
 import 'package:agii_alpha/widgets/formula_alert.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

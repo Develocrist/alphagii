@@ -13,7 +13,7 @@ class Listview1Screen extends StatefulWidget {
 }
 
 class _Listview1ScreenState extends State<Listview1Screen> {
-  final Uri _url = Uri.parse('https://sibuls.userena.cl/');
+  final Uri _url = Uri.parse('https://www.sibuls.userena.cl/');
 
   @override
   Widget build(BuildContext context) {

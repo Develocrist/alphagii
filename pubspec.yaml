@@ -28,6 +28,7 @@ dependencies:
   expandable: ^5.0.1
 
   url_launcher: ^6.1.6
+  animate_do: ^3.0.2
 
 
 
@@ -41,7 +42,7 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#ffffff" #fondo blanco
-  image: assets/coso.png
+  image: assets/splash7.png
     
 
 flutter_icons:
