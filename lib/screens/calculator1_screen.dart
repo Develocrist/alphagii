@@ -563,9 +563,6 @@ class Calculadora extends State<MyCalculator> {
                   ),
                   Column(
                     children: [
-                      const Divider(
-                        height: 15,
-                      ),
                       const SizedBox(
                         height: 10,
                       ),

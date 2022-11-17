@@ -1,4 +1,5 @@
 import 'package:agii_alpha/screens/listview1_screen.dart';
+import 'package:agii_alpha/screens/welcome_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Material App',
+      title: 'AGII',
       home: Home(),
     );
   }
@@ -31,7 +32,7 @@ class _HomeState extends State<Home> {
 
     Future.delayed(const Duration(seconds: 7), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const Listview1Screen()));
+          context, MaterialPageRoute(builder: (_) => const WelcomeScreen()));
     });
 
     return ResponsiveBuilder(
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> {
               children: [
                 FadeIn(
                     animate: true,
-                    duration: const Duration(seconds: 2),
+                    duration: const Duration(seconds: 3),
                     child: FadeOut(
                       animate: true,
                       delay: const Duration(seconds: 4),
@@ -92,34 +93,6 @@ class _HomeState extends State<Home> {
           color: Colors.purple,
         );
       },
-      // child: Scaffold(
-      //   backgroundColor: Colors.white,
-      //   body: Center(
-      //       child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       Stack(
-      //         children: [
-      //           FadeIn(
-      //               animate: true,
-      //               duration: const Duration(seconds: 2),
-      //               child: FadeOut(
-      //                 animate: true,
-      //                 delay: const Duration(seconds: 3),
-      //                 duration: const Duration(seconds: 2),
-      //                 child: Container(
-      //                   width: 20,
-      //                   height: 30,
-      //                   // color: Colors.red
-      //                   child: const Image(
-      //                       image: AssetImage('assets/logoulshdgrande.png')),
-      //                 ),
-      //               )),
-      //         ],
-      //       )
-      //     ],
-      //   )),
-      // ),
     );
   }
 }
