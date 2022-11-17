@@ -1,6 +1,7 @@
 import 'package:agii_alpha/screens/listview1_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 void main() => runApp(const MyApp());
 
@@ -25,37 +26,100 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 6), () {
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
+
+    Future.delayed(const Duration(seconds: 7), () {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const Listview1Screen()));
     });
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Stack(
-            children: [
-              FadeIn(
-                  animate: true,
-                  duration: const Duration(seconds: 2),
-                  child: FadeOut(
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) {
+        if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FadeIn(
                     animate: true,
-                    delay: const Duration(seconds: 3),
                     duration: const Duration(seconds: 2),
-                    child: const SizedBox(
-                      width: 200,
-                      height: 200,
-                      // color: Colors.red
-                      child: Image(image: AssetImage('assets/logouls.png')),
-                    ),
-                  )),
-            ],
-          )
-        ],
-      )),
+                    child: FadeOut(
+                      animate: true,
+                      delay: const Duration(seconds: 4),
+                      duration: const Duration(seconds: 2),
+                      child: const SizedBox(
+                          width: 250,
+                          height: 250,
+                          child: Image(
+                            image: AssetImage('assets/logoulshdgrande.png'),
+                          )),
+                    ))
+              ],
+            )),
+          );
+        }
+        if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FadeIn(
+                    animate: true,
+                    duration: const Duration(seconds: 2),
+                    child: FadeOut(
+                      animate: true,
+                      delay: const Duration(seconds: 3),
+                      duration: const Duration(seconds: 3),
+                      child: const SizedBox(
+                          width: 400,
+                          height: 400,
+                          child: Image(
+                            image: AssetImage('assets/logoulshdgrande.png'),
+                          )),
+                    ))
+              ],
+            )),
+          );
+        }
+        return Container(
+          width: 200,
+          height: 200,
+          color: Colors.purple,
+        );
+      },
+      // child: Scaffold(
+      //   backgroundColor: Colors.white,
+      //   body: Center(
+      //       child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Stack(
+      //         children: [
+      //           FadeIn(
+      //               animate: true,
+      //               duration: const Duration(seconds: 2),
+      //               child: FadeOut(
+      //                 animate: true,
+      //                 delay: const Duration(seconds: 3),
+      //                 duration: const Duration(seconds: 2),
+      //                 child: Container(
+      //                   width: 20,
+      //                   height: 30,
+      //                   // color: Colors.red
+      //                   child: const Image(
+      //                       image: AssetImage('assets/logoulshdgrande.png')),
+      //                 ),
+      //               )),
+      //         ],
+      //       )
+      //     ],
+      //   )),
+      // ),
     );
   }
 }

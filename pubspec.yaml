@@ -28,7 +28,9 @@ dependencies:
   expandable: ^5.0.1
 
   url_launcher: ^6.1.6
+
   animate_do: ^3.0.2
+  responsive_builder: ^0.4.3
 
 
 
