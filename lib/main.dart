@@ -1,4 +1,3 @@
-import 'package:agii_alpha/screens/listview1_screen.dart';
 import 'package:agii_alpha/screens/welcome_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';

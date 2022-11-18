@@ -1,8 +1,6 @@
 import 'dart:math';
-
 import 'package:agii_alpha/screens/graph_screen.dart';
-import 'package:agii_alpha/widgets/formula_alert.dart';
-import 'package:animate_do/animate_do.dart';
+import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -336,7 +334,7 @@ class Calculadora extends State<MyCalculator> {
         }
       });
     } else {
-      mostrarDialogo();
+      AlertaErrorIngreso().mostrarDialogo(context);
     }
   }
 
@@ -447,7 +445,8 @@ class Calculadora extends State<MyCalculator> {
               actions: [
                 IconButton(
                     onPressed: () {
-                      Alertas().descripcionCalculadora(context);
+                      AlertaDescripcionCalculadora()
+                          .descripcionCalculadora(context);
                     },
                     icon: const Icon(Icons.info)),
               ],
@@ -710,7 +709,7 @@ class Calculadora extends State<MyCalculator> {
                           ),
                           ElevatedButton.icon(
                             onPressed: () {
-                              Alertas().infoFormulas(context);
+                              AlertaFormulario().infoFormulas(context);
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -820,7 +819,8 @@ class Calculadora extends State<MyCalculator> {
               actions: [
                 IconButton(
                     onPressed: () {
-                      Alertas().descripcionCalculadora(context);
+                      AlertaDescripcionCalculadora()
+                          .descripcionCalculadora(context);
                     },
                     icon: const Icon(Icons.info)),
               ],
@@ -1109,7 +1109,7 @@ class Calculadora extends State<MyCalculator> {
                                 ),
                                 ElevatedButton.icon(
                                   onPressed: () {
-                                    Alertas().infoFormulas(context);
+                                    AlertaFormulario().infoFormulas(context);
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
@@ -1197,343 +1197,399 @@ class Calculadora extends State<MyCalculator> {
                     },
                     child: SingleChildScrollView(
                       controller: controladorScroll,
-                      child: Column(
-
-                          //key: my_form_key,
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            const Text(
-                              'Variables:',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
-                              mainAxisAlignment: MainAxisAlignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                              //key: my_form_key,
                               children: [
-                                SizedBox(
-                                  width: 150,
-                                  height: 70,
-                                  child: TextFormField(
-                                    controller: controllerDemanda,
-                                    keyboardType: TextInputType.phone,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(8),
-                                    ],
-                                    decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            left: 10, bottom: 1),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                          color: Color.fromRGBO(8, 75, 129, 10),
-                                        )),
-                                        labelText: '(D) Demanda :'),
-                                  ),
+                                const SizedBox(
+                                  height: 20,
                                 ),
-                                const VerticalDivider(),
-                                SizedBox(
-                                  width: 150,
-                                  height: 70,
-                                  child: TextFormField(
-                                    controller: controllerOrden,
-                                    keyboardType: TextInputType.phone,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp('[0-9]')),
-                                      LengthLimitingTextInputFormatter(8),
-                                    ],
-                                    decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            left: 10, bottom: 1),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    8, 75, 129, 10))),
-                                        labelText: ' (K) Costo orden \$:'),
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 150,
-                                    height: 50,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.phone,
-                                      controller: controllerMantencion,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp('[0-9]')),
-                                        LengthLimitingTextInputFormatter(8),
-                                      ],
-                                      decoration: const InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              left: 10, bottom: 1),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      8, 75, 129, 10))),
-                                          labelText: '(H) Mantención \$:'),
+                                const Text(
+                                  'Variables:',
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 250,
+                                      height: 70,
+                                      child: TextFormField(
+                                        minLines: null,
+                                        maxLines: null,
+                                        expands: true,
+                                        style: const TextStyle(fontSize: 24),
+                                        controller: controllerDemanda,
+                                        keyboardType: TextInputType.phone,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                          LengthLimitingTextInputFormatter(8),
+                                        ],
+                                        decoration: const InputDecoration(
+                                            contentPadding: EdgeInsets.only(
+                                                left: 20, bottom: 1),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                              color: Color.fromRGBO(
+                                                  8, 75, 129, 10),
+                                            )),
+                                            labelText: '(D) Demanda :'),
+                                      ),
                                     ),
-                                  ),
-                                  // const VerticalDivider(),
-                                  SizedBox(
-                                    width: 150,
-                                    height: 50,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.phone,
-                                      controller: controllerCostoUnitario,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp('[0-9]')),
-                                        LengthLimitingTextInputFormatter(8),
-                                      ],
-                                      decoration: const InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              left: 5, bottom: 1),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      8, 75, 129, 10))),
-                                          labelText: '(C) Costo unitario \$:'),
-                                    ),
-                                  )
-                                ]),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Column(
-                              children: [
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: 250,
+                                      height: 70,
+                                      child: TextFormField(
+                                        minLines: null,
+                                        maxLines: null,
+                                        expands: true,
+                                        style: const TextStyle(fontSize: 24),
+                                        controller: controllerOrden,
+                                        keyboardType: TextInputType.phone,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]')),
+                                          LengthLimitingTextInputFormatter(8),
+                                        ],
+                                        decoration: const InputDecoration(
+                                            contentPadding: EdgeInsets.only(
+                                                left: 20, bottom: 1),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        8, 75, 129, 10))),
+                                            labelText: ' (K) Costo orden \$:'),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 250,
+                                        height: 70,
+                                        child: TextFormField(
+                                          minLines: null,
+                                          maxLines: null,
+                                          expands: true,
+                                          style: const TextStyle(fontSize: 24),
+                                          keyboardType: TextInputType.phone,
+                                          controller: controllerMantencion,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp('[0-9]')),
+                                            LengthLimitingTextInputFormatter(8),
+                                          ],
+                                          decoration: const InputDecoration(
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 20, bottom: 1),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          8, 75, 129, 10))),
+                                              labelText: '(H) \$ Mantención:'),
+                                        ),
+                                      ),
+                                      const VerticalDivider(),
+                                      SizedBox(
+                                        width: 250,
+                                        height: 70,
+                                        child: TextFormField(
+                                          minLines: null,
+                                          maxLines: null,
+                                          expands: true,
+                                          style: const TextStyle(fontSize: 24),
+                                          keyboardType: TextInputType.phone,
+                                          controller: controllerCostoUnitario,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp('[0-9]')),
+                                            LengthLimitingTextInputFormatter(8),
+                                          ],
+                                          decoration: const InputDecoration(
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 20, bottom: 1),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          8, 75, 129, 10))),
+                                              labelText:
+                                                  '(C) Costo unitario \$:'),
+                                        ),
+                                      )
+                                    ]),
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  child: SizedBox(
-                                    width: 250,
-                                    height: 50,
-                                    child: TextFormField(
-                                      //readOnly: !blFlag,
-                                      keyboardType: TextInputType.phone,
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp('[1-9]')),
-                                        //FilteringTextInputFormatter.digitsOnly,
+                                Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
+                                      child: SizedBox(
+                                        width: 400,
+                                        height: 70,
+                                        child: TextFormField(
+                                          minLines: null,
+                                          maxLines: null,
+                                          expands: true,
+                                          style: const TextStyle(fontSize: 24),
+                                          //readOnly: !blFlag,
+                                          keyboardType: TextInputType.phone,
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp('[1-9]')),
+                                            //FilteringTextInputFormatter.digitsOnly,
 
-                                        LengthLimitingTextInputFormatter(1),
-                                      ],
-                                      controller: controllerLead,
+                                            LengthLimitingTextInputFormatter(1),
+                                          ],
+                                          controller: controllerLead,
 
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            left: 10, bottom: 1),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    8, 75, 129, 10))),
-                                        labelText:
-                                            '(L) Tiempo de espera del proveedor (días):',
+                                          decoration: const InputDecoration(
+                                            contentPadding: EdgeInsets.only(
+                                                left: 20, bottom: 1),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        8, 75, 129, 10))),
+                                            labelText:
+                                                '(L) Tiempo de espera del proveedor (días):',
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  child: SizedBox(
-                                    width: 250,
-                                    height: 50,
-                                    child: TextFormField(
-                                      //readOnly: !cbFlag,
-                                      keyboardType: TextInputType.phone,
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.digitsOnly,
-                                        LengthLimitingTextInputFormatter(3),
-                                      ],
-                                      controller: controllerDias,
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            left: 10, bottom: 1),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    8, 75, 129, 10))),
-                                        labelText: 'Días trabajados al año:',
-                                        // prefixIcon: Checkbox(
-                                        //   value: cbFlag,
-                                        //   onChanged: (bool? value) {
-                                        //     setState(() {
-                                        //       cbFlag = value!;
-                                        //     });
-                                        //   },
-                                        // )
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: SizedBox(
+                                        width: 300,
+                                        height: 70,
+                                        child: TextFormField(
+                                          minLines: null,
+                                          maxLines: null,
+                                          expands: true,
+                                          style: const TextStyle(fontSize: 24),
+                                          //readOnly: !cbFlag,
+                                          keyboardType: TextInputType.phone,
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                            LengthLimitingTextInputFormatter(3),
+                                          ],
+                                          controller: controllerDias,
+                                          decoration: const InputDecoration(
+                                            contentPadding: EdgeInsets.only(
+                                                left: 20, bottom: 1),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        8, 75, 129, 10))),
+                                            labelText:
+                                                'Días trabajados al año:',
+                                            // prefixIcon: Checkbox(
+                                            //   value: cbFlag,
+                                            //   onChanged: (bool? value) {
+                                            //     setState(() {
+                                            //       cbFlag = value!;
+                                            //     });
+                                            //   },
+                                            // )
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    const VerticalDivider(),
+                                  ],
                                 ),
-                                const VerticalDivider(),
-                              ],
-                            ),
 
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            //codigo que incluye la inserción de los botones con sus respectivos colores
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                operacionMatematica();
-                                controladorScroll.animateTo(
-                                    controladorScroll.position.maxScrollExtent,
-                                    duration: const Duration(milliseconds: 700),
-                                    curve: Curves.easeInOut);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromRGBO(8, 75, 129, 10),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  fixedSize: const Size(300, 50)),
-                              label: const Text(
-                                'Calcular',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              icon: const Icon(Icons.calculate_outlined),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                //codigo que incluye la inserción de los botones con sus respectivos colores
                                 ElevatedButton.icon(
                                   onPressed: () {
-                                    limpiaCampos();
+                                    operacionMatematica();
                                     controladorScroll.animateTo(
                                         controladorScroll
-                                            .position.minScrollExtent,
+                                            .position.maxScrollExtent,
                                         duration:
                                             const Duration(milliseconds: 700),
                                         curve: Curves.easeInOut);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      shadowColor:
-                                          Colors.transparent.withOpacity(0.1),
-                                      side: const BorderSide(
-                                        width: 2,
+                                      backgroundColor:
+                                          const Color.fromRGBO(8, 75, 129, 10),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      fixedSize: const Size(300, 50)),
+                                  label: const Text(
+                                    'Calcular',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  icon: const Icon(Icons.calculate_outlined),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton.icon(
+                                      onPressed: () {
+                                        limpiaCampos();
+                                        controladorScroll.animateTo(
+                                            controladorScroll
+                                                .position.minScrollExtent,
+                                            duration: const Duration(
+                                                milliseconds: 700),
+                                            curve: Curves.easeInOut);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.white,
+                                          shadowColor: Colors.transparent
+                                              .withOpacity(0.1),
+                                          side: const BorderSide(
+                                            width: 2,
+                                            color:
+                                                Color.fromRGBO(8, 75, 129, 1),
+                                          ),
+                                          fixedSize: const Size(150, 50),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20))),
+                                      label: const Text(
+                                        'Limpiar',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color:
+                                                Color.fromRGBO(8, 75, 129, 1)),
+                                      ),
+                                      icon: const Icon(
+                                        Icons.cleaning_services_outlined,
                                         color: Color.fromRGBO(8, 75, 129, 1),
                                       ),
-                                      fixedSize: const Size(150, 50),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20))),
-                                  label: const Text(
-                                    'Limpiar',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Color.fromRGBO(8, 75, 129, 1)),
-                                  ),
-                                  icon: const Icon(
-                                    Icons.cleaning_services_outlined,
-                                    color: Color.fromRGBO(8, 75, 129, 1),
-                                  ),
+                                    ),
+                                    const VerticalDivider(
+                                      width: 10,
+                                    ),
+                                    ElevatedButton.icon(
+                                      onPressed: () {
+                                        AlertaFormulario()
+                                            .infoFormulas(context);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color.fromRGBO(
+                                              8, 75, 129, 10),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          fixedSize: const Size(170, 50)),
+                                      label: const Text(
+                                        'Fórmulario',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      icon: const Icon(Icons.class_outlined),
+                                    ),
+                                  ],
                                 ),
-                                const VerticalDivider(
-                                  width: 10,
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                                ElevatedButton.icon(
-                                  onPressed: () {
-                                    Alertas().infoFormulas(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          const Color.fromRGBO(8, 75, 129, 10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      fixedSize: const Size(170, 50)),
-                                  label: const Text(
-                                    'Fórmulario',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  icon: const Icon(Icons.class_outlined),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton.icon(
+                                      onPressed: grFlag
+                                          ? null
+                                          : () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      GraphScreen(
+                                                        dem: controllerDemanda
+                                                            .text,
+                                                        ord: controllerOrden
+                                                            .text,
+                                                        man:
+                                                            controllerMantencion
+                                                                .text,
+                                                      ))),
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color.fromRGBO(
+                                              8, 75, 129, 10),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          fixedSize: const Size(250, 50)),
+                                      label: const Text(
+                                        'Gráfico',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      icon:
+                                          const Icon(Icons.auto_graph_outlined),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton.icon(
-                                  onPressed: grFlag
-                                      ? null
-                                      : () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => GraphScreen(
-                                                    dem: controllerDemanda.text,
-                                                    ord: controllerOrden.text,
-                                                    man: controllerMantencion
-                                                        .text,
-                                                  ))),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          const Color.fromRGBO(8, 75, 129, 10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      fixedSize: const Size(250, 50)),
-                                  label: const Text(
-                                    'Gráfico',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  icon: const Icon(Icons.auto_graph_outlined),
-                                ),
-                              ],
-                            ),
 
-                            const SizedBox(
-                              height: 20,
-                            ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
 
-                            //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
-                            //donde estan las operaciones de cálculo
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                height: 400,
-                                width: 400,
-                                padding: const EdgeInsets.only(top: 10),
-                                color: Colors.red,
-                                child: SingleChildScrollView(
-                                  child: Text(
-                                    //aquí se inserta el resultado del textformfield
-                                    '$mostrarCantidadOptima \n $tiempoentrePedidos \n $campoPuntoReorden \n $mostrarNumOrdenes  \n $costoOrden \n $costMantencion \n $costoTotal',
-                                    style: const TextStyle(
-                                        fontSize: 26, color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                              ]),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          const VerticalDivider(
+                            width: 30,
+                          ),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
+                          //donde estan las operaciones de cálculo
+
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              height: 650,
+                              width: 500,
+                              padding: const EdgeInsets.only(top: 20),
+                              color: const Color.fromRGBO(8, 75, 129, 1),
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  //aquí se inserta el resultado del textformfield
+                                  '$mostrarCantidadOptima \n \n $tiempoentrePedidos \n \n $campoPuntoReorden \n \n $mostrarNumOrdenes \n \n $costoOrden \n \n $costMantencion \n \n $costoTotal',
+                                  style: const TextStyle(
+                                      fontSize: 26, color: Colors.white),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
-
-                            const SizedBox(
-                              height: 5,
-                            ),
-                          ]),
+                          ),
+                        ],
+                      ),
                     ),
                   ));
       }

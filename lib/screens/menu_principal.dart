@@ -1,32 +1,20 @@
 import 'package:agii_alpha/screens/app_details.dart';
-import 'package:agii_alpha/widgets/formula_alert.dart';
-
+import 'package:agii_alpha/screens/calculator1_screen.dart';
+import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'calculator1_screen.dart';
 
 class Listview1Screen extends StatefulWidget {
   const Listview1Screen({Key? key}) : super(key: key);
 
   @override
-  State<Listview1Screen> createState() => _Listview1ScreenState();
+  State<Listview1Screen> createState() => Listview1ScreenState();
 }
 
-class _Listview1ScreenState extends State<Listview1Screen> {
+class Listview1ScreenState extends State<Listview1Screen> {
   final Uri _url = Uri.parse('https://sibuls.userena.cl/');
   @override
   Widget build(BuildContext context) {
-    // Size screenSize = MediaQuery.of(context).size;
-    // Orientation orientation = MediaQuery.of(context).orientation;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    // bool isTablet(BuildContext context) =>
-    //     MediaQuery.of(context).size.width >= 700;
-    // bool isMobile(BuildContext context) =>
-    //     MediaQuery.of(context).size.width < 700;
-
     return Scaffold(
         appBar: AppBar(
           title: const Text("AGII"),
@@ -107,7 +95,7 @@ class _Listview1ScreenState extends State<Listview1Screen> {
                           ),
                           IconButton(
                             onPressed: () {
-                              Alertas().infoModelos(context);
+                              AlertaInformacionModelos().infoModelos(context);
                             },
                             icon: const Icon(Icons.info),
                             iconSize: 60,
@@ -115,7 +103,7 @@ class _Listview1ScreenState extends State<Listview1Screen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Alertas().infoModelos(context);
+                              AlertaInformacionModelos().infoModelos(context);
                             },
                             child: const Text(
                               'Información sobre modelos',
@@ -270,7 +258,7 @@ class _Listview1ScreenState extends State<Listview1Screen> {
                       ),
                       IconButton(
                         onPressed: () {
-                          Alertas().infoModelos(context);
+                          AlertaInformacionModelos().infoModelos(context);
                         },
                         icon: const Icon(Icons.info),
                         iconSize: 60,
