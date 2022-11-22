@@ -1,8 +1,8 @@
-import 'package:agii_alpha/screens/app_details.dart';
-import 'package:agii_alpha/screens/calculator1_screen.dart';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'screens.dart';
 
 class Listview1Screen extends StatefulWidget {
   const Listview1Screen({Key? key}) : super(key: key);
@@ -275,7 +275,7 @@ class Listview1ScreenState extends State<Listview1Screen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 50,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -300,7 +300,7 @@ class Listview1ScreenState extends State<Listview1Screen> {
                         ),
                       ),
                       const SizedBox(
-                        width: 50,
+                        width: 100,
                       ),
                       IconButton(
                         onPressed: () {

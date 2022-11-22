@@ -13,22 +13,10 @@ class WelcomeScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 60,
-              ),
-              Positioned(
-                child: SizedBox(
-                  width: 300,
-                  height: 200,
-                  child: FadeIn(
-                      animate: true,
-                      duration: const Duration(seconds: 3),
-                      child: const Image(
-                        fit: BoxFit.fill,
-                        image: AssetImage('assets/logoumd.png'),
-                      )),
-                ),
               ),
               FadeIn(
                 animate: true,
@@ -67,9 +55,21 @@ class WelcomeScreen extends StatelessWidget {
                   animate: true,
                   duration: const Duration(seconds: 3),
                   child: const Text(
-                    'Click en el logo para comenzar',
+                    'Pulsa el Logo \n para comenzar',
                     style: TextStyle(fontSize: 20),
-                  ))
+                    textAlign: TextAlign.center,
+                  )),
+              SizedBox(
+                width: 370,
+                height: 250,
+                child: FadeIn(
+                    animate: true,
+                    duration: const Duration(seconds: 3),
+                    child: const Image(
+                      fit: BoxFit.fill,
+                      image: AssetImage('assets/logoumd.png'),
+                    )),
+              ),
             ],
           ),
         );

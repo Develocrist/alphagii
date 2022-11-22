@@ -395,36 +395,6 @@ class Calculadora extends State<MyCalculator> {
 
 //-------------------------------------------------
 
-//---------------------------------------------------------------------
-  void mostrarDialogo() {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Error de Ingreso"),
-            iconColor: Colors.red,
-            icon: const Icon(
-              Icons.error_outline_outlined,
-              size: 50,
-            ),
-            content: const Text(
-              "Ingrese valores númericos en al menos las siguientes casillas: Demanda, Costo orden, Mantención.",
-              textAlign: TextAlign.center,
-            ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Entendido.")),
-            ],
-          );
-        });
-  }
-
 //parte visual
   @override
   Widget build(BuildContext context) {

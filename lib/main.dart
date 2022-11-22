@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AGII',
       home: Home(),
@@ -19,6 +19,8 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
