@@ -53,15 +53,15 @@ class WelcomeScreen extends StatelessWidget {
               ),
               FadeIn(
                   animate: true,
-                  duration: const Duration(seconds: 3),
+                  duration: const Duration(seconds: 2),
                   child: const Text(
-                    'Pulsa el Logo \n para comenzar',
-                    style: TextStyle(fontSize: 20),
+                    'Ingresar',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   )),
               SizedBox(
-                width: 370,
-                height: 250,
+                width: 350,
+                height: 200,
                 child: FadeIn(
                     animate: true,
                     duration: const Duration(seconds: 3),

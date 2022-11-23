@@ -28,9 +28,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
-    // double screenHeight = MediaQuery.of(context).size.height;
-
     Future.delayed(const Duration(seconds: 7), () {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const WelcomeScreen()));
@@ -56,7 +53,7 @@ class _HomeState extends State<Home> {
                           width: 250,
                           height: 250,
                           child: Image(
-                            image: AssetImage('assets/logoulshdgrande.png'),
+                            image: AssetImage('assets/logoulsoficial.png'),
                           )),
                     ))
               ],

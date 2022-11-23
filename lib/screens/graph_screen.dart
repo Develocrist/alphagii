@@ -3,6 +3,53 @@ import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'dart:io';
+import 'dart:ui' as ui;
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'dart:async';
+
+class FileSaveHelper {
+  static const MethodChannel _platformCall = MethodChannel('launchFile');
+
+  static Future<void> saveAndLaunchFile(
+      List<int> bytes, String fileName) async {
+    String? path;
+    if (Platform.isAndroid ||
+        Platform.isIOS ||
+        Platform.isLinux ||
+        Platform.isWindows) {
+      final Directory directory = await getApplicationSupportDirectory();
+      path = directory.path;
+    } else {
+      path = await PathProviderPlatform.instance.getApplicationSupportPath();
+    }
+    final File file =
+        File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
+    await file.writeAsBytes(bytes, flush: true);
+    if (Platform.isAndroid || Platform.isIOS) {
+      final Map<String, String> argument = <String, String>{
+        'file_path': '$path/$fileName'
+      };
+      try {
+        final Future<Map<String, String>?> result =
+            _platformCall.invokeMethod('viewPdf', argument);
+      } catch (e) {
+        throw Exception(e);
+      }
+    } else if (Platform.isWindows) {
+      await Process.run('start', <String>['$path\\$fileName'],
+          runInShell: true);
+    } else if (Platform.isMacOS) {
+      await Process.run('open', <String>['$path/$fileName'], runInShell: true);
+    } else if (Platform.isLinux) {
+      await Process.run('xdg-open', <String>['$path/$fileName'],
+          runInShell: true);
+    }
+  }
+}
 
 class GraphScreen extends StatefulWidget {
   const GraphScreen({
@@ -20,6 +67,8 @@ class GraphScreen extends StatefulWidget {
 }
 
 class _GraphScreenState extends State<GraphScreen> {
+  late GlobalKey<SfCartesianChartState> _cartesianChartKey;
+
   late List<SalesData> _chartData;
   late List<SalesData2> _chartData2;
   late List<InventaryData> _inventaryData;
@@ -30,6 +79,7 @@ class _GraphScreenState extends State<GraphScreen> {
 
   @override
   void initState() {
+    _cartesianChartKey = GlobalKey();
     _chartData = getChartData();
     _chartData2 = getChartData5();
     _inventaryData = getChartData2();
@@ -41,6 +91,32 @@ class _GraphScreenState extends State<GraphScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Future<void> _renderPdf() async {
+    //   final ui.Image data =
+    //       await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+    //   final ByteData? bytes =
+    //       await data.toByteData(format: ui.ImageByteFormat.png);
+    //   final Uint8List imageBytes =
+    //       bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+    //   final PdfBitmap bitmap = PdfBitmap(imageBytes);
+    //   final PdfDocument document = PdfDocument();
+    //   document.pageSettings.size =
+    //       Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+    //   final PdfPage page = document.pages.add();
+    //   final Size pageSize = page.getClientSize();
+    //   page.graphics.drawImage(
+    //       bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+    //   await FileSaveHelper.saveAndLaunchFile(
+    //       await document.save(), 'cartesian_chart.pdf');
+    //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    //     behavior: SnackBarBehavior.floating,
+    //     shape: RoundedRectangleBorder(
+    //         borderRadius: BorderRadius.all(Radius.circular(5))),
+    //     duration: Duration(milliseconds: 200),
+    //     content: Text('Chart has been exported as PDF document.'),
+    //   ));
+    // }
+
     return ResponsiveBuilder(builder: (context, sizingInformation) {
       if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
         return SafeArea(
@@ -74,6 +150,13 @@ class _GraphScreenState extends State<GraphScreen> {
                       width: 350,
                       height: 600,
                       child: SfCartesianChart(
+                        key: _cartesianChartKey,
+                        onMarkerRender: (MarkerRenderArgs args) {
+                          if (!(args.pointIndex == 1)) {
+                            args.markerHeight = 0.0;
+                            args.markerWidth = 0.0;
+                          }
+                        },
                         borderWidth: 0,
                         margin: const EdgeInsets.all(10),
                         primaryXAxis: NumericAxis(labelFormat: '{value} días'),
@@ -126,8 +209,8 @@ class _GraphScreenState extends State<GraphScreen> {
                                   labelAlignment: ChartDataLabelAlignment.top),
                               enableTooltip: true,
                               markerSettings: const MarkerSettings(
-                                height: 10,
-                                width: 10,
+                                height: 15,
+                                width: 15,
                                 isVisible: true,
                               )),
                           LineSeries<InventaryData, double>(
@@ -144,8 +227,8 @@ class _GraphScreenState extends State<GraphScreen> {
                               enableTooltip: true,
                               markerSettings: const MarkerSettings(
                                 isVisible: true,
-                                height: 10,
-                                width: 10,
+                                height: 15,
+                                width: 15,
                               )),
                           LineSeries<LeadTimeData, double>(
                               width: 5,
@@ -160,8 +243,8 @@ class _GraphScreenState extends State<GraphScreen> {
                                   const DataLabelSettings(isVisible: false),
                               enableTooltip: true,
                               markerSettings: const MarkerSettings(
-                                height: 10,
-                                width: 10,
+                                height: 15,
+                                width: 15,
                                 isVisible: true,
                               ))
                         ],
@@ -175,12 +258,17 @@ class _GraphScreenState extends State<GraphScreen> {
                   ),
                   Column(
                     children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            // _renderPdf();
+                          },
+                          child: const Text('Generar pdf')),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       const Text(
                         '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                       Text(
@@ -198,6 +286,9 @@ class _GraphScreenState extends State<GraphScreen> {
                         style: const TextStyle(fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
+                      const SizedBox(
+                        height: 20,
+                      )
                       // const Text(
                       //   'Días trabajados: \n 365 días',
                       //   style: TextStyle(fontSize: 20),
@@ -214,356 +305,372 @@ class _GraphScreenState extends State<GraphScreen> {
       if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
         return SafeArea(
           child: Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                centerTitle: true,
-                elevation: 5,
-                title: const Text('Gráfico'),
-                backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        AlertaDescripcionGrafico().descripcionGrafico(context);
-                      },
-                      icon: const Icon(Icons.info)),
-                ],
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-              body: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Center(
-                            child: SizedBox(
-                              width: 550,
-                              height: 700,
-                              child: SfCartesianChart(
-                                borderWidth: 0,
-                                margin: const EdgeInsets.all(10),
-                                primaryXAxis: NumericAxis(
-                                    labelFormat: '{value} días',
-                                    labelStyle: const TextStyle(fontSize: 14)),
-                                primaryYAxis: NumericAxis(
-                                    labelFormat: '{value} uni',
-                                    labelStyle: const TextStyle(fontSize: 14)),
+              centerTitle: true,
+              elevation: 5,
+              title: const Text('Gráfico'),
+              backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      AlertaDescripcionGrafico().descripcionGrafico(context);
+                    },
+                    icon: const Icon(Icons.info)),
+              ],
+            ),
+            body: MediaQuery.of(context).orientation == Orientation.portrait
+                ? SingleChildScrollView(
+                    key: _cartesianChartKey,
+                    child: Column(
+                      children: [
+                        Center(
+                          child: SizedBox(
+                            width: 550,
+                            height: 700,
+                            child: SfCartesianChart(
+                              borderWidth: 0,
+                              margin: const EdgeInsets.all(10),
+                              primaryXAxis: NumericAxis(
+                                  labelFormat: '{value} días',
+                                  labelStyle: const TextStyle(fontSize: 14)),
+                              primaryYAxis: NumericAxis(
+                                  labelFormat: '{value} uni',
+                                  labelStyle: const TextStyle(fontSize: 14)),
 
-                                // primaryXAxis: CategoryAxis(
-                                //     title: AxisTitle(
-                                //         text: 'Tiempo (días)',
-                                //         textStyle: const TextStyle(fontSize: 10))),
-                                // primaryYAxis: CategoryAxis(
-                                //     title: AxisTitle(
-                                //         text: 'Stock (unidades)',
-                                //         textStyle: const TextStyle(fontSize: 10))),
-                                title: ChartTitle(
-                                    text: 'Modelo EOQ Básico.',
-                                    textStyle: const TextStyle(fontSize: 24)),
+                              // primaryXAxis: CategoryAxis(
+                              //     title: AxisTitle(
+                              //         text: 'Tiempo (días)',
+                              //         textStyle: const TextStyle(fontSize: 10))),
+                              // primaryYAxis: CategoryAxis(
+                              //     title: AxisTitle(
+                              //         text: 'Stock (unidades)',
+                              //         textStyle: const TextStyle(fontSize: 10))),
+                              title: ChartTitle(
+                                  text: 'Modelo EOQ Básico.',
+                                  textStyle: const TextStyle(fontSize: 24)),
 
-                                legend: Legend(
-                                    textStyle: const TextStyle(fontSize: 24),
-                                    isVisible: true,
-                                    overflowMode: LegendItemOverflowMode.wrap,
-                                    position:
-                                        LegendPosition.bottom), //ver la leyenda
-                                tooltipBehavior: _tooltipBehavior,
-                                series: <ChartSeries>[
-                                  LineSeries<SalesData, double>(
-                                      color: Colors.blue,
-                                      width: 5,
-                                      name: 'Demanda', // nombre de la leyenda
-                                      dataSource: _chartData,
-                                      xValueMapper: (SalesData dias, _) =>
-                                          dias.dias,
-                                      yValueMapper: (SalesData unidades, _) =>
-                                          unidades.unidades,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              isVisible: false,
-                                              showZeroValue: false),
-                                      enableTooltip: false,
-                                      markerSettings: const MarkerSettings(
-                                        isVisible: false,
-                                      )),
-                                  LineSeries<SalesData2, double>(
-                                      color: Colors.yellow,
-                                      width: 5,
-                                      name:
-                                          'Cantidad óptima de pedido', // nombre de la leyenda
-                                      dataSource: _chartData2,
-                                      xValueMapper: (SalesData2 dias, _) =>
-                                          dias.dias,
-                                      yValueMapper: (SalesData2 unidades, _) =>
-                                          unidades.unidades,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              textStyle:
-                                                  TextStyle(fontSize: 18),
-                                              isVisible: true,
-                                              showZeroValue: false,
-                                              labelAlignment:
-                                                  ChartDataLabelAlignment.top),
-                                      enableTooltip: true,
-                                      markerSettings: const MarkerSettings(
-                                        height: 15,
-                                        width: 15,
+                              legend: Legend(
+                                  textStyle: const TextStyle(fontSize: 24),
+                                  isVisible: true,
+                                  overflowMode: LegendItemOverflowMode.wrap,
+                                  position:
+                                      LegendPosition.bottom), //ver la leyenda
+                              tooltipBehavior: _tooltipBehavior,
+                              series: <ChartSeries>[
+                                LineSeries<SalesData, double>(
+                                    color: Colors.blue,
+                                    width: 5,
+                                    name: 'Demanda', // nombre de la leyenda
+                                    dataSource: _chartData,
+                                    xValueMapper: (SalesData dias, _) =>
+                                        dias.dias,
+                                    yValueMapper: (SalesData unidades, _) =>
+                                        unidades.unidades,
+                                    dataLabelSettings: const DataLabelSettings(
+                                        isVisible: false, showZeroValue: false),
+                                    enableTooltip: false,
+                                    markerSettings: const MarkerSettings(
+                                      isVisible: false,
+                                    )),
+                                LineSeries<SalesData2, double>(
+                                    color: Colors.yellow,
+                                    width: 5,
+                                    name:
+                                        'Cantidad óptima de pedido', // nombre de la leyenda
+                                    dataSource: _chartData2,
+                                    xValueMapper: (SalesData2 dias, _) =>
+                                        dias.dias,
+                                    yValueMapper: (SalesData2 unidades, _) =>
+                                        unidades.unidades,
+                                    dataLabelSettings: const DataLabelSettings(
+                                        textStyle: TextStyle(fontSize: 18),
                                         isVisible: true,
-                                      )),
-                                  LineSeries<InventaryData, double>(
-                                      width: 5,
-                                      color: Colors.red,
-                                      name: 'Inventario Medio',
-                                      dataSource: _inventaryData,
-                                      xValueMapper:
-                                          (InventaryData inventary, _) =>
-                                              inventary.inventary,
-                                      yValueMapper:
-                                          (InventaryData inventary, _) =>
-                                              inventary.inventary2,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              isVisible: false),
-                                      enableTooltip: true,
-                                      markerSettings: const MarkerSettings(
-                                        isVisible: true,
-                                        height: 15,
-                                        width: 15,
-                                      )),
-                                  LineSeries<LeadTimeData, double>(
-                                      width: 10,
-                                      color: Colors.green,
-                                      name: 'Tiempo entre pedidos',
-                                      dataSource: _leadTimeData,
-                                      xValueMapper: (LeadTimeData lead, _) =>
-                                          lead.diapedido,
-                                      yValueMapper: (LeadTimeData lead, _) =>
-                                          lead.diallegada,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              isVisible: false),
-                                      enableTooltip: true,
-                                      markerSettings: const MarkerSettings(
-                                        height: 15,
-                                        width: 15,
-                                        isVisible: true,
-                                      ))
-                                ],
+                                        showZeroValue: false,
+                                        labelAlignment:
+                                            ChartDataLabelAlignment.top),
+                                    enableTooltip: true,
+                                    markerSettings: const MarkerSettings(
+                                      height: 15,
+                                      width: 15,
+                                      isVisible: true,
+                                    )),
+                                LineSeries<InventaryData, double>(
+                                    width: 5,
+                                    color: Colors.red,
+                                    name: 'Inventario Medio',
+                                    dataSource: _inventaryData,
+                                    xValueMapper:
+                                        (InventaryData inventary, _) =>
+                                            inventary.inventary,
+                                    yValueMapper:
+                                        (InventaryData inventary, _) =>
+                                            inventary.inventary2,
+                                    dataLabelSettings: const DataLabelSettings(
+                                        isVisible: false),
+                                    enableTooltip: true,
+                                    markerSettings: const MarkerSettings(
+                                      isVisible: true,
+                                      height: 15,
+                                      width: 15,
+                                    )),
+                                LineSeries<LeadTimeData, double>(
+                                    width: 10,
+                                    color: Colors.green,
+                                    name: 'Tiempo entre pedidos',
+                                    dataSource: _leadTimeData,
+                                    xValueMapper: (LeadTimeData lead, _) =>
+                                        lead.diapedido,
+                                    yValueMapper: (LeadTimeData lead, _) =>
+                                        lead.diallegada,
+                                    dataLabelSettings: const DataLabelSettings(
+                                        isVisible: false),
+                                    enableTooltip: true,
+                                    markerSettings: const MarkerSettings(
+                                      height: 15,
+                                      width: 15,
+                                      isVisible: true,
+                                    ))
+                              ],
 
-                                // primaryXAxis:
-                                //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-                                // primaryYAxis: NumericAxis(
-                                //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
-                              ),
+                              // primaryXAxis:
+                              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
+                              // primaryYAxis: NumericAxis(
+                              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
                             ),
                           ),
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
+                              style: TextStyle(fontSize: 28),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              'Demanda ingresada: \n ${widget.dem} unidades.',
+                              style: const TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              'Costo de orden ingresado: \n ${widget.ord} CLP',
+                              style: const TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              'Costo de mantención anual ingresado: \n ${widget.man} CLP',
+                              style: const TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                            // const Text(
+                            //   'Días trabajados: \n 365 días',
+                            //   style: TextStyle(fontSize: 20),
+                            //   textAlign: TextAlign.center,
+                            // ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                : SingleChildScrollView(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: SizedBox(
+                            width: 550,
+                            height: 700,
+                            child: SfCartesianChart(
+                              borderWidth: 0,
+                              margin: const EdgeInsets.all(10),
+                              primaryXAxis: NumericAxis(
+                                  labelFormat: '{value} días',
+                                  labelStyle: const TextStyle(fontSize: 14)),
+                              primaryYAxis: NumericAxis(
+                                  labelFormat: '{value} uni',
+                                  labelStyle: const TextStyle(fontSize: 14)),
+
+                              // primaryXAxis: CategoryAxis(
+                              //     title: AxisTitle(
+                              //         text: 'Tiempo (días)',
+                              //         textStyle: const TextStyle(fontSize: 10))),
+                              // primaryYAxis: CategoryAxis(
+                              //     title: AxisTitle(
+                              //         text: 'Stock (unidades)',
+                              //         textStyle: const TextStyle(fontSize: 10))),
+                              title: ChartTitle(
+                                  text: 'Modelo EOQ Básico.',
+                                  textStyle: const TextStyle(fontSize: 24)),
+
+                              legend: Legend(
+                                  textStyle: const TextStyle(fontSize: 24),
+                                  isVisible: true,
+                                  overflowMode: LegendItemOverflowMode.wrap,
+                                  position:
+                                      LegendPosition.bottom), //ver la leyenda
+                              tooltipBehavior: _tooltipBehavior,
+                              series: <ChartSeries>[
+                                LineSeries<SalesData, double>(
+                                    color: Colors.blue,
+                                    width: 5,
+                                    name: 'Demanda', // nombre de la leyenda
+                                    dataSource: _chartData,
+                                    xValueMapper: (SalesData dias, _) =>
+                                        dias.dias,
+                                    yValueMapper: (SalesData unidades, _) =>
+                                        unidades.unidades,
+                                    dataLabelSettings: const DataLabelSettings(
+                                        isVisible: false, showZeroValue: false),
+                                    enableTooltip: false,
+                                    markerSettings: const MarkerSettings(
+                                      isVisible: false,
+                                    )),
+                                LineSeries<SalesData2, double>(
+                                    color: Colors.yellow,
+                                    width: 5,
+                                    name:
+                                        'Cantidad óptima de pedido', // nombre de la leyenda
+                                    dataSource: _chartData2,
+                                    xValueMapper: (SalesData2 dias, _) =>
+                                        dias.dias,
+                                    yValueMapper: (SalesData2 unidades, _) =>
+                                        unidades.unidades,
+                                    dataLabelSettings: const DataLabelSettings(
+                                        textStyle: TextStyle(fontSize: 18),
+                                        isVisible: true,
+                                        showZeroValue: false,
+                                        labelAlignment:
+                                            ChartDataLabelAlignment.top),
+                                    enableTooltip: true,
+                                    markerSettings: const MarkerSettings(
+                                      height: 15,
+                                      width: 15,
+                                      isVisible: true,
+                                    )),
+                                LineSeries<InventaryData, double>(
+                                    width: 5,
+                                    color: Colors.red,
+                                    name: 'Inventario Medio',
+                                    dataSource: _inventaryData,
+                                    xValueMapper:
+                                        (InventaryData inventary, _) =>
+                                            inventary.inventary,
+                                    yValueMapper:
+                                        (InventaryData inventary, _) =>
+                                            inventary.inventary2,
+                                    dataLabelSettings: const DataLabelSettings(
+                                        isVisible: false),
+                                    enableTooltip: true,
+                                    markerSettings: const MarkerSettings(
+                                      isVisible: true,
+                                      height: 15,
+                                      width: 15,
+                                    )),
+                                LineSeries<LeadTimeData, double>(
+                                    width: 10,
+                                    color: Colors.green,
+                                    name: 'Tiempo entre pedidos',
+                                    dataSource: _leadTimeData,
+                                    xValueMapper: (LeadTimeData lead, _) =>
+                                        lead.diapedido,
+                                    yValueMapper: (LeadTimeData lead, _) =>
+                                        lead.diallegada,
+                                    dataLabelSettings: const DataLabelSettings(
+                                        isVisible: false),
+                                    enableTooltip: true,
+                                    markerSettings: const MarkerSettings(
+                                      height: 15,
+                                      width: 15,
+                                      isVisible: true,
+                                    ))
+                              ],
+
+                              // primaryXAxis:
+                              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
+                              // primaryYAxis: NumericAxis(
+                              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const SizedBox(
+                              width: 400,
+                              height: 150,
+                              child: Text(
                                 '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
                                 style: TextStyle(fontSize: 28),
                                 textAlign: TextAlign.center,
                               ),
-                              Text(
-                                'Demanda ingresada: \n ${widget.dem} unidades.',
-                                style: const TextStyle(fontSize: 24),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Costo de orden ingresado: \n ${widget.ord} CLP',
-                                style: const TextStyle(fontSize: 24),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Costo de mantención anual ingresado: \n ${widget.man} CLP',
-                                style: const TextStyle(fontSize: 24),
-                                textAlign: TextAlign.center,
-                              ),
-                              // const Text(
-                              //   'Días trabajados: \n 365 días',
-                              //   style: TextStyle(fontSize: 20),
-                              //   textAlign: TextAlign.center,
-                              // ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  : SingleChildScrollView(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: SizedBox(
-                              width: 550,
-                              height: 700,
-                              child: SfCartesianChart(
-                                borderWidth: 0,
-                                margin: const EdgeInsets.all(10),
-                                primaryXAxis: NumericAxis(
-                                    labelFormat: '{value} días',
-                                    labelStyle: const TextStyle(fontSize: 14)),
-                                primaryYAxis: NumericAxis(
-                                    labelFormat: '{value} uni',
-                                    labelStyle: const TextStyle(fontSize: 14)),
-
-                                // primaryXAxis: CategoryAxis(
-                                //     title: AxisTitle(
-                                //         text: 'Tiempo (días)',
-                                //         textStyle: const TextStyle(fontSize: 10))),
-                                // primaryYAxis: CategoryAxis(
-                                //     title: AxisTitle(
-                                //         text: 'Stock (unidades)',
-                                //         textStyle: const TextStyle(fontSize: 10))),
-                                title: ChartTitle(
-                                    text: 'Modelo EOQ Básico.',
-                                    textStyle: const TextStyle(fontSize: 24)),
-
-                                legend: Legend(
-                                    textStyle: const TextStyle(fontSize: 24),
-                                    isVisible: true,
-                                    overflowMode: LegendItemOverflowMode.wrap,
-                                    position:
-                                        LegendPosition.bottom), //ver la leyenda
-                                tooltipBehavior: _tooltipBehavior,
-                                series: <ChartSeries>[
-                                  LineSeries<SalesData, double>(
-                                      color: Colors.blue,
-                                      width: 5,
-                                      name: 'Demanda', // nombre de la leyenda
-                                      dataSource: _chartData,
-                                      xValueMapper: (SalesData dias, _) =>
-                                          dias.dias,
-                                      yValueMapper: (SalesData unidades, _) =>
-                                          unidades.unidades,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              isVisible: false,
-                                              showZeroValue: false),
-                                      enableTooltip: false,
-                                      markerSettings: const MarkerSettings(
-                                        isVisible: false,
-                                      )),
-                                  LineSeries<SalesData2, double>(
-                                      color: Colors.yellow,
-                                      width: 5,
-                                      name:
-                                          'Cantidad óptima de pedido', // nombre de la leyenda
-                                      dataSource: _chartData2,
-                                      xValueMapper: (SalesData2 dias, _) =>
-                                          dias.dias,
-                                      yValueMapper: (SalesData2 unidades, _) =>
-                                          unidades.unidades,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              textStyle:
-                                                  TextStyle(fontSize: 18),
-                                              isVisible: true,
-                                              showZeroValue: false,
-                                              labelAlignment:
-                                                  ChartDataLabelAlignment.top),
-                                      enableTooltip: true,
-                                      markerSettings: const MarkerSettings(
-                                        height: 15,
-                                        width: 15,
-                                        isVisible: true,
-                                      )),
-                                  LineSeries<InventaryData, double>(
-                                      width: 5,
-                                      color: Colors.red,
-                                      name: 'Inventario Medio',
-                                      dataSource: _inventaryData,
-                                      xValueMapper:
-                                          (InventaryData inventary, _) =>
-                                              inventary.inventary,
-                                      yValueMapper:
-                                          (InventaryData inventary, _) =>
-                                              inventary.inventary2,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              isVisible: false),
-                                      enableTooltip: true,
-                                      markerSettings: const MarkerSettings(
-                                        isVisible: true,
-                                        height: 15,
-                                        width: 15,
-                                      )),
-                                  LineSeries<LeadTimeData, double>(
-                                      width: 10,
-                                      color: Colors.green,
-                                      name: 'Tiempo entre pedidos',
-                                      dataSource: _leadTimeData,
-                                      xValueMapper: (LeadTimeData lead, _) =>
-                                          lead.diapedido,
-                                      yValueMapper: (LeadTimeData lead, _) =>
-                                          lead.diallegada,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
-                                              isVisible: false),
-                                      enableTooltip: true,
-                                      markerSettings: const MarkerSettings(
-                                        height: 15,
-                                        width: 15,
-                                        isVisible: true,
-                                      ))
-                                ],
-
-                                // primaryXAxis:
-                                //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-                                // primaryYAxis: NumericAxis(
-                                //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
-                              ),
                             ),
-                          ),
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const SizedBox(
-                                width: 400,
-                                height: 150,
-                                child: Text(
-                                  '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
-                                  style: TextStyle(fontSize: 28),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Text(
-                                'Demanda ingresada: \n ${widget.dem} unidades.',
-                                style: const TextStyle(fontSize: 24),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Costo de orden ingresado: \n ${widget.ord} CLP',
-                                style: const TextStyle(fontSize: 24),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Costo de mantención anual ingresado: \n ${widget.man} CLP',
-                                style: const TextStyle(fontSize: 24),
-                                textAlign: TextAlign.center,
-                              ),
-                              // const Text(
-                              //   'Días trabajados: \n 365 días',
-                              //   style: TextStyle(fontSize: 20),
-                              //   textAlign: TextAlign.center,
-                              // ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )),
+                            Text(
+                              'Demanda ingresada: \n ${widget.dem} unidades.',
+                              style: const TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              'Costo de orden ingresado: \n ${widget.ord} CLP',
+                              style: const TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              'Costo de mantención anual ingresado: \n ${widget.man} CLP',
+                              style: const TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                            // const Text(
+                            //   'Días trabajados: \n 365 días',
+                            //   style: TextStyle(fontSize: 20),
+                            //   textAlign: TextAlign.center,
+                            // ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
         );
       }
 
       return Container(width: 200, height: 200, color: Colors.red);
     });
+  }
+
+  Future<void> _renderPdf() async {
+    final ui.Image data =
+        await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+    final ByteData? bytes =
+        await data.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List imageBytes =
+        bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+    final PdfBitmap bitmap = PdfBitmap(imageBytes);
+    final PdfDocument document = PdfDocument();
+    document.pageSettings.size =
+        Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+    final PdfPage page = document.pages.add();
+    final Size pageSize = page.getClientSize();
+    page.graphics.drawImage(
+        bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+    await FileSaveHelper.saveAndLaunchFile(
+        await document.save(), 'cartesian_chart.pdf');
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      duration: Duration(seconds: 3),
+      content: Text('Chart has been exported as PDF document.'),
+    ));
   }
 
   //lista donde se asigna la fuente de los datos y añadir las series de lineas
@@ -731,33 +838,3 @@ class PuntoReordenData {
   final double punto1;
   final double punto2;
 }
-
-
-// void mostrarDialogo(BuildContext context) {
-//   showDialog(
-//       barrierDismissible: false,
-//       context: context,
-//       builder: (context) {
-//         return AlertDialog(
-//           title: const Text("Error de Ingreso"),
-//           iconColor: Colors.red,
-//           icon: const Icon(
-//             Icons.error_outline_outlined,
-//             size: 50,
-//           ),
-//           content: const Text(
-//             "Ingrese valores númericos en al menos las siguientes casillas: Demanda, Costo orden, Mantención.",
-//             textAlign: TextAlign.center,
-//           ),
-//           shape:
-//               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-//           actions: <Widget>[
-//             TextButton(
-//                 onPressed: () {
-//                   Navigator.pop(context);
-//                 },
-//                 child: const Text("Entendido.")),
-//           ],
-//         );
-//       });
-// }

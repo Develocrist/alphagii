@@ -30,15 +30,49 @@ class Listview1ScreenState extends State<Listview1Screen> {
           // ],
         ),
         body: MediaQuery.of(context).orientation == Orientation.portrait
-            ? Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: SingleChildScrollView(
+            ? SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Center(
                       child: Column(
                         children: [
+                          //probando ideas para futuro diseño
+                          // Stack(
+                          //   children: [
+                          //     Container(
+                          //       width: 290,
+                          //       height: 80,
+                          //       color: const Color.fromRGBO(76, 134, 255, 1),
+                          //     ),
+                          //     Container(
+                          //         width: 80, height: 80, color: Colors.red),
+                          //   ],
+                          // ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const <Widget>[
+                              SizedBox(
+                                width: 80,
+                                height: 80,
+                                child: Image(
+                                  image: AssetImage('assets/botoneoq.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('Modelo EOQ Básico.',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(76, 134, 255, 1),
+                                  ))
+                            ],
+                          ),
                           IconButton(
                             onPressed: () {
                               Navigator.push(
@@ -190,9 +224,9 @@ class Listview1ScreenState extends State<Listview1Screen> {
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               )
             : Column(
                 children: [
@@ -360,7 +394,7 @@ class Listview1ScreenState extends State<Listview1Screen> {
   }
 
   Future<void> _launchUrl() async {
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
       throw 'No se puede lanzar $_url';
     }
   }

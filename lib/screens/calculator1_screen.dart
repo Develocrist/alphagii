@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:agii_alpha/screens/graph_screen.dart';
+import 'package:agii_alpha/screens/graph_screen_test.dart';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -465,7 +466,9 @@ class Calculadora extends State<MyCalculator> {
                                   labelText: '(D) Demanda :'),
                             ),
                           ),
-                          const VerticalDivider(),
+                          const SizedBox(
+                            width: 20,
+                          ),
                           SizedBox(
                             width: 150,
                             height: 70,
@@ -516,6 +519,9 @@ class Calculadora extends State<MyCalculator> {
                                     labelText: '(H) Mantención \$:'),
                               ),
                             ),
+                            const SizedBox(
+                              width: 20,
+                            ),
                             // const VerticalDivider(),
                             SizedBox(
                               width: 150,
@@ -540,7 +546,7 @@ class Calculadora extends State<MyCalculator> {
                             )
                           ]),
                       const SizedBox(
-                        height: 20,
+                        height: 15,
                       ),
                       Column(
                         children: [
@@ -598,14 +604,6 @@ class Calculadora extends State<MyCalculator> {
                                           color:
                                               Color.fromRGBO(8, 75, 129, 10))),
                                   labelText: 'Días trabajados al año:',
-                                  // prefixIcon: Checkbox(
-                                  //   value: cbFlag,
-                                  //   onChanged: (bool? value) {
-                                  //     setState(() {
-                                  //       cbFlag = value!;
-                                  //     });
-                                  //   },
-                                  // )
                                 ),
                               ),
                             ),
@@ -1494,7 +1492,7 @@ class Calculadora extends State<MyCalculator> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      GraphScreen(
+                                                      GraphScreen2(
                                                         dem: controllerDemanda
                                                             .text,
                                                         ord: controllerOrden
