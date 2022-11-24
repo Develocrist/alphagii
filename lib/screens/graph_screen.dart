@@ -11,45 +11,45 @@ import 'package:path_provider_platform_interface/path_provider_platform_interfac
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'dart:async';
 
-class FileSaveHelper {
-  static const MethodChannel _platformCall = MethodChannel('launchFile');
+// class FileSaveHelper {
+//   static const MethodChannel _platformCall = MethodChannel('launchFile');
 
-  static Future<void> saveAndLaunchFile(
-      List<int> bytes, String fileName) async {
-    String? path;
-    if (Platform.isAndroid ||
-        Platform.isIOS ||
-        Platform.isLinux ||
-        Platform.isWindows) {
-      final Directory directory = await getApplicationSupportDirectory();
-      path = directory.path;
-    } else {
-      path = await PathProviderPlatform.instance.getApplicationSupportPath();
-    }
-    final File file =
-        File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
-    await file.writeAsBytes(bytes, flush: true);
-    if (Platform.isAndroid || Platform.isIOS) {
-      final Map<String, String> argument = <String, String>{
-        'file_path': '$path/$fileName'
-      };
-      try {
-        final Future<Map<String, String>?> result =
-            _platformCall.invokeMethod('viewPdf', argument);
-      } catch (e) {
-        throw Exception(e);
-      }
-    } else if (Platform.isWindows) {
-      await Process.run('start', <String>['$path\\$fileName'],
-          runInShell: true);
-    } else if (Platform.isMacOS) {
-      await Process.run('open', <String>['$path/$fileName'], runInShell: true);
-    } else if (Platform.isLinux) {
-      await Process.run('xdg-open', <String>['$path/$fileName'],
-          runInShell: true);
-    }
-  }
-}
+//   static Future<void> saveAndLaunchFile(
+//       List<int> bytes, String fileName) async {
+//     String? path;
+//     if (Platform.isAndroid ||
+//         Platform.isIOS ||
+//         Platform.isLinux ||
+//         Platform.isWindows) {
+//       final Directory directory = await getApplicationSupportDirectory();
+//       path = directory.path;
+//     } else {
+//       path = await PathProviderPlatform.instance.getApplicationSupportPath();
+//     }
+//     final File file =
+//         File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
+//     await file.writeAsBytes(bytes, flush: true);
+//     if (Platform.isAndroid || Platform.isIOS) {
+//       final Map<String, String> argument = <String, String>{
+//         'file_path': '$path/$fileName'
+//       };
+//       try {
+//         final Future<Map<String, String>?> result =
+//             _platformCall.invokeMethod('viewPdf', argument);
+//       } catch (e) {
+//         throw Exception(e);
+//       }
+//     } else if (Platform.isWindows) {
+//       await Process.run('start', <String>['$path\\$fileName'],
+//           runInShell: true);
+//     } else if (Platform.isMacOS) {
+//       await Process.run('open', <String>['$path/$fileName'], runInShell: true);
+//     } else if (Platform.isLinux) {
+//       await Process.run('xdg-open', <String>['$path/$fileName'],
+//           runInShell: true);
+//     }
+//   }
+// }
 
 class GraphScreen extends StatefulWidget {
   const GraphScreen({
@@ -262,7 +262,7 @@ class _GraphScreenState extends State<GraphScreen> {
                           onPressed: () {
                             // _renderPdf();
                           },
-                          child: const Text('Generar pdf')),
+                          child: const Text('Generar PDF')),
                       const SizedBox(
                         height: 5,
                       ),
@@ -647,31 +647,31 @@ class _GraphScreenState extends State<GraphScreen> {
     });
   }
 
-  Future<void> _renderPdf() async {
-    final ui.Image data =
-        await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
-    final ByteData? bytes =
-        await data.toByteData(format: ui.ImageByteFormat.png);
-    final Uint8List imageBytes =
-        bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
-    final PdfBitmap bitmap = PdfBitmap(imageBytes);
-    final PdfDocument document = PdfDocument();
-    document.pageSettings.size =
-        Size(bitmap.width.toDouble(), bitmap.height.toDouble());
-    final PdfPage page = document.pages.add();
-    final Size pageSize = page.getClientSize();
-    page.graphics.drawImage(
-        bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
-    await FileSaveHelper.saveAndLaunchFile(
-        await document.save(), 'cartesian_chart.pdf');
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5))),
-      duration: Duration(seconds: 3),
-      content: Text('Chart has been exported as PDF document.'),
-    ));
-  }
+  // Future<void> _renderPdf() async {
+  //   final ui.Image data =
+  //       await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+  //   final ByteData? bytes =
+  //       await data.toByteData(format: ui.ImageByteFormat.png);
+  //   final Uint8List imageBytes =
+  //       bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+  //   final PdfBitmap bitmap = PdfBitmap(imageBytes);
+  //   final PdfDocument document = PdfDocument();
+  //   document.pageSettings.size =
+  //       Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+  //   final PdfPage page = document.pages.add();
+  //   final Size pageSize = page.getClientSize();
+  //   page.graphics.drawImage(
+  //       bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+  //   await FileSaveHelper.saveAndLaunchFile(
+  //       await document.save(), 'cartesian_chart.pdf');
+  //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //     behavior: SnackBarBehavior.floating,
+  //     shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.all(Radius.circular(5))),
+  //     duration: Duration(seconds: 3),
+  //     content: Text('Chart has been exported as PDF document.'),
+  //   ));
+  // }
 
   //lista donde se asigna la fuente de los datos y añadir las series de lineas
   //GRAFICO DE LA DEMANDA

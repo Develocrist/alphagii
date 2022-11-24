@@ -705,7 +705,7 @@ class Calculadora extends State<MyCalculator> {
                                 : () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => GraphScreen(
+                                        builder: (context) => GraphScreen2(
                                               dem: controllerDemanda.text,
                                               ord: controllerOrden.text,
                                               man: controllerMantencion.text,

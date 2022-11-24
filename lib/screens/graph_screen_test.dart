@@ -1,7 +1,14 @@
 import 'dart:math';
+import 'dart:typed_data';
+import 'package:agii_alpha/screens/graph_screen.dart';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:agii_alpha/screens/save_file_mobile.dart';
+
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'dart:async';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'dart:ui' as ui;
 
 class GraphScreen2 extends StatefulWidget {
   const GraphScreen2({
@@ -18,9 +25,9 @@ class GraphScreen2 extends StatefulWidget {
   State<GraphScreen2> createState() => _GraphScreenState();
 }
 
-class _GraphScreenState extends State<GraphScreen2> {
-  late GlobalKey<SfCartesianChartState> cartesianChartKey;
+late GlobalKey<SfCartesianChartState> _cartesianChartKey;
 
+class _GraphScreenState extends State<GraphScreen2> {
   late List<SalesData> _chartData;
   late List<SalesData2> _chartData2;
   late List<InventaryData> _inventaryData;
@@ -31,7 +38,7 @@ class _GraphScreenState extends State<GraphScreen2> {
 
   @override
   void initState() {
-    final cartesianChartKey = GlobalKey();
+    _cartesianChartKey = GlobalKey();
     _chartData = getChartData();
     _chartData2 = getChartData5();
     _inventaryData = getChartData2();
@@ -43,178 +50,211 @@ class _GraphScreenState extends State<GraphScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          centerTitle: true,
-          elevation: 5,
-          title: const Text('Gráfico'),
-          backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  AlertaDescripcionGrafico().descripcionGrafico(context);
-                },
-                icon: const Icon(
-                  Icons.info,
-                )),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Center(
-                child: SizedBox(
-                  width: 350,
-                  height: 600,
-                  child: SfCartesianChart(
-                    key: cartesianChartKey,
-                    onMarkerRender: (MarkerRenderArgs args) {
-                      if (!(args.pointIndex == 1)) {
-                        args.markerHeight = 0.0;
-                        args.markerWidth = 0.0;
-                      }
-                    },
-                    borderWidth: 0,
-                    margin: const EdgeInsets.all(10),
-                    primaryXAxis: NumericAxis(labelFormat: '{value} días'),
-                    primaryYAxis: NumericAxis(labelFormat: '{value} uni'),
+        centerTitle: true,
+        elevation: 5,
+        title: const Text('Gráfico'),
+        backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+        actions: [
+          IconButton(
+              onPressed: () {
+                AlertaDescripcionGrafico().descripcionGrafico(context);
+              },
+              icon: const Icon(
+                Icons.info,
+              )),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: SizedBox(
+                width: 350,
+                height: 600,
+                child: SfCartesianChart(
+                  key: _cartesianChartKey,
+                  onMarkerRender: (MarkerRenderArgs args) {
+                    if (!(args.pointIndex == 1)) {
+                      args.markerHeight = 0.0;
+                      args.markerWidth = 0.0;
+                    }
+                  },
+                  borderWidth: 0,
+                  margin: const EdgeInsets.all(10),
+                  primaryXAxis: NumericAxis(labelFormat: '{value} días'),
+                  primaryYAxis: NumericAxis(labelFormat: '{value} uni'),
 
-                    title: ChartTitle(text: 'Modelo EOQ Básico.'),
-                    legend: Legend(
-                        textStyle: const TextStyle(fontSize: 18),
-                        isVisible: true,
-                        overflowMode: LegendItemOverflowMode.wrap,
-                        position: LegendPosition.bottom), //ver la leyenda
-                    tooltipBehavior: _tooltipBehavior,
-                    series: <ChartSeries>[
-                      LineSeries<SalesData, double>(
-                          width: 5,
-                          color: Colors.blue,
-                          name: 'Demanda', // nombre de la leyenda
-                          dataSource: _chartData,
-                          xValueMapper: (SalesData dias, _) => dias.dias,
-                          yValueMapper: (SalesData unidades, _) =>
-                              unidades.unidades,
-                          dataLabelSettings: const DataLabelSettings(
-                              isVisible: false, showZeroValue: false),
-                          enableTooltip: false,
-                          markerSettings: const MarkerSettings(
-                            height: 10,
-                            width: 10,
-                            isVisible: false,
-                          )),
-                      LineSeries<SalesData2, double>(
-                          color: Colors.yellow,
-                          width: 5,
-                          name:
-                              'Cantidad óptima de pedido', // nombre de la leyenda
-                          dataSource: _chartData2,
-                          xValueMapper: (SalesData2 dias, _) => dias.dias,
-                          yValueMapper: (SalesData2 unidades, _) =>
-                              unidades.unidades,
-                          dataLabelSettings: const DataLabelSettings(
-                              isVisible: true,
-                              showZeroValue: false,
-                              labelAlignment: ChartDataLabelAlignment.top),
-                          enableTooltip: true,
-                          markerSettings: const MarkerSettings(
-                            height: 15,
-                            width: 15,
+                  title: ChartTitle(text: 'Modelo EOQ Básico.'),
+                  legend: Legend(
+                      textStyle: const TextStyle(fontSize: 18),
+                      isVisible: true,
+                      overflowMode: LegendItemOverflowMode.wrap,
+                      position: LegendPosition.bottom), //ver la leyenda
+                  tooltipBehavior: _tooltipBehavior,
+                  series: <ChartSeries>[
+                    LineSeries<SalesData, double>(
+                        width: 5,
+                        color: Colors.blue,
+                        name: 'Demanda', // nombre de la leyenda
+                        dataSource: _chartData,
+                        xValueMapper: (SalesData dias, _) => dias.dias,
+                        yValueMapper: (SalesData unidades, _) =>
+                            unidades.unidades,
+                        dataLabelSettings: const DataLabelSettings(
+                            isVisible: false, showZeroValue: false),
+                        enableTooltip: false,
+                        markerSettings: const MarkerSettings(
+                          height: 10,
+                          width: 10,
+                          isVisible: false,
+                        )),
+                    LineSeries<SalesData2, double>(
+                        color: Colors.yellow,
+                        width: 5,
+                        name:
+                            'Cantidad óptima de pedido', // nombre de la leyenda
+                        dataSource: _chartData2,
+                        xValueMapper: (SalesData2 dias, _) => dias.dias,
+                        yValueMapper: (SalesData2 unidades, _) =>
+                            unidades.unidades,
+                        dataLabelSettings: const DataLabelSettings(
                             isVisible: true,
-                          )),
-                      LineSeries<InventaryData, double>(
-                          color: Colors.red,
-                          width: 5,
-                          name: 'Inventario Medio',
-                          dataSource: _inventaryData,
-                          xValueMapper: (InventaryData inventary, _) =>
-                              inventary.inventary,
-                          yValueMapper: (InventaryData inventary, _) =>
-                              inventary.inventary2,
-                          dataLabelSettings:
-                              const DataLabelSettings(isVisible: false),
-                          enableTooltip: true,
-                          markerSettings: const MarkerSettings(
-                            isVisible: true,
-                            height: 15,
-                            width: 15,
-                          )),
-                      LineSeries<LeadTimeData, double>(
-                          width: 5,
-                          color: Colors.green,
-                          name: 'Tiempo entre pedidos',
-                          dataSource: _leadTimeData,
-                          xValueMapper: (LeadTimeData lead, _) =>
-                              lead.diapedido,
-                          yValueMapper: (LeadTimeData lead, _) =>
-                              lead.diallegada,
-                          dataLabelSettings:
-                              const DataLabelSettings(isVisible: false),
-                          enableTooltip: true,
-                          markerSettings: const MarkerSettings(
-                            height: 15,
-                            width: 15,
-                            isVisible: true,
-                          ))
-                    ],
-
-                    // primaryXAxis:
-                    //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-                    // primaryYAxis: NumericAxis(
-                    //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
-                  ),
+                            showZeroValue: false,
+                            labelAlignment: ChartDataLabelAlignment.top),
+                        enableTooltip: true,
+                        markerSettings: const MarkerSettings(
+                          height: 15,
+                          width: 15,
+                          isVisible: true,
+                        )),
+                    LineSeries<InventaryData, double>(
+                        color: Colors.red,
+                        width: 5,
+                        name: 'Inventario Medio',
+                        dataSource: _inventaryData,
+                        xValueMapper: (InventaryData inventary, _) =>
+                            inventary.inventary,
+                        yValueMapper: (InventaryData inventary, _) =>
+                            inventary.inventary2,
+                        dataLabelSettings:
+                            const DataLabelSettings(isVisible: false),
+                        enableTooltip: true,
+                        markerSettings: const MarkerSettings(
+                          isVisible: true,
+                          height: 15,
+                          width: 15,
+                        )),
+                    LineSeries<LeadTimeData, double>(
+                        width: 5,
+                        color: Colors.green,
+                        name: 'Tiempo entre pedidos',
+                        dataSource: _leadTimeData,
+                        xValueMapper: (LeadTimeData lead, _) => lead.diapedido,
+                        yValueMapper: (LeadTimeData lead, _) => lead.diallegada,
+                        dataLabelSettings:
+                            const DataLabelSettings(isVisible: false),
+                        enableTooltip: true,
+                        markerSettings: const MarkerSettings(
+                          height: 15,
+                          width: 15,
+                          isVisible: true,
+                        ))
+                  ],
                 ),
               ),
-              Column(
-                children: [
-                  ElevatedButton(
-                      onPressed: onSubmit, child: const Text('Generar pdf')),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Text(
-                    '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
-                    style: TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Demanda ingresada: \n ${widget.dem} unidades.',
-                    style: const TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Costo de orden ingresado: \n ${widget.ord} CLP',
-                    style: const TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Costo de mantención anual ingresado: \n ${widget.man} CLP',
-                    style: const TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                  // const Text(
-                  //   'Días trabajados: \n 365 días',
-                  //   style: TextStyle(fontSize: 20),
-                  //   textAlign: TextAlign.center,
-                  // ),
-                ],
-              )
-            ],
-          ),
+            ),
+            Column(
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      _renderChartAsImage();
+                    },
+                    child: const Text('Exportar Imagen')),
+                ElevatedButton(
+                    onPressed: () {
+                      _renderPdf(context);
+                    },
+                    child: const Text('Exportar PDF')),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
+                  style: TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Demanda ingresada: \n ${widget.dem} unidades.',
+                  style: const TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Costo de orden ingresado: \n ${widget.ord} CLP',
+                  style: const TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Costo de mantención anual ingresado: \n ${widget.man} CLP',
+                  style: const TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 20,
+                )
+                // const Text(
+                //   'Días trabajados: \n 365 días',
+                //   style: TextStyle(fontSize: 20),
+                //   textAlign: TextAlign.center,
+                // ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
+
+  Future<void> _renderChartAsImage() async {
+    final ui.Image data =
+        await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+    final ByteData? bytes =
+        await data.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List imageBytes =
+        bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+    await Navigator.of(context).push<dynamic>(
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) {
+          return Scaffold(body: Image.memory(imageBytes));
+        },
+      ),
+    );
+  }
+
+  // Future<void> _renderChartAsImage() async {
+  //   final ui.Image data =
+  //     await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+  //   final ByteData? bytes =
+  //     await data.toByteData(format: ui.ImageByteFormat.png);
+  //   final Uint8List imageBytes =
+  //     bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+  //   await Navigator.of(context).push<dynamic>(
+  //     MaterialPageRoute<dynamic>(
+  //       builder: (BuildContext context) {
+  //         return Scaffold(
+  //           body: Image.memory(imageBytes)
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   //lista donde se asigna la fuente de los datos y añadir las series de lineas
   //GRAFICO DE LA DEMANDA
@@ -314,9 +354,23 @@ class _GraphScreenState extends State<GraphScreen2> {
     return chartData3;
   }
 
-  Future onSubmit() async {
-    final image = await cartesianChartKey.currentState?.toImage();
-  }
+  // Future onSubmit() async {
+  //   showDialog(
+  //       barrierDismissible: false,
+  //       context: context,
+  //       builder: (context) => Center(
+  //             child: CircularProgressIndicator.adaptive(),
+  //           ));
+  //   final image = await cartesianChartKey.currentState?.toImage();
+  //   final imageGraph = await image!.toByteData(format: ui.ImageByteFormat.png);
+
+  //   final file = await PdfApi.generatePDF(
+  //     order: widget.ord,
+  //     imageGraph: imageGraph!,
+  //   );
+
+  //   Navigator.of(context).pop();
+  // }
 }
 
 class SalesData {
@@ -350,4 +404,29 @@ class PuntoReordenData {
   PuntoReordenData(this.punto1, this.punto2);
   final double punto1;
   final double punto2;
+}
+
+Future<void> _renderPdf(context) async {
+  final ui.Image data =
+      await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+  final ByteData? bytes = await data.toByteData(format: ui.ImageByteFormat.png);
+  final Uint8List imageBytes =
+      bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+  final PdfBitmap bitmap = PdfBitmap(imageBytes);
+  final PdfDocument document = PdfDocument();
+  document.pageSettings.size =
+      Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+  final PdfPage page = document.pages.add();
+  final Size pageSize = page.getClientSize();
+  page.graphics.drawImage(
+      bitmap, Rect.fromLTWH(100, 100, pageSize.width, pageSize.height));
+  await FileSaveHelper.saveAndLaunchFile(
+      await document.save(), 'cartesian_chart.pdf');
+  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5))),
+    duration: Duration(milliseconds: 200),
+    content: Text('Chart has been exported as PDF document.'),
+  ));
 }
