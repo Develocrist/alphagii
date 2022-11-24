@@ -4,6 +4,10 @@ import 'package:agii_alpha/screens/graph_screen.dart';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:agii_alpha/screens/save_file_mobile.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:screenshot/screenshot.dart';
 
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'dart:async';
@@ -229,10 +233,38 @@ class _GraphScreenState extends State<GraphScreen2> {
         await data.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List imageBytes =
         bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+
+    Widget buildImage() => Center(
+          child: SizedBox(
+            width: 350,
+            height: 600,
+            child: Image.memory(imageBytes),
+          ),
+        );
+    final controller = ScreenshotController();
     await Navigator.of(context).push<dynamic>(
       MaterialPageRoute<dynamic>(
         builder: (BuildContext context) {
-          return Scaffold(body: Image.memory(imageBytes));
+          return Screenshot(
+            controller: controller,
+            child: Scaffold(
+                body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  buildImage(),
+                  ElevatedButton(
+                      onPressed: () async {
+                        final image = await controller.capture();
+                        if (image == null) return;
+
+                        await saveImage(image);
+                      },
+                      child: const Text('Guardar'))
+                ],
+              ),
+            )),
+          );
         },
       ),
     );
@@ -354,6 +386,19 @@ class _GraphScreenState extends State<GraphScreen2> {
     return chartData3;
   }
 
+  Future<String> saveImage(Uint8List image) async {
+    await [Permission.storage].request();
+
+    final time = DateTime.now()
+        .toIso8601String()
+        .replaceAll('.', '-')
+        .replaceAll(':', '-');
+    final name = "screenshot_$time";
+    final result = await ImageGallerySaver.saveImage(image, name: name);
+
+    return result['filePath'];
+  }
+
   // Future onSubmit() async {
   //   showDialog(
   //       barrierDismissible: false,
@@ -426,7 +471,7 @@ Future<void> _renderPdf(context) async {
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
-    duration: Duration(milliseconds: 200),
+    duration: Duration(seconds: 3),
     content: Text('Chart has been exported as PDF document.'),
   ));
 }
