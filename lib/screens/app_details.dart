@@ -10,7 +10,7 @@ class AppDetails extends StatelessWidget {
         title: const Text("Acerca de"),
         centerTitle: true,
         elevation: 5,
-        backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+        backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -18,9 +18,9 @@ class AppDetails extends StatelessWidget {
           Center(
             child: SizedBox(
               child: Text(
-                'Aplicación creada por la Unidad de Mejoramiento Docente en un trabajo colaborativo con docentes, estudiantes de pregrado y profesionales.',
+                'AGII (Apoyo a la Gestión de Ingeniería en Inventarios) entrega resultados referentes a los modelos de inventarios, apoyando y validando el proceso de cálculo y comprension de las variables involucradas.\n\n Esta aplicacion dirigida a estudiantes de la Universidad de La Serena, fue desarrollada en la Unidad de Mejoramiento Docente (UMD) en un trabajo colaborativo con docentes, estudiantes de pregrado y profesionales.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 20),
               ),
             ),
           )

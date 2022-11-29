@@ -1,55 +1,22 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'dart:io';
-import 'dart:ui' as ui;
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'dart:typed_data';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:screenshot/screenshot.dart';
 import 'dart:async';
+import 'dart:ui' as ui;
+import 'dart:ui' as dart_ui;
 
-// class FileSaveHelper {
-//   static const MethodChannel _platformCall = MethodChannel('launchFile');
+//importaciones para generar pdf
 
-//   static Future<void> saveAndLaunchFile(
-//       List<int> bytes, String fileName) async {
-//     String? path;
-//     if (Platform.isAndroid ||
-//         Platform.isIOS ||
-//         Platform.isLinux ||
-//         Platform.isWindows) {
-//       final Directory directory = await getApplicationSupportDirectory();
-//       path = directory.path;
-//     } else {
-//       path = await PathProviderPlatform.instance.getApplicationSupportPath();
-//     }
-//     final File file =
-//         File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
-//     await file.writeAsBytes(bytes, flush: true);
-//     if (Platform.isAndroid || Platform.isIOS) {
-//       final Map<String, String> argument = <String, String>{
-//         'file_path': '$path/$fileName'
-//       };
-//       try {
-//         final Future<Map<String, String>?> result =
-//             _platformCall.invokeMethod('viewPdf', argument);
-//       } catch (e) {
-//         throw Exception(e);
-//       }
-//     } else if (Platform.isWindows) {
-//       await Process.run('start', <String>['$path\\$fileName'],
-//           runInShell: true);
-//     } else if (Platform.isMacOS) {
-//       await Process.run('open', <String>['$path/$fileName'], runInShell: true);
-//     } else if (Platform.isLinux) {
-//       await Process.run('xdg-open', <String>['$path/$fileName'],
-//           runInShell: true);
-//     }
-//   }
-// }
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:agii_alpha/screens/save_file_mobile.dart';
 
 class GraphScreen extends StatefulWidget {
   const GraphScreen({
@@ -89,34 +56,12 @@ class _GraphScreenState extends State<GraphScreen> {
     super.initState();
   }
 
+  //-------------------------------------------
+
+  //---------------------------------------------
+
   @override
   Widget build(BuildContext context) {
-    // Future<void> _renderPdf() async {
-    //   final ui.Image data =
-    //       await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
-    //   final ByteData? bytes =
-    //       await data.toByteData(format: ui.ImageByteFormat.png);
-    //   final Uint8List imageBytes =
-    //       bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
-    //   final PdfBitmap bitmap = PdfBitmap(imageBytes);
-    //   final PdfDocument document = PdfDocument();
-    //   document.pageSettings.size =
-    //       Size(bitmap.width.toDouble(), bitmap.height.toDouble());
-    //   final PdfPage page = document.pages.add();
-    //   final Size pageSize = page.getClientSize();
-    //   page.graphics.drawImage(
-    //       bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
-    //   await FileSaveHelper.saveAndLaunchFile(
-    //       await document.save(), 'cartesian_chart.pdf');
-    //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-    //     behavior: SnackBarBehavior.floating,
-    //     shape: RoundedRectangleBorder(
-    //         borderRadius: BorderRadius.all(Radius.circular(5))),
-    //     duration: Duration(milliseconds: 200),
-    //     content: Text('Chart has been exported as PDF document.'),
-    //   ));
-    // }
-
     return ResponsiveBuilder(builder: (context, sizingInformation) {
       if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
         return SafeArea(
@@ -131,7 +76,7 @@ class _GraphScreenState extends State<GraphScreen> {
               centerTitle: true,
               elevation: 5,
               title: const Text('Gráfico'),
-              backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+              backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -145,6 +90,19 @@ class _GraphScreenState extends State<GraphScreen> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Text(
+                    'Importante:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    textAlign: TextAlign.left,
+                  ),
+                  const Text(
+                    'El gráfico que se genera utiliza como base los 365 días trabajados.',
+                    style: TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
                   Center(
                     child: SizedBox(
                       width: 350,
@@ -162,112 +120,136 @@ class _GraphScreenState extends State<GraphScreen> {
                         primaryXAxis: NumericAxis(labelFormat: '{value} días'),
                         primaryYAxis: NumericAxis(labelFormat: '{value} uni'),
 
-                        // primaryXAxis: CategoryAxis(
-                        //     title: AxisTitle(
-                        //         text: 'Tiempo (días)',
-                        //         textStyle: const TextStyle(fontSize: 10))),
-                        // primaryYAxis: CategoryAxis(
-                        //     title: AxisTitle(
-                        //         text: 'Stock (unidades)',
-                        //         textStyle: const TextStyle(fontSize: 10))),
                         title: ChartTitle(text: 'Modelo EOQ Básico.'),
                         legend: Legend(
-                            textStyle: const TextStyle(fontSize: 18),
+                            textStyle: const TextStyle(fontSize: 16),
                             isVisible: true,
                             overflowMode: LegendItemOverflowMode.wrap,
                             position: LegendPosition.bottom), //ver la leyenda
                         tooltipBehavior: _tooltipBehavior,
                         series: <ChartSeries>[
                           LineSeries<SalesData, double>(
-                              width: 5,
-                              color: Colors.blue,
-                              name: 'Demanda', // nombre de la leyenda
-                              dataSource: _chartData,
-                              xValueMapper: (SalesData dias, _) => dias.dias,
-                              yValueMapper: (SalesData unidades, _) =>
-                                  unidades.unidades,
-                              dataLabelSettings: const DataLabelSettings(
-                                  isVisible: false, showZeroValue: false),
-                              enableTooltip: false,
-                              markerSettings: const MarkerSettings(
-                                height: 10,
-                                width: 10,
-                                isVisible: false,
-                              )),
+                            width: 5,
+                            color: Colors.blue,
+                            name: 'Demanda', // nombre de la leyenda
+                            dataSource: _chartData,
+                            xValueMapper: (SalesData dias, _) => dias.dias,
+                            yValueMapper: (SalesData unidades, _) =>
+                                unidades.unidades,
+                            dataLabelSettings: const DataLabelSettings(
+                                isVisible: false, showZeroValue: false),
+                            enableTooltip: false,
+                            markerSettings: const MarkerSettings(
+                              height: 20,
+                              width: 20,
+                              isVisible: false,
+                            ),
+                          ),
                           LineSeries<SalesData2, double>(
-                              color: Colors.yellow,
-                              width: 5,
-                              name:
-                                  'Cantidad óptima de pedido', // nombre de la leyenda
-                              dataSource: _chartData2,
-                              xValueMapper: (SalesData2 dias, _) => dias.dias,
-                              yValueMapper: (SalesData2 unidades, _) =>
-                                  unidades.unidades,
-                              dataLabelSettings: const DataLabelSettings(
-                                  isVisible: true,
-                                  showZeroValue: false,
-                                  labelAlignment: ChartDataLabelAlignment.top),
-                              enableTooltip: true,
-                              markerSettings: const MarkerSettings(
-                                height: 15,
-                                width: 15,
-                                isVisible: true,
-                              )),
+                            color: Colors.yellow,
+                            width: 5,
+                            name:
+                                'Cantidad óptima de pedido', // nombre de la leyenda
+                            dataSource: _chartData2,
+                            xValueMapper: (SalesData2 dias, _) => dias.dias,
+                            yValueMapper: (SalesData2 unidades, _) =>
+                                unidades.unidades,
+                            dataLabelSettings: const DataLabelSettings(
+                                isVisible: false,
+                                showZeroValue: false,
+                                labelAlignment: ChartDataLabelAlignment.top),
+                            enableTooltip: true,
+                            markerSettings: const MarkerSettings(
+                              height: 20,
+                              width: 20,
+                              isVisible: true,
+                            ),
+                          ),
                           LineSeries<InventaryData, double>(
-                              color: Colors.red,
-                              width: 5,
-                              name: 'Inventario Medio',
-                              dataSource: _inventaryData,
-                              xValueMapper: (InventaryData inventary, _) =>
-                                  inventary.inventary,
-                              yValueMapper: (InventaryData inventary, _) =>
-                                  inventary.inventary2,
-                              dataLabelSettings:
-                                  const DataLabelSettings(isVisible: false),
-                              enableTooltip: true,
-                              markerSettings: const MarkerSettings(
-                                isVisible: true,
-                                height: 15,
-                                width: 15,
-                              )),
+                            color: Colors.red,
+                            width: 5,
+                            name: 'Inventario medio',
+                            dataSource: _inventaryData,
+                            xValueMapper: (InventaryData inventary, _) =>
+                                inventary.inventary,
+                            yValueMapper: (InventaryData inventary, _) =>
+                                inventary.inventary2,
+                            dataLabelSettings:
+                                const DataLabelSettings(isVisible: false),
+                            enableTooltip: true,
+                            markerSettings: const MarkerSettings(
+                              isVisible: true,
+                              height: 20,
+                              width: 20,
+                            ),
+                          ),
                           LineSeries<LeadTimeData, double>(
-                              width: 5,
-                              color: Colors.green,
-                              name: 'Tiempo entre pedidos',
-                              dataSource: _leadTimeData,
-                              xValueMapper: (LeadTimeData lead, _) =>
-                                  lead.diapedido,
-                              yValueMapper: (LeadTimeData lead, _) =>
-                                  lead.diallegada,
-                              dataLabelSettings:
-                                  const DataLabelSettings(isVisible: false),
-                              enableTooltip: true,
-                              markerSettings: const MarkerSettings(
-                                height: 15,
-                                width: 15,
-                                isVisible: true,
-                              ))
+                            width: 10,
+                            color: Colors.green,
+                            name: 'Tiempo entre pedidos',
+                            dataSource: _leadTimeData,
+                            xValueMapper: (LeadTimeData lead, _) =>
+                                lead.diapedido,
+                            yValueMapper: (LeadTimeData lead, _) =>
+                                lead.diallegada,
+                            dataLabelSettings:
+                                const DataLabelSettings(isVisible: false),
+                            enableTooltip: true,
+                            markerSettings: const MarkerSettings(
+                              height: 20,
+                              width: 20,
+                              isVisible: true,
+                            ),
+                          ),
                         ],
-
-                        // primaryXAxis:
-                        //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-                        // primaryYAxis: NumericAxis(
-                        //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
                       ),
                     ),
                   ),
                   Column(
                     children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            // _renderPdf();
-                          },
-                          child: const Text('Generar PDF')),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              _renderChartAsImage();
+                            },
+                            child: const Text('Capturar Gráfico'),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              // _renderPdf();
+                            },
+                            child: const Text('Generar PDF'),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          // ElevatedButton(
+                          //   onPressed: () {
+                          //     // _renderPdf(context);
+                          //     // _tooltipBehavior.showByIndex(1, 0);
+                          //     _tooltipBehavior.showByIndex(2, 1);
+                          //     // _tooltipBehavior.showByIndex(3, 0);
+                          //   },
+                          //   child: const Text('Exportar PDF'),
+                          // ),
+                        ],
+                      ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     // _renderPdf();
+                      //   },
+                      //   child: const Text('Generar PDF'),
+                      // ),
                       const SizedBox(
                         height: 5,
                       ),
                       const Text(
-                        '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
+                        '\n Gráfico generado por el ingreso de los siguientes valores: \n ',
                         style: TextStyle(fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
@@ -315,7 +297,7 @@ class _GraphScreenState extends State<GraphScreen> {
               centerTitle: true,
               elevation: 5,
               title: const Text('Gráfico'),
-              backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+              backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -342,15 +324,6 @@ class _GraphScreenState extends State<GraphScreen> {
                               primaryYAxis: NumericAxis(
                                   labelFormat: '{value} uni',
                                   labelStyle: const TextStyle(fontSize: 14)),
-
-                              // primaryXAxis: CategoryAxis(
-                              //     title: AxisTitle(
-                              //         text: 'Tiempo (días)',
-                              //         textStyle: const TextStyle(fontSize: 10))),
-                              // primaryYAxis: CategoryAxis(
-                              //     title: AxisTitle(
-                              //         text: 'Stock (unidades)',
-                              //         textStyle: const TextStyle(fontSize: 10))),
                               title: ChartTitle(
                                   text: 'Modelo EOQ Básico.',
                                   textStyle: const TextStyle(fontSize: 24)),
@@ -437,11 +410,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                       isVisible: true,
                                     ))
                               ],
-
-                              // primaryXAxis:
-                              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-                              // primaryYAxis: NumericAxis(
-                              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
                             ),
                           ),
                         ),
@@ -470,11 +438,6 @@ class _GraphScreenState extends State<GraphScreen> {
                               style: const TextStyle(fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
-                            // const Text(
-                            //   'Días trabajados: \n 365 días',
-                            //   style: TextStyle(fontSize: 20),
-                            //   textAlign: TextAlign.center,
-                            // ),
                           ],
                         )
                       ],
@@ -498,14 +461,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                   labelFormat: '{value} uni',
                                   labelStyle: const TextStyle(fontSize: 14)),
 
-                              // primaryXAxis: CategoryAxis(
-                              //     title: AxisTitle(
-                              //         text: 'Tiempo (días)',
-                              //         textStyle: const TextStyle(fontSize: 10))),
-                              // primaryYAxis: CategoryAxis(
-                              //     title: AxisTitle(
-                              //         text: 'Stock (unidades)',
-                              //         textStyle: const TextStyle(fontSize: 10))),
                               title: ChartTitle(
                                   text: 'Modelo EOQ Básico.',
                                   textStyle: const TextStyle(fontSize: 24)),
@@ -592,11 +547,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                       isVisible: true,
                                     ))
                               ],
-
-                              // primaryXAxis:
-                              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-                              // primaryYAxis: NumericAxis(
-                              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
                             ),
                           ),
                         ),
@@ -609,7 +559,7 @@ class _GraphScreenState extends State<GraphScreen> {
                               width: 400,
                               height: 150,
                               child: Text(
-                                '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
+                                '\n Gráfico generado por el ingreso de los siguientes valores: \n ',
                                 style: TextStyle(fontSize: 28),
                                 textAlign: TextAlign.center,
                               ),
@@ -629,11 +579,6 @@ class _GraphScreenState extends State<GraphScreen> {
                               style: const TextStyle(fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
-                            // const Text(
-                            //   'Días trabajados: \n 365 días',
-                            //   style: TextStyle(fontSize: 20),
-                            //   textAlign: TextAlign.center,
-                            // ),
                           ],
                         ),
                       ],
@@ -647,31 +592,175 @@ class _GraphScreenState extends State<GraphScreen> {
     });
   }
 
-  // Future<void> _renderPdf() async {
-  //   final ui.Image data =
-  //       await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
-  //   final ByteData? bytes =
-  //       await data.toByteData(format: ui.ImageByteFormat.png);
-  //   final Uint8List imageBytes =
-  //       bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
-  //   final PdfBitmap bitmap = PdfBitmap(imageBytes);
-  //   final PdfDocument document = PdfDocument();
-  //   document.pageSettings.size =
-  //       Size(bitmap.width.toDouble(), bitmap.height.toDouble());
-  //   final PdfPage page = document.pages.add();
-  //   final Size pageSize = page.getClientSize();
-  //   page.graphics.drawImage(
-  //       bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
-  //   await FileSaveHelper.saveAndLaunchFile(
-  //       await document.save(), 'cartesian_chart.pdf');
-  //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //     behavior: SnackBarBehavior.floating,
-  //     shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.all(Radius.circular(5))),
-  //     duration: Duration(seconds: 3),
-  //     content: Text('Chart has been exported as PDF document.'),
-  //   ));
-  // }
+  //---------------------------------------------
+
+  Future<void> _renderImage() async {
+    final List<int> bytes = await _readImageData();
+    if (bytes != null) {
+      final Directory documentDirectory =
+          await getApplicationDocumentsDirectory();
+      final String path = documentDirectory.path;
+      const String imageName = 'cartesianchart.png';
+      imageCache.clear();
+      final File file = File('$path/$imageName');
+      file.writeAsBytesSync(bytes);
+      if (!mounted) {
+        return;
+      }
+      await Navigator.of(context).push<dynamic>(
+        MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(),
+              body: Center(
+                child: Container(
+                  color: Colors.white,
+                  child: Image.file(file),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> _renderPdf() async {
+    final PdfDocument document = PdfDocument();
+    final PdfBitmap bitmap = PdfBitmap(await _readImageData());
+    if (!mounted) {
+      return;
+    }
+    document.pageSettings.orientation =
+        MediaQuery.of(context).orientation == Orientation.landscape
+            ? PdfPageOrientation.landscape
+            : PdfPageOrientation.portrait;
+    document.pageSettings.margins.all = 0;
+    document.pageSettings.size =
+        Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+    final PdfPage page = document.pages.add();
+    final Size pageSize = page.getClientSize();
+    page.graphics.drawImage(
+        bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      duration: Duration(milliseconds: 200),
+      content: Text('Chart has been exported as PDF document.'),
+    ));
+    final List<int> bytes = document.saveSync();
+    document.dispose();
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'cartesian_chart.pdf');
+  }
+
+  Future<List<int>> _readImageData() async {
+    final dart_ui.Image data =
+        await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+    final ByteData? bytes =
+        await data.toByteData(format: dart_ui.ImageByteFormat.png);
+    return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+  }
+
+  //-------------------------
+
+  Future<void> _renderChartAsImage() async {
+    final ui.Image data =
+        await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+    final ByteData? bytes =
+        await data.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List imageBytes =
+        bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+
+    Widget buildImage() => Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 5,
+              ),
+              const SizedBox(
+                  height: 70,
+                  width: 70,
+                  child: Image(
+                    image: AssetImage('assets/logouls.png'),
+                    fit: BoxFit.fill,
+                  )),
+              Center(
+                child: SizedBox(
+                  width: 300,
+                  height: 550,
+                  child: Image.memory(imageBytes),
+                ),
+              ),
+            ],
+          ),
+        );
+    final controller = ScreenshotController();
+    // ignore: use_build_context_synchronously
+    await Navigator.of(context).push<dynamic>(
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) {
+          return Screenshot(
+            controller: controller,
+            child: Scaffold(
+                body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  buildImage(),
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     const snackBar = SnackBar(
+                  //         duration: Duration(seconds: 2),
+                  //         content: Text('Gráfico guardado en galería'));
+                  //     final image = await controller.capture();
+                  //     if (image == null) return;
+
+                  //     await saveImage(image);
+                  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  //   },
+                  //   child: const Text('Guardar'),
+                  // ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      const snackBar = SnackBar(
+                          duration: Duration(seconds: 2),
+                          content: Text('Gráfico guardado en galería'));
+                      final image =
+                          await controller.captureFromWidget(buildImage());
+                      await saveImage(image);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                    child: const Text('Guardar'),
+                  ),
+                ],
+              ),
+            )),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<String> saveImage(Uint8List image) async {
+    await [Permission.storage].request();
+
+    final time = DateTime.now()
+        .toIso8601String()
+        .replaceAll('.', '-')
+        .replaceAll(':', '-');
+    final name = "screenshot_$time";
+    final result = await ImageGallerySaver.saveImage(image, name: name);
+
+    return result['filePath'];
+  }
+
+  //----------------------------
+
+//-------------------------------------------
 
   //lista donde se asigna la fuente de los datos y añadir las series de lineas
   //GRAFICO DE LA DEMANDA
@@ -689,6 +778,7 @@ class _GraphScreenState extends State<GraphScreen> {
     double ro = double.parse(rorden);
 
     final List<SalesData> chartData = [
+      SalesData(0, 0),
       SalesData(0, co),
       SalesData(ro, 0),
       SalesData(ro, co),
@@ -754,10 +844,9 @@ class _GraphScreenState extends State<GraphScreen> {
 
     final List<InventaryData> chartData2 = [
       InventaryData(0, co / 2),
+      InventaryData(ro, co / 2),
+      InventaryData(ro * 2, co / 2),
       InventaryData(ro * 3, co / 2),
-      // InventaryData(ro * 2, co / 2),
-      // InventaryData(ro * 4, co / 2),
-      // InventaryData(reOrden * 5, cantidadOptima / 2),
     ];
     return chartData2;
   }

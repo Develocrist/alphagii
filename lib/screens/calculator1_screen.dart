@@ -411,7 +411,7 @@ class Calculadora extends State<MyCalculator> {
                   }),
               centerTitle: true,
               elevation: 5,
-              backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+              backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
               title: const Text('Modelo EOQ'),
               actions: [
                 IconButton(
@@ -429,7 +429,6 @@ class Calculadora extends State<MyCalculator> {
               child: SingleChildScrollView(
                 controller: controladorScroll,
                 child: Column(
-
                     //key: my_form_key,
                     children: [
                       const SizedBox(
@@ -460,10 +459,11 @@ class Calculadora extends State<MyCalculator> {
                                   contentPadding:
                                       EdgeInsets.only(left: 10, bottom: 1),
                                   focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                    color: Color.fromRGBO(8, 75, 129, 10),
-                                  )),
-                                  labelText: '(D) Demanda :'),
+                                    borderSide: BorderSide(
+                                      color: Color.fromRGBO(76, 134, 255, 1),
+                                    ),
+                                  ),
+                                  labelText: '(D) Demanda:'),
                             ),
                           ),
                           const SizedBox(
@@ -481,13 +481,15 @@ class Calculadora extends State<MyCalculator> {
                                 LengthLimitingTextInputFormatter(8),
                               ],
                               decoration: const InputDecoration(
+                                  prefix: Text('\$ '),
                                   contentPadding:
                                       EdgeInsets.only(left: 10, bottom: 1),
                                   focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              Color.fromRGBO(8, 75, 129, 10))),
-                                  labelText: ' (K) Costo orden \$:'),
+                                    borderSide: BorderSide(
+                                      color: Color.fromRGBO(76, 134, 255, 1),
+                                    ),
+                                  ),
+                                  labelText: ' (K) Costo orden:'),
                             ),
                           )
                         ],
@@ -510,13 +512,15 @@ class Calculadora extends State<MyCalculator> {
                                   LengthLimitingTextInputFormatter(8),
                                 ],
                                 decoration: const InputDecoration(
+                                    prefix: Text('\$ '),
                                     contentPadding:
                                         EdgeInsets.only(left: 10, bottom: 1),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromRGBO(
-                                                8, 75, 129, 10))),
-                                    labelText: '(H) Mantención \$:'),
+                                      borderSide: BorderSide(
+                                        color: Color.fromRGBO(76, 134, 255, 1),
+                                      ),
+                                    ),
+                                    labelText: '(H) Mantención:'),
                               ),
                             ),
                             const SizedBox(
@@ -535,13 +539,14 @@ class Calculadora extends State<MyCalculator> {
                                   LengthLimitingTextInputFormatter(8),
                                 ],
                                 decoration: const InputDecoration(
+                                    prefix: Text('\$ '),
                                     contentPadding:
-                                        EdgeInsets.only(left: 5, bottom: 1),
+                                        EdgeInsets.only(left: 10, bottom: 1),
                                     focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromRGBO(
-                                                8, 75, 129, 10))),
-                                    labelText: '(C) Costo unitario \$:'),
+                                                76, 134, 255, 1))),
+                                    labelText: '(C) Costo unitario:'),
                               ),
                             )
                           ]),
@@ -556,7 +561,7 @@ class Calculadora extends State<MyCalculator> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: SizedBox(
-                              width: 250,
+                              width: 280,
                               height: 50,
                               child: TextFormField(
                                 //readOnly: !blFlag,
@@ -576,9 +581,9 @@ class Calculadora extends State<MyCalculator> {
                                   focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromRGBO(8, 75, 129, 10))),
+                                              Color.fromRGBO(76, 134, 255, 1))),
                                   labelText:
-                                      '(L) Tiempo de espera del proveedor (días):',
+                                      '(L) Tiempo de espera del proveedor:',
                                 ),
                               ),
                             ),
@@ -586,7 +591,7 @@ class Calculadora extends State<MyCalculator> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: SizedBox(
-                              width: 250,
+                              width: 280,
                               height: 50,
                               child: TextFormField(
                                 //readOnly: !cbFlag,
@@ -602,7 +607,7 @@ class Calculadora extends State<MyCalculator> {
                                   focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromRGBO(8, 75, 129, 10))),
+                                              Color.fromRGBO(76, 134, 255, 1))),
                                   labelText: 'Días trabajados al año:',
                                 ),
                               ),
@@ -626,10 +631,11 @@ class Calculadora extends State<MyCalculator> {
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                const Color.fromRGBO(8, 75, 129, 10),
+                                const Color.fromRGBO(2, 102, 255, 1),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            fixedSize: const Size(300, 50)),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            fixedSize: const Size(320, 50)),
                         label: const Text(
                           'Calcular',
                           style: TextStyle(fontSize: 18),
@@ -651,25 +657,27 @@ class Calculadora extends State<MyCalculator> {
                                   curve: Curves.easeInOut);
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shadowColor:
-                                    Colors.transparent.withOpacity(0.1),
-                                side: const BorderSide(
-                                  width: 2,
-                                  color: Color.fromRGBO(8, 75, 129, 1),
-                                ),
-                                fixedSize: const Size(150, 50),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
+                              backgroundColor: Colors.white,
+                              shadowColor: Colors.transparent.withOpacity(0.1),
+                              side: const BorderSide(
+                                width: 2,
+                                color: Color.fromRGBO(2, 102, 255, 1),
+                              ),
+                              fixedSize: const Size(140, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
                             label: const Text(
                               'Limpiar',
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromRGBO(8, 75, 129, 1)),
+                                fontSize: 18,
+                                color: Color.fromRGBO(2, 102, 255, 1),
+                              ),
                             ),
                             icon: const Icon(
                               Icons.cleaning_services_outlined,
-                              color: Color.fromRGBO(8, 75, 129, 1),
+                              color: Color.fromRGBO(2, 102, 255, 1),
                             ),
                           ),
                           const VerticalDivider(
@@ -681,12 +689,12 @@ class Calculadora extends State<MyCalculator> {
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromRGBO(8, 75, 129, 10),
+                                    const Color.fromRGBO(2, 102, 255, 1),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 fixedSize: const Size(170, 50)),
                             label: const Text(
-                              'Fórmulario',
+                              'Formulario',
                               style: TextStyle(fontSize: 18),
                             ),
                             icon: const Icon(Icons.class_outlined),
@@ -705,14 +713,14 @@ class Calculadora extends State<MyCalculator> {
                                 : () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => GraphScreen2(
+                                        builder: (context) => GraphScreen(
                                               dem: controllerDemanda.text,
                                               ord: controllerOrden.text,
                                               man: controllerMantencion.text,
                                             ))),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromRGBO(8, 75, 129, 10),
+                                    const Color.fromRGBO(2, 102, 255, 1),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 fixedSize: const Size(250, 50)),
@@ -733,7 +741,7 @@ class Calculadora extends State<MyCalculator> {
                               shape: const CircleBorder(),
                               padding: const EdgeInsets.all(5),
                               backgroundColor: const Color.fromRGBO(
-                                  8, 75, 129, 10), // <-- Button color
+                                  2, 102, 255, 1), // <-- Button color
                             ),
                             child: const Icon(Icons.arrow_upward),
                           ),
@@ -752,7 +760,7 @@ class Calculadora extends State<MyCalculator> {
                           height: 400,
                           width: 400,
                           padding: const EdgeInsets.only(top: 10),
-                          color: const Color.fromRGBO(28, 49, 108, 1),
+                          color: const Color.fromRGBO(76, 134, 255, 1),
                           child: SingleChildScrollView(
                             child: Text(
                               //aquí se inserta el resultado del textformfield
@@ -782,7 +790,7 @@ class Calculadora extends State<MyCalculator> {
                   }),
               centerTitle: true,
               elevation: 5,
-              backgroundColor: const Color.fromRGBO(8, 75, 129, 10),
+              backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
               title: const Text('Modelo EOQ'),
               actions: [
                 IconButton(

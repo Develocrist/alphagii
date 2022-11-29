@@ -11,7 +11,7 @@ class AlertaErrorIngreso {
             if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
               return SingleChildScrollView(
                 child: AlertDialog(
-                  title: const Text("Error de Ingreso"),
+                  title: const Text("Faltan datos"),
                   iconColor: Colors.red,
                   icon: const Icon(
                     Icons.error_outline_outlined,
@@ -29,7 +29,7 @@ class AlertaErrorIngreso {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text("Entendido.",
+                        child: const Text("Intenta otra vez",
                             style: TextStyle(fontSize: 20))),
                   ],
                 ),

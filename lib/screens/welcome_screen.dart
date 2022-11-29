@@ -1,6 +1,7 @@
 import 'package:agii_alpha/screens/screens.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -23,8 +24,8 @@ class WelcomeScreen extends StatelessWidget {
                 duration: const Duration(seconds: 3),
                 child: Center(
                   child: SizedBox(
-                      width: 250,
-                      height: 250,
+                      width: 240,
+                      height: 240,
                       child: GestureDetector(
                         onTap: () {
                           Navigator.pushReplacement(
@@ -46,28 +47,32 @@ class WelcomeScreen extends StatelessWidget {
                         },
                         child: const Image(
                           fit: BoxFit.fill,
-                          image: AssetImage('assets/iconagii4.png'),
+                          image: AssetImage('assets/logofinal.png'),
                         ),
                       )),
                 ),
               ),
               FadeIn(
-                  animate: true,
-                  duration: const Duration(seconds: 2),
-                  child: const Text(
-                    'Ingresar',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  )),
+                animate: true,
+                duration: const Duration(seconds: 2),
+                child: const Text(
+                  'Comencemos',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(
+                height: 120,
+              ),
               SizedBox(
-                width: 350,
-                height: 200,
+                width: 220,
+                height: 70,
                 child: FadeIn(
                     animate: true,
                     duration: const Duration(seconds: 3),
                     child: const Image(
                       fit: BoxFit.fill,
-                      image: AssetImage('assets/logoumd.png'),
+                      image: AssetImage('assets/logoumdoficial2.png'),
                     )),
               ),
             ],

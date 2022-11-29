@@ -14,7 +14,7 @@ class AlertaFormulario {
               title: RichText(
                 textAlign: TextAlign.center,
                 text: const TextSpan(
-                  text: 'Fórmulario',
+                  text: 'Fórmulas',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -28,7 +28,10 @@ class AlertaFormulario {
                   child: Column(mainAxisSize: MainAxisSize.max, children: [
                 const Text(
                   'Cantidad óptima de pedido:',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Image.asset(
                   'assets/formulacantidadeconomica.png',
@@ -38,6 +41,9 @@ class AlertaFormulario {
                 const Text(
                   'Tiempo entre pedidos:',
                   style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Image.asset(
                   'assets/formulaleadtime.png',
@@ -50,7 +56,7 @@ class AlertaFormulario {
                   style: TextStyle(fontSize: 20),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 Image.asset(
                   'assets/formulareorden.png',
@@ -61,6 +67,9 @@ class AlertaFormulario {
                 const Text(
                   'Costos:',
                   style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Image.asset(
                   'assets/formulascostos.png',
@@ -108,7 +117,7 @@ class AlertaFormulario {
                       children: [
                         TextSpan(
                             text:
-                                '= Tasa de demanda (unidades, lotes, paquetes por año)',
+                                '= Tasa de demanda (unidades, lotes y paquetes por año).',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
@@ -235,7 +244,7 @@ class AlertaFormulario {
                       children: [
                         TextSpan(
                             text:
-                                '= Punto de Reorden (unidades), representa el punto en que se debería hacer el siguiente pedido.',
+                                '= Punto de reorden (unidades), representa el punto en que se debería hacer el siguiente pedido.',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,

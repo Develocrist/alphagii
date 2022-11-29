@@ -11,12 +11,12 @@ class AlertaDescripcionGrafico {
               title: const Text("Modelo Gráfico EOQ"),
               iconColor: Colors.blue,
               icon: const Icon(
-                Icons.error_outline_outlined,
-                size: 30,
+                Icons.info,
+                size: 40,
               ),
               content: const Text(
-                "El modelo gráfico en pantalla permite observar el comportamiento de la demanda en base a la cantidad óptima de pedido obtenida anteriormente. \n Además de incorporar gráficamente el inventario medio e incluir el tiempo transcurrido entre pedidos, a fin de analizar como se visualizan y comportan estas variables.",
-                textAlign: TextAlign.justify,
+                "El modelo gráfico en pantalla permite observar el comportamiento de la demanda, en base a la cantidad óptima de pedido obtenida anteriormente. \n\n Además, incorpora gráficamente el inventario medio e incluye el tiempo transcurrido entre pedidos, a fin de analizar cómo se visualizan y comportan estas variables.",
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18),
               ),
               shape: RoundedRectangleBorder(
@@ -27,7 +27,7 @@ class AlertaDescripcionGrafico {
                       Navigator.pop(context);
                     },
                     child: const Text(
-                      "Entendido.",
+                      "Entendido",
                       style: TextStyle(fontSize: 20),
                     )),
               ],

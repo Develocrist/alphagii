@@ -2,6 +2,15 @@ import 'package:agii_alpha/screens/welcome_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:flutter/services.dart';
+
+// void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   // Step 3
+//   SystemChrome.setPreferredOrientations(
+//           [DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft])
+//       .then((value) => runApp(const MyApp()));
+// }
 
 void main() => runApp(const MyApp());
 
@@ -44,10 +53,10 @@ class _HomeState extends State<Home> {
               children: [
                 FadeIn(
                     animate: true,
-                    duration: const Duration(seconds: 3),
+                    duration: const Duration(seconds: 2),
                     child: FadeOut(
                       animate: true,
-                      delay: const Duration(seconds: 4),
+                      delay: const Duration(seconds: 3),
                       duration: const Duration(seconds: 2),
                       child: const SizedBox(
                           width: 250,
@@ -78,7 +87,7 @@ class _HomeState extends State<Home> {
                           width: 400,
                           height: 400,
                           child: Image(
-                            image: AssetImage('assets/logoulshdgrande.png'),
+                            image: AssetImage('assets/logoulsoficial.png'),
                           )),
                     ))
               ],
@@ -94,39 +103,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-
-
-
-
-//--------------------------
-// import 'package:flutter/material.dart';
-
-// import 'package:agii_alpha/screens/listview1_screen.dart';
-// import 'package:flutter_native_splash/flutter_native_splash.dart';
-
-// void main() => runApp(const MyApp());
-
-// // Future main() async {
-// //   WidgetsFlutterBinding.ensureInitialized();
-// //   // ignore: deprecated_member_use
-// //   FlutterNativeSplash.removeAfter(initialization);
-
-// //   runApp(const MyApp());
-// // }
-
-// // Future initialization(BuildContext? context) async {
-// //   await Future.delayed(const Duration(seconds: 2));
-// // }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         title: 'AGII Alpha',
-//         home: Listview1Screen());
-//   }
-// }

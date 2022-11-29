@@ -30,7 +30,7 @@ class AlertaInformacionModelos {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   children: [
                     Text(
-                        'Son técnicas de administración de inventarios que proporcionan no solo las cantidades de pedidos y puntos de nuevos pedidos, sino también un calendario de cuando se necesita cada articulo y en que cantidades durante un proceso de producción.\n',
+                        'Son técnicas de administración de inventarios que, durante un proceso de producción, proporcionan las cantidades de pedidos, puntos de nuevos pedidos y un calendario respecto a cuándo se necesita cada pedido y en que cantidad.\n',
                         style: TextStyle(fontSize: 18)),
                   ],
                 ),
@@ -43,11 +43,21 @@ class AlertaInformacionModelos {
                   ),
                   children: [
                     Text(
-                      'Modelos Deterministicos: Son aquellos donde se toma como supuesto que tenemos certeza de la demanda. Esta puede estar dada por pronósticos de demanda o pedidos reales de los clientes. \n',
+                      'Modelos Deterministicos: ',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Toman como supuesto que tenemos certeza de la demanda, la cual puede estar dada por pronósticos de demanda o pedidos reales de los clientes. \n',
                       style: TextStyle(fontSize: 18),
                     ),
                     Text(
-                      'Modelos Probabilisticos: Cuando la demanda no es conocida, está sujeta a una cantidad significativa de incertidumbre y variabilidad.\n',
+                      'Modelos Probabilisticos: ',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Cuando la demanda no es conocida, está sujeta a una cantidad significativa de incertidumbre y variabilidad.\n',
                       style: TextStyle(fontSize: 18),
                     ),
                   ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 class AlertaDescripcionCalculadora {
   void descripcionCalculadora(BuildContext context) {
@@ -28,7 +27,7 @@ class AlertaDescripcionCalculadora {
                 ),
                 children: [
                   Text(
-                      'El Módelo de Wilson, también denominado Sistema EOQ (Economic Order Quantity) es una de las herramientas que se utilizan para determinar el monto óptimo de pedido para un artículo de inventario. Este, tiene en cuenta los diferentes costos financieros, de operación y determina el monto de pedido que minimice los costos de inventario de la empresa. \n',
+                      'El Módelo de Wilson, también denominado Sistema EOQ (Economic Order Quantity) es una de las herramientas que se utilizan para determinar el monto óptimo de pedido para un artículo de inventario.\n\nEste, tiene en cuenta los diferentes costos financieros, de operación y determina el monto de pedido que minimice los costos de inventario de la empresa. \n',
                       style: TextStyle(fontSize: 18)),
                   Text(
                       'Para poder desarrollar el método EOQ se deben cumplir las siguientes condiciones o supuestos básicos en la empresa, de lo contrario, los cálculos no se podrán llevar a cabo de forma precisa: \n',
@@ -55,7 +54,7 @@ class AlertaDescripcionCalculadora {
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    'Los resultados entregados por la Aplicación se entregan en las siguientes unidades: \n\n - Cantidad óptima de pedido se entrega en Unidades (stock). \n \n- Tiempo entre pedidos se entrega en la unidad de tiempo Días. \n \n - Punto de reorden se entrega en Unidades (stock). \n \n - Número de ordenes esperado se entrega en Pedidos. \n \n - Los costos anuales se entregan en la unidad monetaria Pesos Chilenos (CLP)',
+                    'Los resultados entregados por la aplicación se entregan en las siguientes unidades: \n\n - Cantidad óptima de pedido se entrega en unidades (stock). \n \n- Tiempo entre pedidos se entrega en la unidad de tiempo días. \n \n - Punto de reorden se entrega en unidades (stock). \n \n - Número de ordenes esperado se entrega en pedidos. \n \n - Los costos anuales se entregan en la unidad monetaria pesos chilenos (CLP).',
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -81,11 +80,11 @@ class AlertaDescripcionCalculadora {
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    '- El Campo (L) correspondiente al "Tiempo de espera del proveedor" nos ayudará a obtener el resultado "Punto de reorden", este tiene un mínimo de 1 día y un máximo de 9 días. \n',
+                    '- El campo (L) correspondiente al "Tiempo de espera del proveedor" nos ayudará a obtener el resultado "Punto de reorden", este tiene un mínimo de 1 día y un máximo de 9 días. \n',
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    '- La unidad trabajada en el campo Demanda son "Unidades" \n \n - La unidad monetaría trabajada en los campos Costo orden, Costo unitario y Mantención corresponden a Pesos chilenos (CLP). \n \n  - La unidad de tiempo utilizada en los campos Tiempo de espera del proveedor y Días trabajados, se expresan como Días. \n \n',
+                    '- La unidad trabajada en el campo Demanda son "Unidades" \n \n - La unidad monetaria trabajada en los campos Costo orden, Costo unitario y Mantención corresponden a pesos chilenos (CLP). \n \n  - La unidad de tiempo utilizada en los campos Tiempo de espera del proveedor y días trabajados, se expresan como días. \n \n',
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(
@@ -102,7 +101,7 @@ class AlertaDescripcionCalculadora {
                     Navigator.pop(context);
                   },
                   child:
-                      const Text("Entendido.", style: TextStyle(fontSize: 18))),
+                      const Text("Entendido", style: TextStyle(fontSize: 18))),
             ],
           ),
         );
