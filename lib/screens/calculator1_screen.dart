@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:agii_alpha/screens/graph_screen.dart';
-import 'package:agii_alpha/screens/graph_screen_test.dart';
+// import 'package:agii_alpha/screens/graph_screen_test.dart';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -412,7 +412,12 @@ class Calculadora extends State<MyCalculator> {
               centerTitle: true,
               elevation: 5,
               backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
-              title: const Text('Modelo EOQ'),
+              title: const Text(
+                'Modelo EOQ',
+                style: TextStyle(
+                  fontFamily: 'MuseoSans',
+                ),
+              ),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -436,7 +441,7 @@ class Calculadora extends State<MyCalculator> {
                       ),
                       const Text(
                         'Variables:',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18, fontFamily: 'MuseoSans'),
                       ),
                       const SizedBox(
                         height: 15,
@@ -456,14 +461,15 @@ class Calculadora extends State<MyCalculator> {
                                 LengthLimitingTextInputFormatter(8),
                               ],
                               decoration: const InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(left: 10, bottom: 1),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromRGBO(76, 134, 255, 1),
-                                    ),
+                                contentPadding:
+                                    EdgeInsets.only(left: 10, bottom: 1),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color.fromRGBO(76, 134, 255, 1),
                                   ),
-                                  labelText: '(D) Demanda:'),
+                                ),
+                                labelText: '(D) Demanda:',
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -638,7 +644,8 @@ class Calculadora extends State<MyCalculator> {
                             fixedSize: const Size(320, 50)),
                         label: const Text(
                           'Calcular',
-                          style: TextStyle(fontSize: 18),
+                          style:
+                              TextStyle(fontSize: 18, fontFamily: 'MuseoSans'),
                         ),
                         icon: const Icon(Icons.calculate_outlined),
                       ),
@@ -671,6 +678,7 @@ class Calculadora extends State<MyCalculator> {
                             label: const Text(
                               'Limpiar',
                               style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 fontSize: 18,
                                 color: Color.fromRGBO(2, 102, 255, 1),
                               ),
@@ -695,7 +703,10 @@ class Calculadora extends State<MyCalculator> {
                                 fixedSize: const Size(170, 50)),
                             label: const Text(
                               'Formulario',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'MuseoSans',
+                              ),
                             ),
                             icon: const Icon(Icons.class_outlined),
                           ),
@@ -726,7 +737,10 @@ class Calculadora extends State<MyCalculator> {
                                 fixedSize: const Size(250, 50)),
                             label: const Text(
                               'Gráfico',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'MuseoSans',
+                              ),
                             ),
                             icon: const Icon(Icons.auto_graph_outlined),
                           ),
@@ -766,7 +780,9 @@ class Calculadora extends State<MyCalculator> {
                               //aquí se inserta el resultado del textformfield
                               '$mostrarCantidadOptima \n $tiempoentrePedidos \n $campoPuntoReorden \n $mostrarNumOrdenes  \n $costoOrden \n $costMantencion \n $costoTotal',
                               style: const TextStyle(
-                                  fontSize: 18.0, color: Colors.white),
+                                  fontFamily: 'MuseoSans',
+                                  fontSize: 18.0,
+                                  color: Colors.white),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -791,7 +807,12 @@ class Calculadora extends State<MyCalculator> {
               centerTitle: true,
               elevation: 5,
               backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
-              title: const Text('Modelo EOQ'),
+              title: const Text(
+                'Modelo EOQ',
+                style: TextStyle(
+                  fontFamily: 'MuseoSans',
+                ),
+              ),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -1154,7 +1175,9 @@ class Calculadora extends State<MyCalculator> {
                                     //aquí se inserta el resultado del textformfield
                                     '$mostrarCantidadOptima \n \n $tiempoentrePedidos \n \n $campoPuntoReorden \n \n $mostrarNumOrdenes  \n \n $costoOrden \n \n $costMantencion \n \n $costoTotal',
                                     style: const TextStyle(
-                                        fontSize: 24.0, color: Colors.white),
+                                        fontFamily: 'MuseoSans',
+                                        fontSize: 24.0,
+                                        color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -1480,8 +1503,10 @@ class Calculadora extends State<MyCalculator> {
                                                   BorderRadius.circular(20)),
                                           fixedSize: const Size(170, 50)),
                                       label: const Text(
-                                        'Fórmulario',
-                                        style: TextStyle(fontSize: 18),
+                                        'Formulario',
+                                        style: TextStyle(
+                                            fontFamily: 'MuseoSans',
+                                            fontSize: 18),
                                       ),
                                       icon: const Icon(Icons.class_outlined),
                                     ),
@@ -1500,7 +1525,7 @@ class Calculadora extends State<MyCalculator> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      GraphScreen2(
+                                                      GraphScreen(
                                                         dem: controllerDemanda
                                                             .text,
                                                         ord: controllerOrden
@@ -1518,7 +1543,9 @@ class Calculadora extends State<MyCalculator> {
                                           fixedSize: const Size(250, 50)),
                                       label: const Text(
                                         'Gráfico',
-                                        style: TextStyle(fontSize: 18),
+                                        style: TextStyle(
+                                            fontFamily: 'MuseoSans',
+                                            fontSize: 18),
                                       ),
                                       icon:
                                           const Icon(Icons.auto_graph_outlined),
@@ -1558,7 +1585,9 @@ class Calculadora extends State<MyCalculator> {
                                   //aquí se inserta el resultado del textformfield
                                   '$mostrarCantidadOptima \n \n $tiempoentrePedidos \n \n $campoPuntoReorden \n \n $mostrarNumOrdenes \n \n $costoOrden \n \n $costMantencion \n \n $costoTotal',
                                   style: const TextStyle(
-                                      fontSize: 26, color: Colors.white),
+                                      fontFamily: 'MuseoSans',
+                                      fontSize: 26,
+                                      color: Colors.white),
                                   textAlign: TextAlign.center,
                                 ),
                               ),

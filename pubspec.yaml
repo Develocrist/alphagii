@@ -61,3 +61,12 @@ flutter:
   assets:
     - assets/
   uses-material-design: true
+
+  fonts:
+    - family: MuseoSansItalic
+      fonts:
+        - asset: fonts/MuseoSans_500_Italic.otf
+    - family: MuseoSans
+      fonts:
+        - asset: fonts/MuseoSans-300.otf
+      

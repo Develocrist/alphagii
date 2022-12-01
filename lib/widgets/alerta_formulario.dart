@@ -14,8 +14,9 @@ class AlertaFormulario {
               title: RichText(
                 textAlign: TextAlign.center,
                 text: const TextSpan(
-                  text: 'Fórmulas',
+                  text: 'Formulas',
                   style: TextStyle(
+                    fontFamily: 'MuseoSans',
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Color.fromRGBO(8, 75, 129, 10),
@@ -28,7 +29,10 @@ class AlertaFormulario {
                   child: Column(mainAxisSize: MainAxisSize.max, children: [
                 const Text(
                   'Cantidad óptima de pedido:',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'MuseoSans',
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -40,7 +44,10 @@ class AlertaFormulario {
                 const Divider(),
                 const Text(
                   'Tiempo entre pedidos:',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'MuseoSans',
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -53,7 +60,10 @@ class AlertaFormulario {
                 const Divider(),
                 const Text(
                   'Punto de reorden:',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'MuseoSans',
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -66,7 +76,10 @@ class AlertaFormulario {
                 const Divider(),
                 const Text(
                   'Costos:',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'MuseoSans',
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -85,6 +98,7 @@ class AlertaFormulario {
                   text: const TextSpan(
                       text: 'Variables',
                       style: TextStyle(
+                          fontFamily: 'MuseoSans',
                           fontSize: 20,
                           color: Colors.red,
                           fontWeight: FontWeight.bold)),
@@ -101,6 +115,7 @@ class AlertaFormulario {
                         TextSpan(
                             text: '= Representa la cantidad óptima de pedido.',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -119,6 +134,7 @@ class AlertaFormulario {
                             text:
                                 '= Tasa de demanda (unidades, lotes y paquetes por año).',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -129,6 +145,7 @@ class AlertaFormulario {
                   text: const TextSpan(
                       text: 'K ',
                       style: TextStyle(
+                          fontFamily: 'MuseoSans',
                           fontSize: 20,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
@@ -137,6 +154,7 @@ class AlertaFormulario {
                             text:
                                 '= Costo de orden o preparación, dado en unidades monetarias por unidad.',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -147,6 +165,7 @@ class AlertaFormulario {
                   text: const TextSpan(
                       text: 'C ',
                       style: TextStyle(
+                        fontFamily: 'MuseoSans',
                         fontSize: 20,
                         color: Colors.red,
                         fontWeight: FontWeight.bold,
@@ -156,6 +175,7 @@ class AlertaFormulario {
                             text:
                                 '= Costo del ítem, dado en unidades monetarias por unidad.',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -166,6 +186,7 @@ class AlertaFormulario {
                   text: const TextSpan(
                       text: 'H ',
                       style: TextStyle(
+                          fontFamily: 'MuseoSans',
                           fontSize: 20,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
@@ -174,6 +195,7 @@ class AlertaFormulario {
                             text:
                                 '= Costo anual de Mantención, dado en unidades monetarias. Este es el resultado de la multiplicación entre el costo unitario y la tasa de mantenimiento (H = i * C).',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -184,6 +206,7 @@ class AlertaFormulario {
                   text: const TextSpan(
                       text: 'i ',
                       style: TextStyle(
+                          fontFamily: 'MuseoSans',
                           fontSize: 20,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
@@ -192,6 +215,7 @@ class AlertaFormulario {
                             text:
                                 '= Tasa anual de mantenimiento, esta se da en unidades porcentuales.',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -202,6 +226,7 @@ class AlertaFormulario {
                   text: const TextSpan(
                       text: 'L ',
                       style: TextStyle(
+                          fontFamily: 'MuseoSans',
                           fontSize: 20,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
@@ -210,6 +235,7 @@ class AlertaFormulario {
                             text:
                                 '= Tiempo de espera del proveedor, representa el tiempo que demora en llegar el pedido.',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -220,6 +246,7 @@ class AlertaFormulario {
                   text: const TextSpan(
                       text: 'N ',
                       style: TextStyle(
+                          fontFamily: 'MuseoSans',
                           fontSize: 20,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
@@ -228,6 +255,7 @@ class AlertaFormulario {
                             text:
                                 '= Número de pedidos a realizar en base a los días trabajados, generalmente es anual.',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -238,6 +266,7 @@ class AlertaFormulario {
                   text: const TextSpan(
                       text: 'R ',
                       style: TextStyle(
+                          fontFamily: 'MuseoSans',
                           fontSize: 20,
                           color: Colors.red,
                           fontWeight: FontWeight.bold),
@@ -246,6 +275,7 @@ class AlertaFormulario {
                             text:
                                 '= Punto de reorden (unidades), representa el punto en que se debería hacer el siguiente pedido.',
                             style: TextStyle(
+                                fontFamily: 'MuseoSans',
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18))
@@ -256,7 +286,12 @@ class AlertaFormulario {
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Cerrar'))
+                    child: const Text(
+                      'Cerrar',
+                      style: TextStyle(
+                        fontFamily: 'MuseoSans',
+                      ),
+                    ))
               ],
             ),
           );

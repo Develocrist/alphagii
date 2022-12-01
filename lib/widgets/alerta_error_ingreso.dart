@@ -11,7 +11,12 @@ class AlertaErrorIngreso {
             if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
               return SingleChildScrollView(
                 child: AlertDialog(
-                  title: const Text("Faltan datos"),
+                  title: const Text(
+                    "Faltan datos",
+                    style: TextStyle(
+                      fontFamily: 'MuseoSans',
+                    ),
+                  ),
                   iconColor: Colors.red,
                   icon: const Icon(
                     Icons.error_outline_outlined,
@@ -20,7 +25,10 @@ class AlertaErrorIngreso {
                   content: const Text(
                     "Ingrese valores númericos en al menos las siguientes casillas: \n - Demanda. \n - Costo orden. \n - Mantención.",
                     textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'MuseoSans',
+                    ),
                   ),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -30,7 +38,10 @@ class AlertaErrorIngreso {
                           Navigator.pop(context);
                         },
                         child: const Text("Intenta otra vez",
-                            style: TextStyle(fontSize: 20))),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'MuseoSans',
+                            ))),
                   ],
                 ),
               );
@@ -38,8 +49,13 @@ class AlertaErrorIngreso {
             if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
               return SingleChildScrollView(
                 child: AlertDialog(
-                  title: const Text("Error de Ingreso"),
-                  iconColor: Colors.blue,
+                  title: const Text(
+                    "Faltan datos",
+                    style: TextStyle(
+                      fontFamily: 'MuseoSans',
+                    ),
+                  ),
+                  iconColor: Colors.red,
                   icon: const Icon(
                     Icons.error_outline_outlined,
                     size: 50,
@@ -47,7 +63,10 @@ class AlertaErrorIngreso {
                   content: const Text(
                     "Ingrese valores númericos en al menos las siguientes casillas: \n - Demanda. \n - Costo orden. \n - Mantención.",
                     textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'MuseoSans',
+                    ),
                   ),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -56,8 +75,11 @@ class AlertaErrorIngreso {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text("Entendido.",
-                            style: TextStyle(fontSize: 20))),
+                        child: const Text("Intenta otra vez.",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'MuseoSans',
+                            ))),
                   ],
                 ),
               );

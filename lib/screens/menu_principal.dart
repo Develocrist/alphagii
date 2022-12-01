@@ -17,7 +17,16 @@ class Listview1ScreenState extends State<Listview1Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("AGII"),
+          title: const Text(
+            "AGII",
+            style: TextStyle(
+              fontFamily: 'MuseoSans',
+            ),
+          ),
+          leading: IconButton(
+            icon: Image.asset('assets/logoulsoficial2.png'),
+            onPressed: () {},
+          ),
           centerTitle: true,
           elevation: 5,
           backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
@@ -74,9 +83,10 @@ class Listview1ScreenState extends State<Listview1Screen> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text('Usar\nModelo EOQ Básico',
+                                Text('Usa el\nModelo EOQ Básico',
                                     style: TextStyle(
                                       fontSize: 20,
+                                      fontFamily: 'MuseoSans',
                                       fontWeight: FontWeight.bold,
                                       color: Color.fromRGBO(76, 134, 255, 1),
                                     ))
@@ -98,8 +108,9 @@ class Listview1ScreenState extends State<Listview1Screen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
                                 Text(
-                                  'Aprende\nsobre Modelos',
+                                  'Aprender\nsobre Modelos',
                                   style: TextStyle(
+                                    fontFamily: 'MuseoSans',
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(76, 134, 255, 1),
@@ -144,8 +155,9 @@ class Listview1ScreenState extends State<Listview1Screen> {
                                   width: 40,
                                 ),
                                 Text(
-                                  'Complementa\ncon SIBULS',
+                                  'Complementar\ncon SIBULS',
                                   style: TextStyle(
+                                    fontFamily: 'MuseoSans',
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(76, 134, 255, 1),
@@ -187,6 +199,7 @@ class Listview1ScreenState extends State<Listview1Screen> {
                                 Text(
                                   'Acerca de',
                                   style: TextStyle(
+                                    fontFamily: 'MuseoSans',
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(76, 134, 255, 1),

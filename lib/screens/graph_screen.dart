@@ -1,8 +1,8 @@
-import 'dart:io';
+// import 'dart:io';
 import 'dart:math';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+// import 'package:path_provider/path_provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'dart:typed_data';
@@ -11,12 +11,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'dart:ui' as dart_ui;
+// import 'dart:ui' as dart_ui;
 
 //importaciones para generar pdf
 
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:agii_alpha/screens/save_file_mobile.dart';
+// import 'package:syncfusion_flutter_pdf/pdf.dart';
+// import 'package:agii_alpha/screens/save_file_mobile.dart';
 
 class GraphScreen extends StatefulWidget {
   const GraphScreen({
@@ -75,7 +75,12 @@ class _GraphScreenState extends State<GraphScreen> {
               ),
               centerTitle: true,
               elevation: 5,
-              title: const Text('Gráfico'),
+              title: const Text(
+                'Gráfico',
+                style: TextStyle(
+                  fontFamily: 'MuseoSans',
+                ),
+              ),
               backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
               actions: [
                 IconButton(
@@ -93,116 +98,142 @@ class _GraphScreenState extends State<GraphScreen> {
                   const SizedBox(
                     height: 5,
                   ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //   children: [
+                  //     const SizedBox(
+                  //       height: 80,
+                  //       width: 250,
+                  //       // color: Colors.blue,
+                  //       child: (Text(
+                  //         'Importante: \n El gráfico que se genera utiliza como base los 365 días trabajados.\n ',
+                  //         style: TextStyle(fontSize: 16),
+                  //         // textAlign: TextAlign.center,
+                  //       )),
+                  //     ),
+                  //     FloatingActionButton(
+                  //       onPressed: () {},
+                  //       child: const Icon(Icons.camera_alt),
+                  //     ),
+                  //   ],
+                  // ),
+
                   const Text(
                     'Importante:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    style: TextStyle(
+                        fontFamily: 'MuseoSans',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
                     textAlign: TextAlign.left,
                   ),
                   const Text(
-                    'El gráfico que se genera utiliza como base los 365 días trabajados.',
-                    style: TextStyle(fontSize: 14),
+                    'El gráfico generado utiliza como base los 365 días trabajados.',
+                    style: TextStyle(fontFamily: 'MuseoSans', fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
-                  Center(
-                    child: SizedBox(
-                      width: 350,
-                      height: 600,
-                      child: SfCartesianChart(
-                        key: _cartesianChartKey,
-                        onMarkerRender: (MarkerRenderArgs args) {
-                          if (!(args.pointIndex == 1)) {
-                            args.markerHeight = 0.0;
-                            args.markerWidth = 0.0;
-                          }
-                        },
-                        borderWidth: 0,
-                        margin: const EdgeInsets.all(10),
-                        primaryXAxis: NumericAxis(labelFormat: '{value} días'),
-                        primaryYAxis: NumericAxis(labelFormat: '{value} uni'),
+                  SizedBox(
+                    // color: Colors.red,
+                    width: 350,
+                    height: 570,
+                    child: SfCartesianChart(
+                      key: _cartesianChartKey,
+                      onMarkerRender: (MarkerRenderArgs args) {
+                        if (!(args.pointIndex == 1)) {
+                          args.markerHeight = 0.0;
+                          args.markerWidth = 0.0;
+                        }
+                      },
+                      borderWidth: 0,
+                      margin: const EdgeInsets.all(10),
+                      primaryXAxis: NumericAxis(labelFormat: '{value} días'),
+                      primaryYAxis: NumericAxis(labelFormat: '{value} uni'),
 
-                        title: ChartTitle(text: 'Modelo EOQ Básico.'),
-                        legend: Legend(
-                            textStyle: const TextStyle(fontSize: 16),
-                            isVisible: true,
-                            overflowMode: LegendItemOverflowMode.wrap,
-                            position: LegendPosition.bottom), //ver la leyenda
-                        tooltipBehavior: _tooltipBehavior,
-                        series: <ChartSeries>[
-                          LineSeries<SalesData, double>(
-                            width: 5,
-                            color: Colors.blue,
-                            name: 'Demanda', // nombre de la leyenda
-                            dataSource: _chartData,
-                            xValueMapper: (SalesData dias, _) => dias.dias,
-                            yValueMapper: (SalesData unidades, _) =>
-                                unidades.unidades,
-                            dataLabelSettings: const DataLabelSettings(
-                                isVisible: false, showZeroValue: false),
-                            enableTooltip: false,
-                            markerSettings: const MarkerSettings(
-                              height: 20,
-                              width: 20,
+                      title: ChartTitle(
+                          text: 'Modelo EOQ Básico.',
+                          textStyle: const TextStyle(
+                            fontFamily: 'MuseoSans',
+                          )),
+                      legend: Legend(
+                          textStyle: const TextStyle(fontSize: 16),
+                          isVisible: true,
+                          overflowMode: LegendItemOverflowMode.wrap,
+                          position: LegendPosition.bottom), //ver la leyenda
+                      tooltipBehavior: _tooltipBehavior,
+                      series: <ChartSeries>[
+                        LineSeries<SalesData, double>(
+                          width: 5,
+                          color: Colors.blue,
+                          name: 'Demanda', // nombre de la leyenda
+                          dataSource: _chartData,
+                          xValueMapper: (SalesData dias, _) => dias.dias,
+                          yValueMapper: (SalesData unidades, _) =>
+                              unidades.unidades,
+                          dataLabelSettings: const DataLabelSettings(
+                              isVisible: false, showZeroValue: false),
+                          enableTooltip: false,
+                          markerSettings: const MarkerSettings(
+                            height: 20,
+                            width: 20,
+                            isVisible: false,
+                          ),
+                        ),
+                        LineSeries<SalesData2, double>(
+                          color: Colors.yellow,
+                          width: 5,
+                          name:
+                              'Cantidad óptima de pedido', // nombre de la leyenda
+                          dataSource: _chartData2,
+                          xValueMapper: (SalesData2 dias, _) => dias.dias,
+                          yValueMapper: (SalesData2 unidades, _) =>
+                              unidades.unidades,
+                          dataLabelSettings: const DataLabelSettings(
                               isVisible: false,
-                            ),
+                              showZeroValue: false,
+                              labelAlignment: ChartDataLabelAlignment.top),
+                          enableTooltip: true,
+                          markerSettings: const MarkerSettings(
+                            height: 20,
+                            width: 20,
+                            isVisible: true,
                           ),
-                          LineSeries<SalesData2, double>(
-                            color: Colors.yellow,
-                            width: 5,
-                            name:
-                                'Cantidad óptima de pedido', // nombre de la leyenda
-                            dataSource: _chartData2,
-                            xValueMapper: (SalesData2 dias, _) => dias.dias,
-                            yValueMapper: (SalesData2 unidades, _) =>
-                                unidades.unidades,
-                            dataLabelSettings: const DataLabelSettings(
-                                isVisible: false,
-                                showZeroValue: false,
-                                labelAlignment: ChartDataLabelAlignment.top),
-                            enableTooltip: true,
-                            markerSettings: const MarkerSettings(
-                              height: 20,
-                              width: 20,
-                              isVisible: true,
-                            ),
+                        ),
+                        LineSeries<InventaryData, double>(
+                          color: Colors.red,
+                          width: 5,
+                          name: 'Inventario medio',
+                          dataSource: _inventaryData,
+                          xValueMapper: (InventaryData inventary, _) =>
+                              inventary.inventary,
+                          yValueMapper: (InventaryData inventary, _) =>
+                              inventary.inventary2,
+                          dataLabelSettings:
+                              const DataLabelSettings(isVisible: false),
+                          enableTooltip: true,
+                          markerSettings: const MarkerSettings(
+                            isVisible: true,
+                            height: 20,
+                            width: 20,
                           ),
-                          LineSeries<InventaryData, double>(
-                            color: Colors.red,
-                            width: 5,
-                            name: 'Inventario medio',
-                            dataSource: _inventaryData,
-                            xValueMapper: (InventaryData inventary, _) =>
-                                inventary.inventary,
-                            yValueMapper: (InventaryData inventary, _) =>
-                                inventary.inventary2,
-                            dataLabelSettings:
-                                const DataLabelSettings(isVisible: false),
-                            enableTooltip: true,
-                            markerSettings: const MarkerSettings(
-                              isVisible: true,
-                              height: 20,
-                              width: 20,
-                            ),
+                        ),
+                        LineSeries<LeadTimeData, double>(
+                          width: 10,
+                          color: Colors.green,
+                          name: 'Tiempo entre pedidos',
+                          dataSource: _leadTimeData,
+                          xValueMapper: (LeadTimeData lead, _) =>
+                              lead.diapedido,
+                          yValueMapper: (LeadTimeData lead, _) =>
+                              lead.diallegada,
+                          dataLabelSettings:
+                              const DataLabelSettings(isVisible: false),
+                          enableTooltip: true,
+                          markerSettings: const MarkerSettings(
+                            height: 20,
+                            width: 20,
+                            isVisible: true,
                           ),
-                          LineSeries<LeadTimeData, double>(
-                            width: 10,
-                            color: Colors.green,
-                            name: 'Tiempo entre pedidos',
-                            dataSource: _leadTimeData,
-                            xValueMapper: (LeadTimeData lead, _) =>
-                                lead.diapedido,
-                            yValueMapper: (LeadTimeData lead, _) =>
-                                lead.diallegada,
-                            dataLabelSettings:
-                                const DataLabelSettings(isVisible: false),
-                            enableTooltip: true,
-                            markerSettings: const MarkerSettings(
-                              height: 20,
-                              width: 20,
-                              isVisible: true,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Column(
@@ -210,34 +241,40 @@ class _GraphScreenState extends State<GraphScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton(
+                          FloatingActionButton(
                             onPressed: () {
                               _renderChartAsImage();
                             },
-                            child: const Text('Capturar Gráfico'),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              // _renderPdf();
-                            },
-                            child: const Text('Generar PDF'),
+                            child: const Icon(Icons.camera_alt),
                           ),
                           const SizedBox(
                             width: 20,
                           ),
-                          // ElevatedButton(
-                          //   onPressed: () {
-                          //     // _renderPdf(context);
-                          //     // _tooltipBehavior.showByIndex(1, 0);
-                          //     _tooltipBehavior.showByIndex(2, 1);
-                          //     // _tooltipBehavior.showByIndex(3, 0);
-                          //   },
-                          //   child: const Text('Exportar PDF'),
-                          // ),
+                          const Text(
+                            'Capturar gráfico',
+                            style: TextStyle(
+                                fontFamily: 'MuseoSans', fontSize: 16),
+                          )
                         ],
+                      ),
+
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     _renderChartAsImage();
+                      //   },
+                      //   child: const Text('Capturar Gráfico'),
+                      // ),
+                      // const SizedBox(
+                      //   width: 10,
+                      // ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     // _renderPdf();
+                      //   },
+                      //   child: const Text('Generar PDF'),
+                      // ),
+                      const SizedBox(
+                        width: 20,
                       ),
                       // ElevatedButton(
                       //   onPressed: () {
@@ -250,22 +287,25 @@ class _GraphScreenState extends State<GraphScreen> {
                       ),
                       const Text(
                         '\n Gráfico generado por el ingreso de los siguientes valores: \n ',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontFamily: 'MuseoSans', fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         'Demanda ingresada: \n ${widget.dem} unidades.',
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(
+                            fontFamily: 'MuseoSans', fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         'Costo de orden ingresado: \n ${widget.ord} CLP',
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(
+                            fontFamily: 'MuseoSans', fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         'Costo de mantención anual ingresado: \n ${widget.man} CLP',
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(
+                            fontFamily: 'MuseoSans', fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
@@ -296,7 +336,12 @@ class _GraphScreenState extends State<GraphScreen> {
               ),
               centerTitle: true,
               elevation: 5,
-              title: const Text('Gráfico'),
+              title: const Text(
+                'Gráfico',
+                style: TextStyle(
+                  fontFamily: 'MuseoSans',
+                ),
+              ),
               backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
               actions: [
                 IconButton(
@@ -308,14 +353,39 @@ class _GraphScreenState extends State<GraphScreen> {
             ),
             body: MediaQuery.of(context).orientation == Orientation.portrait
                 ? SingleChildScrollView(
-                    key: _cartesianChartKey,
                     child: Column(
                       children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          'Importante:',
+                          style: TextStyle(
+                              fontFamily: 'MuseoSans',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                          textAlign: TextAlign.left,
+                        ),
+                        const Text(
+                          'El gráfico generado utiliza como base los 365 días trabajados.',
+                          style:
+                              TextStyle(fontFamily: 'MuseoSans', fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Center(
                           child: SizedBox(
                             width: 550,
                             height: 700,
                             child: SfCartesianChart(
+                              onMarkerRender: (MarkerRenderArgs args) {
+                                if (!(args.pointIndex == 1)) {
+                                  args.markerHeight = 0.0;
+                                  args.markerWidth = 0.0;
+                                }
+                              },
                               borderWidth: 0,
                               margin: const EdgeInsets.all(10),
                               primaryXAxis: NumericAxis(
@@ -324,9 +394,19 @@ class _GraphScreenState extends State<GraphScreen> {
                               primaryYAxis: NumericAxis(
                                   labelFormat: '{value} uni',
                                   labelStyle: const TextStyle(fontSize: 14)),
+
+                              // primaryXAxis: CategoryAxis(
+                              //     title: AxisTitle(
+                              //         text: 'Tiempo (días)',
+                              //         textStyle: const TextStyle(fontSize: 10))),
+                              // primaryYAxis: CategoryAxis(
+                              //     title: AxisTitle(
+                              //         text: 'Stock (unidades)',
+                              //         textStyle: const TextStyle(fontSize: 10))),
                               title: ChartTitle(
                                   text: 'Modelo EOQ Básico.',
-                                  textStyle: const TextStyle(fontSize: 24)),
+                                  textStyle: const TextStyle(
+                                      fontFamily: 'MuseoSans', fontSize: 24)),
 
                               legend: Legend(
                                   textStyle: const TextStyle(fontSize: 24),
@@ -349,6 +429,8 @@ class _GraphScreenState extends State<GraphScreen> {
                                         isVisible: false, showZeroValue: false),
                                     enableTooltip: false,
                                     markerSettings: const MarkerSettings(
+                                      height: 20,
+                                      width: 20,
                                       isVisible: false,
                                     )),
                                 LineSeries<SalesData2, double>(
@@ -369,8 +451,8 @@ class _GraphScreenState extends State<GraphScreen> {
                                             ChartDataLabelAlignment.top),
                                     enableTooltip: true,
                                     markerSettings: const MarkerSettings(
-                                      height: 15,
-                                      width: 15,
+                                      height: 20,
+                                      width: 20,
                                       isVisible: true,
                                     )),
                                 LineSeries<InventaryData, double>(
@@ -389,8 +471,8 @@ class _GraphScreenState extends State<GraphScreen> {
                                     enableTooltip: true,
                                     markerSettings: const MarkerSettings(
                                       isVisible: true,
-                                      height: 15,
-                                      width: 15,
+                                      height: 20,
+                                      width: 20,
                                     )),
                                 LineSeries<LeadTimeData, double>(
                                     width: 10,
@@ -405,11 +487,16 @@ class _GraphScreenState extends State<GraphScreen> {
                                         isVisible: false),
                                     enableTooltip: true,
                                     markerSettings: const MarkerSettings(
-                                      height: 15,
-                                      width: 15,
+                                      height: 20,
+                                      width: 20,
                                       isVisible: true,
                                     ))
                               ],
+
+                              // primaryXAxis:
+                              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
+                              // primaryYAxis: NumericAxis(
+                              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
                             ),
                           ),
                         ),
@@ -420,24 +507,33 @@ class _GraphScreenState extends State<GraphScreen> {
                             ),
                             const Text(
                               '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
-                              style: TextStyle(fontSize: 28),
+                              style: TextStyle(
+                                  fontFamily: 'MuseoSans', fontSize: 28),
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               'Demanda ingresada: \n ${widget.dem} unidades.',
-                              style: const TextStyle(fontSize: 24),
+                              style: const TextStyle(
+                                  fontFamily: 'MuseoSans', fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               'Costo de orden ingresado: \n ${widget.ord} CLP',
-                              style: const TextStyle(fontSize: 24),
+                              style: const TextStyle(
+                                  fontFamily: 'MuseoSans', fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               'Costo de mantención anual ingresado: \n ${widget.man} CLP',
-                              style: const TextStyle(fontSize: 24),
+                              style: const TextStyle(
+                                  fontFamily: 'MuseoSans', fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
+                            // const Text(
+                            //   'Días trabajados: \n 365 días',
+                            //   style: TextStyle(fontSize: 20),
+                            //   textAlign: TextAlign.center,
+                            // ),
                           ],
                         )
                       ],
@@ -452,15 +548,31 @@ class _GraphScreenState extends State<GraphScreen> {
                             width: 550,
                             height: 700,
                             child: SfCartesianChart(
+                              onMarkerRender: (MarkerRenderArgs args) {
+                                if (!(args.pointIndex == 1)) {
+                                  args.markerHeight = 0.0;
+                                  args.markerWidth = 0.0;
+                                }
+                              },
                               borderWidth: 0,
                               margin: const EdgeInsets.all(10),
                               primaryXAxis: NumericAxis(
                                   labelFormat: '{value} días',
-                                  labelStyle: const TextStyle(fontSize: 14)),
+                                  labelStyle: const TextStyle(
+                                      fontFamily: 'MuseoSans', fontSize: 14)),
                               primaryYAxis: NumericAxis(
                                   labelFormat: '{value} uni',
-                                  labelStyle: const TextStyle(fontSize: 14)),
+                                  labelStyle: const TextStyle(
+                                      fontFamily: 'MuseoSans', fontSize: 14)),
 
+                              // primaryXAxis: CategoryAxis(
+                              //     title: AxisTitle(
+                              //         text: 'Tiempo (días)',
+                              //         textStyle: const TextStyle(fontSize: 10))),
+                              // primaryYAxis: CategoryAxis(
+                              //     title: AxisTitle(
+                              //         text: 'Stock (unidades)',
+                              //         textStyle: const TextStyle(fontSize: 10))),
                               title: ChartTitle(
                                   text: 'Modelo EOQ Básico.',
                                   textStyle: const TextStyle(fontSize: 24)),
@@ -486,6 +598,8 @@ class _GraphScreenState extends State<GraphScreen> {
                                         isVisible: false, showZeroValue: false),
                                     enableTooltip: false,
                                     markerSettings: const MarkerSettings(
+                                      height: 20,
+                                      width: 20,
                                       isVisible: false,
                                     )),
                                 LineSeries<SalesData2, double>(
@@ -506,8 +620,8 @@ class _GraphScreenState extends State<GraphScreen> {
                                             ChartDataLabelAlignment.top),
                                     enableTooltip: true,
                                     markerSettings: const MarkerSettings(
-                                      height: 15,
-                                      width: 15,
+                                      height: 20,
+                                      width: 20,
                                       isVisible: true,
                                     )),
                                 LineSeries<InventaryData, double>(
@@ -526,8 +640,8 @@ class _GraphScreenState extends State<GraphScreen> {
                                     enableTooltip: true,
                                     markerSettings: const MarkerSettings(
                                       isVisible: true,
-                                      height: 15,
-                                      width: 15,
+                                      height: 20,
+                                      width: 20,
                                     )),
                                 LineSeries<LeadTimeData, double>(
                                     width: 10,
@@ -542,11 +656,16 @@ class _GraphScreenState extends State<GraphScreen> {
                                         isVisible: false),
                                     enableTooltip: true,
                                     markerSettings: const MarkerSettings(
-                                      height: 15,
-                                      width: 15,
+                                      height: 20,
+                                      width: 20,
                                       isVisible: true,
                                     ))
                               ],
+
+                              // primaryXAxis:
+                              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
+                              // primaryYAxis: NumericAxis(
+                              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
                             ),
                           ),
                         ),
@@ -555,30 +674,56 @@ class _GraphScreenState extends State<GraphScreen> {
                             const SizedBox(
                               height: 10,
                             ),
+                            const Text(
+                              'Importante:',
+                              style: TextStyle(
+                                  fontFamily: 'MuseoSans',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                              textAlign: TextAlign.left,
+                            ),
+                            const Text(
+                              'El gráfico generado utiliza como base los 365 días trabajados.',
+                              style: TextStyle(
+                                  fontFamily: 'MuseoSans', fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             const SizedBox(
                               width: 400,
                               height: 150,
                               child: Text(
-                                '\n Gráfico generado por el ingreso de los siguientes valores: \n ',
-                                style: TextStyle(fontSize: 28),
+                                '\n Gráfico generado gracias al ingreso de los siguientes valores: \n ',
+                                style: TextStyle(
+                                    fontFamily: 'MuseoSans', fontSize: 28),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Text(
                               'Demanda ingresada: \n ${widget.dem} unidades.',
-                              style: const TextStyle(fontSize: 24),
+                              style: const TextStyle(
+                                  fontFamily: 'MuseoSans', fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               'Costo de orden ingresado: \n ${widget.ord} CLP',
-                              style: const TextStyle(fontSize: 24),
+                              style: const TextStyle(
+                                  fontFamily: 'MuseoSans', fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               'Costo de mantención anual ingresado: \n ${widget.man} CLP',
-                              style: const TextStyle(fontSize: 24),
+                              style: const TextStyle(
+                                  fontFamily: 'MuseoSans', fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
+                            // const Text(
+                            //   'Días trabajados: \n 365 días',
+                            //   style: TextStyle(fontSize: 20),
+                            //   textAlign: TextAlign.center,
+                            // ),
                           ],
                         ),
                       ],
@@ -594,75 +739,75 @@ class _GraphScreenState extends State<GraphScreen> {
 
   //---------------------------------------------
 
-  Future<void> _renderImage() async {
-    final List<int> bytes = await _readImageData();
-    if (bytes != null) {
-      final Directory documentDirectory =
-          await getApplicationDocumentsDirectory();
-      final String path = documentDirectory.path;
-      const String imageName = 'cartesianchart.png';
-      imageCache.clear();
-      final File file = File('$path/$imageName');
-      file.writeAsBytesSync(bytes);
-      if (!mounted) {
-        return;
-      }
-      await Navigator.of(context).push<dynamic>(
-        MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) {
-            return Scaffold(
-              appBar: AppBar(),
-              body: Center(
-                child: Container(
-                  color: Colors.white,
-                  child: Image.file(file),
-                ),
-              ),
-            );
-          },
-        ),
-      );
-    }
-  }
+  // Future<void> _renderImage() async {
+  //   final List<int> bytes = await _readImageData();
+  //   if (bytes != null) {
+  //     final Directory documentDirectory =
+  //         await getApplicationDocumentsDirectory();
+  //     final String path = documentDirectory.path;
+  //     const String imageName = 'cartesianchart.png';
+  //     imageCache.clear();
+  //     final File file = File('$path/$imageName');
+  //     file.writeAsBytesSync(bytes);
+  //     if (!mounted) {
+  //       return;
+  //     }
+  //     await Navigator.of(context).push<dynamic>(
+  //       MaterialPageRoute<dynamic>(
+  //         builder: (BuildContext context) {
+  //           return Scaffold(
+  //             appBar: AppBar(),
+  //             body: Center(
+  //               child: Container(
+  //                 color: Colors.white,
+  //                 child: Image.file(file),
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       ),
+  //     );
+  //   }
+  // }
 
-  Future<void> _renderPdf() async {
-    final PdfDocument document = PdfDocument();
-    final PdfBitmap bitmap = PdfBitmap(await _readImageData());
-    if (!mounted) {
-      return;
-    }
-    document.pageSettings.orientation =
-        MediaQuery.of(context).orientation == Orientation.landscape
-            ? PdfPageOrientation.landscape
-            : PdfPageOrientation.portrait;
-    document.pageSettings.margins.all = 0;
-    document.pageSettings.size =
-        Size(bitmap.width.toDouble(), bitmap.height.toDouble());
-    final PdfPage page = document.pages.add();
-    final Size pageSize = page.getClientSize();
-    page.graphics.drawImage(
-        bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+  // Future<void> _renderPdf() async {
+  //   final PdfDocument document = PdfDocument();
+  //   final PdfBitmap bitmap = PdfBitmap(await _readImageData());
+  //   if (!mounted) {
+  //     return;
+  //   }
+  //   document.pageSettings.orientation =
+  //       MediaQuery.of(context).orientation == Orientation.landscape
+  //           ? PdfPageOrientation.landscape
+  //           : PdfPageOrientation.portrait;
+  //   document.pageSettings.margins.all = 0;
+  //   document.pageSettings.size =
+  //       Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+  //   final PdfPage page = document.pages.add();
+  //   final Size pageSize = page.getClientSize();
+  //   page.graphics.drawImage(
+  //       bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
 
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5))),
-      duration: Duration(milliseconds: 200),
-      content: Text('Chart has been exported as PDF document.'),
-    ));
-    final List<int> bytes = document.saveSync();
-    document.dispose();
-    await FileSaveHelper.saveAndLaunchFile(bytes, 'cartesian_chart.pdf');
-  }
+  //   ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //     behavior: SnackBarBehavior.floating,
+  //     shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.all(Radius.circular(5))),
+  //     duration: Duration(milliseconds: 200),
+  //     content: Text('Chart has been exported as PDF document.'),
+  //   ));
+  //   final List<int> bytes = document.saveSync();
+  //   document.dispose();
+  //   await FileSaveHelper.saveAndLaunchFile(bytes, 'cartesian_chart.pdf');
+  // }
 
-  Future<List<int>> _readImageData() async {
-    final dart_ui.Image data =
-        await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
-    final ByteData? bytes =
-        await data.toByteData(format: dart_ui.ImageByteFormat.png);
-    return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
-  }
+  // Future<List<int>> _readImageData() async {
+  //   final dart_ui.Image data =
+  //       await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
+  //   final ByteData? bytes =
+  //       await data.toByteData(format: dart_ui.ImageByteFormat.png);
+  //   return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+  // }
 
   //-------------------------
 
@@ -688,12 +833,10 @@ class _GraphScreenState extends State<GraphScreen> {
                     image: AssetImage('assets/logouls.png'),
                     fit: BoxFit.fill,
                   )),
-              Center(
-                child: SizedBox(
-                  width: 300,
-                  height: 550,
-                  child: Image.memory(imageBytes),
-                ),
+              SizedBox(
+                width: 300,
+                height: 510,
+                child: Image.memory(imageBytes),
               ),
             ],
           ),
@@ -706,39 +849,43 @@ class _GraphScreenState extends State<GraphScreen> {
           return Screenshot(
             controller: controller,
             child: Scaffold(
+                backgroundColor: Colors.white70,
                 body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  buildImage(),
-                  // ElevatedButton(
-                  //   onPressed: () async {
-                  //     const snackBar = SnackBar(
-                  //         duration: Duration(seconds: 2),
-                  //         content: Text('Gráfico guardado en galería'));
-                  //     final image = await controller.capture();
-                  //     if (image == null) return;
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      buildImage(),
+                      // ElevatedButton(
+                      //   onPressed: () async {
+                      //     const snackBar = SnackBar(
+                      //         duration: Duration(seconds: 2),
+                      //         content: Text('Gráfico guardado en galería'));
+                      //     final image = await controller.capture();
+                      //     if (image == null) return;
 
-                  //     await saveImage(image);
-                  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  //   },
-                  //   child: const Text('Guardar'),
-                  // ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      const snackBar = SnackBar(
-                          duration: Duration(seconds: 2),
-                          content: Text('Gráfico guardado en galería'));
-                      final image =
-                          await controller.captureFromWidget(buildImage());
-                      await saveImage(image);
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                    child: const Text('Guardar'),
+                      //     await saveImage(image);
+                      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      //   },
+                      //   child: const Text('Guardar'),
+                      // ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          const snackBar = SnackBar(
+                            duration: Duration(seconds: 2),
+                            content: Text(
+                              'Gráfico guardado en galería',
+                            ),
+                          );
+                          final image =
+                              await controller.captureFromWidget(buildImage());
+                          await saveImage(image);
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                        child: const Text('Guardar'),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                )),
           );
         },
       ),
