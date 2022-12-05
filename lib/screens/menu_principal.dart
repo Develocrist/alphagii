@@ -30,13 +30,6 @@ class Listview1ScreenState extends State<Listview1Screen> {
           centerTitle: true,
           elevation: 5,
           backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
-          // actions: [
-          //   IconButton(
-          //       onPressed: () {
-          //         Alertas().descripcionApp(context);
-          //       },
-          //       icon: const Icon(Icons.info))
-          // ],
         ),
         body: MediaQuery.of(context).orientation == Orientation.portrait
             ? SingleChildScrollView(
@@ -286,7 +279,6 @@ class Listview1ScreenState extends State<Listview1Screen> {
                           ],
                         ),
                       ),
-
                       const SizedBox(
                         width: 50,
                       ),
@@ -319,23 +311,6 @@ class Listview1ScreenState extends State<Listview1Screen> {
                           ],
                         ),
                       ),
-
-                      //   IconButton(
-                      //     onPressed: () {
-                      //       AlertaInformacionModelos().infoModelos(context);
-                      //     },
-                      //     icon: const Icon(Icons.info),
-                      //     iconSize: 60,
-                      //     color: const Color.fromRGBO(8, 75, 129, 10),
-                      //   ),
-                      //   const Text(
-                      //     'Información sobre modelos',
-                      //     textAlign: TextAlign.center,
-                      //     style: TextStyle(
-                      //       fontSize: 20,
-                      //       color: Color.fromRGBO(8, 75, 129, 10),
-                      //     ),
-                      //   ),
                     ],
                   ),
                   const SizedBox(
@@ -372,25 +347,6 @@ class Listview1ScreenState extends State<Listview1Screen> {
                           ],
                         ),
                       ),
-                      // IconButton(
-                      //   onPressed: _launchUrl,
-                      //   icon: const Icon(Icons.book_online),
-                      //   iconSize: 60,
-                      //   color: const Color.fromRGBO(8, 75, 129, 10),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     _launchUrl;
-                      //   },
-                      //   child: const Text(
-                      //     'SIBULS',
-                      //     textAlign: TextAlign.center,
-                      //     style: TextStyle(
-                      //       fontSize: 20,
-                      //       color: Color.fromRGBO(8, 75, 129, 10),
-                      //     ),
-                      //   ),
-                      // ),
                       const SizedBox(
                         width: 80,
                       ),

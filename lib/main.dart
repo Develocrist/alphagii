@@ -2,15 +2,8 @@ import 'package:agii_alpha/screens/welcome_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-// import 'package:flutter/services.dart';
 
-// void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   // Step 3
-//   SystemChrome.setPreferredOrientations(
-//           [DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft])
-//       .then((value) => runApp(const MyApp()));
-// }
+//---- ARCHIVO MAIN, EN ESTE SE CONTIENE LA PANTALLA INICIAL CORRESPONDIENTE AL LOGO ULS
 
 void main() => runApp(const MyApp());
 
@@ -82,7 +75,7 @@ class _HomeState extends State<Home> {
                     child: FadeOut(
                       animate: true,
                       delay: const Duration(seconds: 3),
-                      duration: const Duration(seconds: 3),
+                      duration: const Duration(seconds: 2),
                       child: const SizedBox(
                           width: 400,
                           height: 400,

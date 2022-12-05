@@ -6,6 +6,7 @@ class AppDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           "Acerca de",
@@ -21,7 +22,6 @@ class AppDetails extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 25,
@@ -57,23 +57,8 @@ class AppDetails extends StatelessWidget {
                   'AGII (Apoyo a la Gestión de Ingeniería en Inventarios) entrega resultados referentes a los modelos de inventarios, apoyando y validando el proceso de cálculo y comprension de las variables involucradas.\n\n Esta aplicacion dirigida a estudiantes de la Universidad de La Serena, fue desarrollada en la Unidad de Mejoramiento Docente (UMD) en un trabajo colaborativo con docentes, estudiantes de pregrado y profesionales de: \n\n - Departamento de Ingeniería Industrial. \n - Escuela de Ingeniería Civil. \n - Escuela de Diseño. \n - Carrera de Ingeniería en Computación e Informatica. \n ',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontFamily: 'MuseoSans'),
-                  // Container(
-                  //   alignment: Alignment.topCenter,
-                  //   height: 500,
-                  //   width: 330,
-                  //   color: Colors.red,
-                  //   child:
-                  //   ),
                 ),
               ),
-
-              // SizedBox(
-              //   child: Text(
-              //     'AGII (Apoyo a la Gestión de Ingeniería en Inventarios) entrega resultados referentes a los modelos de inventarios, apoyando y validando el proceso de cálculo y comprension de las variables involucradas.\n\n Esta aplicacion dirigida a estudiantes de la Universidad de La Serena, fue desarrollada en la Unidad de Mejoramiento Docente (UMD) en un trabajo colaborativo con docentes, estudiantes de pregrado y profesionales.',
-              //     textAlign: TextAlign.center,
-              //     style: TextStyle(fontSize: 24),
-              //   ),
-              // )
             ],
           ),
         ),

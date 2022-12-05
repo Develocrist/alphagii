@@ -14,7 +14,7 @@ class AlertaFormulario {
               title: RichText(
                 textAlign: TextAlign.center,
                 text: const TextSpan(
-                  text: 'Formulas',
+                  text: 'Fórmulas',
                   style: TextStyle(
                     fontFamily: 'MuseoSans',
                     fontSize: 20,

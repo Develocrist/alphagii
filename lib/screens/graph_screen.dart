@@ -1,8 +1,7 @@
-// import 'dart:io';
 import 'dart:math';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-// import 'package:path_provider/path_provider.dart';
+
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'dart:typed_data';
@@ -11,12 +10,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
-// import 'dart:ui' as dart_ui;
-
-//importaciones para generar pdf
-
-// import 'package:syncfusion_flutter_pdf/pdf.dart';
-// import 'package:agii_alpha/screens/save_file_mobile.dart';
 
 class GraphScreen extends StatefulWidget {
   const GraphScreen({
@@ -98,26 +91,6 @@ class _GraphScreenState extends State<GraphScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   children: [
-                  //     const SizedBox(
-                  //       height: 80,
-                  //       width: 250,
-                  //       // color: Colors.blue,
-                  //       child: (Text(
-                  //         'Importante: \n El gráfico que se genera utiliza como base los 365 días trabajados.\n ',
-                  //         style: TextStyle(fontSize: 16),
-                  //         // textAlign: TextAlign.center,
-                  //       )),
-                  //     ),
-                  //     FloatingActionButton(
-                  //       onPressed: () {},
-                  //       child: const Icon(Icons.camera_alt),
-                  //     ),
-                  //   ],
-                  // ),
-
                   const Text(
                     'Importante:',
                     style: TextStyle(
@@ -257,31 +230,9 @@ class _GraphScreenState extends State<GraphScreen> {
                           )
                         ],
                       ),
-
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     _renderChartAsImage();
-                      //   },
-                      //   child: const Text('Capturar Gráfico'),
-                      // ),
-                      // const SizedBox(
-                      //   width: 10,
-                      // ),
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     // _renderPdf();
-                      //   },
-                      //   child: const Text('Generar PDF'),
-                      // ),
                       const SizedBox(
                         width: 20,
                       ),
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     // _renderPdf();
-                      //   },
-                      //   child: const Text('Generar PDF'),
-                      // ),
                       const SizedBox(
                         height: 5,
                       ),
@@ -311,11 +262,6 @@ class _GraphScreenState extends State<GraphScreen> {
                       const SizedBox(
                         height: 20,
                       )
-                      // const Text(
-                      //   'Días trabajados: \n 365 días',
-                      //   style: TextStyle(fontSize: 20),
-                      //   textAlign: TextAlign.center,
-                      // ),
                     ],
                   )
                 ],
@@ -395,14 +341,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                   labelFormat: '{value} uni',
                                   labelStyle: const TextStyle(fontSize: 14)),
 
-                              // primaryXAxis: CategoryAxis(
-                              //     title: AxisTitle(
-                              //         text: 'Tiempo (días)',
-                              //         textStyle: const TextStyle(fontSize: 10))),
-                              // primaryYAxis: CategoryAxis(
-                              //     title: AxisTitle(
-                              //         text: 'Stock (unidades)',
-                              //         textStyle: const TextStyle(fontSize: 10))),
                               title: ChartTitle(
                                   text: 'Modelo EOQ Básico.',
                                   textStyle: const TextStyle(
@@ -492,11 +430,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                       isVisible: true,
                                     ))
                               ],
-
-                              // primaryXAxis:
-                              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-                              // primaryYAxis: NumericAxis(
-                              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
                             ),
                           ),
                         ),
@@ -529,11 +462,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                   fontFamily: 'MuseoSans', fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
-                            // const Text(
-                            //   'Días trabajados: \n 365 días',
-                            //   style: TextStyle(fontSize: 20),
-                            //   textAlign: TextAlign.center,
-                            // ),
                           ],
                         )
                       ],
@@ -565,14 +493,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                   labelStyle: const TextStyle(
                                       fontFamily: 'MuseoSans', fontSize: 14)),
 
-                              // primaryXAxis: CategoryAxis(
-                              //     title: AxisTitle(
-                              //         text: 'Tiempo (días)',
-                              //         textStyle: const TextStyle(fontSize: 10))),
-                              // primaryYAxis: CategoryAxis(
-                              //     title: AxisTitle(
-                              //         text: 'Stock (unidades)',
-                              //         textStyle: const TextStyle(fontSize: 10))),
                               title: ChartTitle(
                                   text: 'Modelo EOQ Básico.',
                                   textStyle: const TextStyle(fontSize: 24)),
@@ -661,11 +581,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                       isVisible: true,
                                     ))
                               ],
-
-                              // primaryXAxis:
-                              //     NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-                              // primaryYAxis: NumericAxis(
-                              //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
                             ),
                           ),
                         ),
@@ -719,11 +634,6 @@ class _GraphScreenState extends State<GraphScreen> {
                                   fontFamily: 'MuseoSans', fontSize: 24),
                               textAlign: TextAlign.center,
                             ),
-                            // const Text(
-                            //   'Días trabajados: \n 365 días',
-                            //   style: TextStyle(fontSize: 20),
-                            //   textAlign: TextAlign.center,
-                            // ),
                           ],
                         ),
                       ],
@@ -736,78 +646,6 @@ class _GraphScreenState extends State<GraphScreen> {
       return Container(width: 200, height: 200, color: Colors.red);
     });
   }
-
-  //---------------------------------------------
-
-  // Future<void> _renderImage() async {
-  //   final List<int> bytes = await _readImageData();
-  //   if (bytes != null) {
-  //     final Directory documentDirectory =
-  //         await getApplicationDocumentsDirectory();
-  //     final String path = documentDirectory.path;
-  //     const String imageName = 'cartesianchart.png';
-  //     imageCache.clear();
-  //     final File file = File('$path/$imageName');
-  //     file.writeAsBytesSync(bytes);
-  //     if (!mounted) {
-  //       return;
-  //     }
-  //     await Navigator.of(context).push<dynamic>(
-  //       MaterialPageRoute<dynamic>(
-  //         builder: (BuildContext context) {
-  //           return Scaffold(
-  //             appBar: AppBar(),
-  //             body: Center(
-  //               child: Container(
-  //                 color: Colors.white,
-  //                 child: Image.file(file),
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // Future<void> _renderPdf() async {
-  //   final PdfDocument document = PdfDocument();
-  //   final PdfBitmap bitmap = PdfBitmap(await _readImageData());
-  //   if (!mounted) {
-  //     return;
-  //   }
-  //   document.pageSettings.orientation =
-  //       MediaQuery.of(context).orientation == Orientation.landscape
-  //           ? PdfPageOrientation.landscape
-  //           : PdfPageOrientation.portrait;
-  //   document.pageSettings.margins.all = 0;
-  //   document.pageSettings.size =
-  //       Size(bitmap.width.toDouble(), bitmap.height.toDouble());
-  //   final PdfPage page = document.pages.add();
-  //   final Size pageSize = page.getClientSize();
-  //   page.graphics.drawImage(
-  //       bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
-
-  //   ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //     behavior: SnackBarBehavior.floating,
-  //     shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.all(Radius.circular(5))),
-  //     duration: Duration(milliseconds: 200),
-  //     content: Text('Chart has been exported as PDF document.'),
-  //   ));
-  //   final List<int> bytes = document.saveSync();
-  //   document.dispose();
-  //   await FileSaveHelper.saveAndLaunchFile(bytes, 'cartesian_chart.pdf');
-  // }
-
-  // Future<List<int>> _readImageData() async {
-  //   final dart_ui.Image data =
-  //       await _cartesianChartKey.currentState!.toImage(pixelRatio: 3.0);
-  //   final ByteData? bytes =
-  //       await data.toByteData(format: dart_ui.ImageByteFormat.png);
-  //   return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
-  // }
 
   //-------------------------
 
@@ -855,19 +693,6 @@ class _GraphScreenState extends State<GraphScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       buildImage(),
-                      // ElevatedButton(
-                      //   onPressed: () async {
-                      //     const snackBar = SnackBar(
-                      //         duration: Duration(seconds: 2),
-                      //         content: Text('Gráfico guardado en galería'));
-                      //     final image = await controller.capture();
-                      //     if (image == null) return;
-
-                      //     await saveImage(image);
-                      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //   },
-                      //   child: const Text('Guardar'),
-                      // ),
                       ElevatedButton(
                         onPressed: () async {
                           const snackBar = SnackBar(
@@ -932,11 +757,6 @@ class _GraphScreenState extends State<GraphScreen> {
       SalesData(ro * 2, 0),
       SalesData(ro * 2, co),
       SalesData(ro * 3, 0),
-      // SalesData(ro * 3, co),
-      // SalesData(ro * 4, 0),
-      // SalesData(ro * 4, co),
-      // SalesData(reOrden * 5, 0),
-      // SalesData(reOrden * 5, cantidadOptima),
     ];
     return chartData;
   }
@@ -963,11 +783,6 @@ class _GraphScreenState extends State<GraphScreen> {
       SalesData2(ro, co),
       SalesData2(ro * 2, co),
       SalesData2(ro * 3, co),
-      // SalesData(ro * 3, co),
-      // SalesData(ro * 4, 0),
-      // SalesData(ro * 4, co),
-      // SalesData(reOrden * 5, 0),
-      // SalesData(reOrden * 5, cantidadOptima),
     ];
     return chartData5;
   }
@@ -1019,27 +834,6 @@ class _GraphScreenState extends State<GraphScreen> {
     ];
     return chartData3;
   }
-
-  // CUARTA LINEA GRAFICA EN EL MISMO MAPEO // CORRESPONDIENTE AL PUNTO DE REORDEN
-  // List<PuntoReordenData> getChartData4() {
-  //   double demanda = double.tryParse(widget.dem) ?? 0;
-  //   double orden = double.tryParse(widget.ord) ?? 0;
-  //   double mantencion = double.tryParse(widget.man) ?? 0;
-  //   double cantidadOptima = sqrt((2 * demanda * orden) / mantencion);
-  //   double numOrdenes = demanda / cantidadOptima;
-  //   double reOrden = 365 / numOrdenes;
-  //   String rorden = reOrden.toStringAsFixed(1);
-  //   double ro = double.parse(rorden);
-
-  //   final List<LeadTimeData> chartData3 = [
-  //     LeadTimeData(0, 0),
-  //     LeadTimeData(ro, 0),
-
-  //     // LeadTimeData(10, 15),
-  //     // LeadTimeData(20, 25),
-  //   ];
-  //   return ;
-  // }
 }
 
 class SalesData {

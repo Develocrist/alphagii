@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:agii_alpha/screens/graph_screen.dart';
-// import 'package:agii_alpha/screens/graph_screen_test.dart';
 import 'package:agii_alpha/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -532,7 +531,6 @@ class Calculadora extends State<MyCalculator> {
                             const SizedBox(
                               width: 20,
                             ),
-                            // const VerticalDivider(),
                             SizedBox(
                               width: 150,
                               height: 50,
@@ -1045,10 +1043,6 @@ class Calculadora extends State<MyCalculator> {
                             ElevatedButton.icon(
                               onPressed: () {
                                 operacionMatematica();
-                                // controladorScroll.animateTo(
-                                //     controladorScroll.position.maxScrollExtent,
-                                //     duration: const Duration(milliseconds: 700),
-                                //     curve: Curves.easeInOut);
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor:
@@ -1071,12 +1065,6 @@ class Calculadora extends State<MyCalculator> {
                                 ElevatedButton.icon(
                                   onPressed: () {
                                     limpiaCampos();
-                                    // controladorScroll.animateTo(
-                                    //     controladorScroll
-                                    //         .position.minScrollExtent,
-                                    //     duration:
-                                    //         const Duration(milliseconds: 700),
-                                    //     curve: Curves.easeInOut);
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.white,
@@ -1403,14 +1391,6 @@ class Calculadora extends State<MyCalculator> {
                                                         8, 75, 129, 10))),
                                             labelText:
                                                 'Días trabajados al año:',
-                                            // prefixIcon: Checkbox(
-                                            //   value: cbFlag,
-                                            //   onChanged: (bool? value) {
-                                            //     setState(() {
-                                            //       cbFlag = value!;
-                                            //     });
-                                            //   },
-                                            // )
                                           ),
                                         ),
                                       ),
@@ -1554,11 +1534,7 @@ class Calculadora extends State<MyCalculator> {
                                 ),
 
                                 const SizedBox(
-                                  height: 20,
-                                ),
-
-                                const SizedBox(
-                                  height: 5,
+                                  height: 25,
                                 ),
                               ]),
                           const SizedBox(
@@ -1570,6 +1546,7 @@ class Calculadora extends State<MyCalculator> {
                           const SizedBox(
                             width: 50,
                           ),
+
                           //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
                           //donde estan las operaciones de cálculo
 
