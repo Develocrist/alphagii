@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//CLASES CREADAS PARA GENERAR LOS CUADROS DE ALERTA, ESTOS TIENEN FINALIDADES INFORMATIVAS.
 class AlertaFormulario {
   void infoFormulas(BuildContext context) {
     showDialog(

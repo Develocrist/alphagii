@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+//PAGINA CORRESPONDIENTE AL MENÚ CALCULADORA, EN PRIMERA INSTANCIA ESTA LA OPERACIÓN MATEMATICA
+//Y LUEGO LA PARTE VISUAL ASOCIADA A ESTE, LA PARTE VISUAL COMIENZA DESDE LA LINEA 400, lo necesario esta hasta la linea 800
+
 class MyCalculator extends StatefulWidget {
   const MyCalculator({super.key});
 
@@ -39,7 +42,7 @@ class Calculadora extends State<MyCalculator> {
   String costMantencion = "";
   String costoTotal = "";
 
-  //formula para realizar la operacion aritmetica
+  //FUNCION QUE REALIZA LA OPERATORIA ASOCIADA AL MODELO
   void operacionMatematica() {
     double demanda = 0;
     double orden = 0;
@@ -47,7 +50,9 @@ class Calculadora extends State<MyCalculator> {
     double costoMantencion = 0;
     double diasTrabajados = 0;
     double leadTime = 0;
-
+//SE PREGUNTA SI LOS CAMPOS QUE PASAN POR LA FUNCION isNumericUsingtryParse SON VALIDOS, ESTO ES PARA
+//SEPARAR LOS DIFERENTES TIPOS DE RESULTADOS, DEBE HABER UNA FORMA MAS ÓPTIMA PARA DISTRIBUIR
+//ESTAS INSTRUCCIONES.
     if (isNumericUsingtryParse(controllerDemanda.text) &&
         isNumericUsingtryParse(controllerOrden.text) &&
         isNumericUsingtryParse(controllerMantencion.text) &&
@@ -55,7 +60,8 @@ class Calculadora extends State<MyCalculator> {
         isNumericUsingtryParse(controllerDias.text) &&
         isNumericUsingtryParse(controllerLead.text)) {
       FocusScope.of(context)
-          .unfocus(); // linea para ocultar el teclado al presionar el botón de calculo
+          .unfocus(); //ESTA LINEA OCULTA EL TECLADO Y SE DESMARCAN LOS INPUTS
+
       costoUnitario = double.parse(controllerCostoUnitario.text);
       costoMantencion = double.parse(controllerMantencion.text);
       diasTrabajados = double.parse(controllerDias.text);
@@ -64,7 +70,7 @@ class Calculadora extends State<MyCalculator> {
       costoMantencion = double.parse(controllerMantencion.text);
       leadTime = double.parse(controllerLead.text);
 
-      //formula cantidad optima
+      //formula cantidad optima de pedido
       double cantidadOptima = sqrt((2 * demanda * orden) / costoMantencion);
       String r = cantidadOptima.toStringAsFixed(1);
 
@@ -80,7 +86,7 @@ class Calculadora extends State<MyCalculator> {
       double puntoReorden = ((demanda / diasTrabajados) * leadTime);
       String ptoReorden = puntoReorden.toStringAsFixed(0);
 
-      //formula costos
+      //formula costo total de orden
       double totalCostoOrden = ((demanda / cantidadOptima) * orden);
       String tcostoOrden = totalCostoOrden.toStringAsFixed(0);
 
@@ -88,7 +94,7 @@ class Calculadora extends State<MyCalculator> {
       double totalCostoMantener = ((cantidadOptima / 2) * costoMantencion);
       String tcostoMantener = totalCostoMantener.toStringAsFixed(0);
 
-      //formula costo total de todo
+      //formula costo total
       double totalCostoTotal = (demanda * costoUnitario) +
           ((demanda / cantidadOptima) * orden) +
           ((cantidadOptima / 2) * costoMantencion);
@@ -98,6 +104,8 @@ class Calculadora extends State<MyCalculator> {
       // double tentrePedidos = ((cantidadOptima / demanda) * diasTrabajados);
       // String t = tentrePedidos.toStringAsFixed(1);
 
+//EL setState SE ENCARGA DE GENERAR LOS STRINGS CON LOS CORRESPONDIENTES RESULTADOS, LUEGO
+//ESTOS SE UBICAN EN UN CONTAINER Y SE MUESTRAN
       setState(() {
         mostrarCantidadOptima = "Cantidad óptima de pedido: \n $r unidades.";
         tiempoentrePedidos = "Tiempo entre pedidos: \n $ord días.";
@@ -360,7 +368,7 @@ class Calculadora extends State<MyCalculator> {
     });
   }
 
-  //limpiar campos
+  //LIMPIA TODAS LAS CASILLAS
   void limpiaCampoRespuestas() {
     setState(() {
       controllerCostoUnitario.text = "";
@@ -380,8 +388,7 @@ class Calculadora extends State<MyCalculator> {
   }
 
 //------------------------------------------
-
-// Comprobar si es numero
+// Con esta función se comprueba si es un número
   bool isNumericUsingtryParse(String string) {
     if (string.isEmpty) {
       return false;
@@ -394,8 +401,9 @@ class Calculadora extends State<MyCalculator> {
   }
 
 //-------------------------------------------------
-
-//parte visual
+//PARTE VISUAL DE LA APLICACIÓN, DONDE ADEMAS SE APLICO EL DISEÑO RESPONSIVO Y SE ADAPTO MANUALMENTE
+//EL TAMAÑO DE LOS ICONOS SEGUN EL DISPOSITIVO DONDE SE ESTUVIERA EJECUTANDO, TAMBIEN TENIENDO EN CUENTA
+// SU ORIENTACIÓN, ESTE CÓDIGO SE PUEDE OPTIMIZAR.
   @override
   Widget build(BuildContext context) {
     ScrollController controladorScroll = ScrollController();
@@ -445,20 +453,25 @@ class Calculadora extends State<MyCalculator> {
                       const SizedBox(
                         height: 15,
                       ),
+                      //ROW ES UNA FILA HORIZONTAL QUE CONTENDRA LOS INPUT TEXTS
                       Row(
-                        //parte visual de los campos de texto, a los cuales se les asignan los controladores declarados mas arriba
+//---------------------------------  PARTE VISUAL DE LOS CAMPOS DE TEXTOS DE LAS VARIABLES,
+//DONDE ADEMAS SE LES ASIGNA UNO DE LOS CONTROLADORES DECLARADOS MAS ARRIBA
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             width: 150,
                             height: 70,
                             child: TextFormField(
+//---------------------------ASIGNACION DE CONTROLADOR, TIPO DE TECLADO,
+//LIMITACION DE DIGITOS Y TIPO DE TECLADO QUE SE MUESTRA AL PRESIONAR
                               controller: controllerDemanda,
                               keyboardType: TextInputType.phone,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 LengthLimitingTextInputFormatter(8),
                               ],
+//---------------------------TODO LO RELACIONADO A LO VISUAL DEL CAMPO DE TEXTO VA DENTRO DEL INPUT DECORATION
                               decoration: const InputDecoration(
                                 contentPadding:
                                     EdgeInsets.only(left: 10, bottom: 1),
@@ -620,11 +633,11 @@ class Calculadora extends State<MyCalculator> {
                           const VerticalDivider(),
                         ],
                       ),
-
                       const SizedBox(
                         height: 20,
                       ),
-                      //codigo que incluye la inserción de los botones con sus respectivos colores
+//CÓDIGO QUE INCLUYE LOS BOTONES, SU ESTILO VISUAL Y LA ACCION CORRESPONDIENTE, ES POSIBLE QUE
+//SE ENCUENTREN OPERACIONES RELACIONADAS AL REPOSICIONADO DE LA PANTALLA.
                       ElevatedButton.icon(
                         onPressed: () {
                           operacionMatematica();
@@ -759,13 +772,11 @@ class Calculadora extends State<MyCalculator> {
                           ),
                         ],
                       ),
-
                       const SizedBox(
                         height: 20,
                       ),
-
-                      //contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
-                      //donde estan las operaciones de cálculo
+//----------------------contenedores donde se insertan los resultados definidos en el metodo setState ubicado en la funcion
+//------------------donde estan las operaciones de cálculo
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
@@ -786,7 +797,6 @@ class Calculadora extends State<MyCalculator> {
                           ),
                         ),
                       ),
-
                       const SizedBox(
                         height: 5,
                       ),
@@ -794,6 +804,9 @@ class Calculadora extends State<MyCalculator> {
               ),
             ));
       }
+
+      //  AQUI NUEVAMENTE SE APLICA RESPONSIVIDAD PERO EL DISEÑO QUE SE DESPLIEGA CORRESPONDE A LOS
+      //DISPOSITIVOS TABLETS
       if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
         return Scaffold(
             appBar: AppBar(

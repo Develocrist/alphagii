@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'screens.dart';
 
+//ARCHIVO CORRESPONDIENTE AL MENU PRINCIPAL
 class Listview1Screen extends StatefulWidget {
   const Listview1Screen({Key? key}) : super(key: key);
 
@@ -12,10 +13,12 @@ class Listview1Screen extends StatefulWidget {
 }
 
 class Listview1ScreenState extends State<Listview1Screen> {
+  //LINK DEFINIDO PARA USARLO EN LA OPCIÓN COMPLEMENTAR CON SIBULS
   final Uri _url = Uri.parse('https://sibuls.userena.cl/');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        //APPBAR ES LA BARRA SUPERIOR DE LA PANTALLA
         appBar: AppBar(
           title: const Text(
             "AGII",
@@ -31,6 +34,7 @@ class Listview1ScreenState extends State<Listview1Screen> {
           elevation: 5,
           backgroundColor: const Color.fromRGBO(2, 102, 255, 1),
         ),
+        //INSTRUCCION MEDIAQUERY USA LA ORIENTACION DEL DISPOSITIVO PARA MOSTRAR DIFERENTES DISPOSICIONES
         body: MediaQuery.of(context).orientation == Orientation.portrait
             ? SingleChildScrollView(
                 child: Column(
@@ -41,6 +45,9 @@ class Listview1ScreenState extends State<Listview1Screen> {
                     Center(
                       child: Column(
                         children: [
+                          //GESTURE DETECTOR ES PARA DARLE LA PROPIEDAD ONTAP A CUALQUIER WIDGET
+                          //EN ESTE CASO EN EL ICONO Y EN EL TEXTO, ADEMAS SE INSERTÓ UN
+                          //PAGE ROUTE BUILDER PARA AÑADIR UNA ANIMACION EN EL CAMBIO DE VENTANAS.
                           GestureDetector(
                             onTap: () {
                               Navigator.push(

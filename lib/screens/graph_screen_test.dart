@@ -1,3 +1,6 @@
+//ARCHIVO UTILIZADO PARA PRUEBAS EN LOS GRÁFICOS Y LAS FUNCIONALIDADES ASOCIADAS
+
+
 // import 'dart:math';
 // import 'dart:typed_data';
 // import 'package:agii_alpha/screens/save_file_mobile.dart';

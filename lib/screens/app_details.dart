@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//VENTANA CORRESPONDIENTE A LOS DETALLES DE LA APLICACIÓN, QUIENES PARTICIPARON, COMO SE GENERÓ Y QUE ES LO QUE HACE
+//LA APLICACIÓN
+
 class AppDetails extends StatelessWidget {
   const AppDetails({super.key});
 

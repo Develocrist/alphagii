@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+//CLASES CREADAS PARA GENERAR LOS CUADROS DE ALERTA, ESTOS TIENEN FINALIDADES INFORMATIVAS.
 class AlertaErrorIngreso {
   void mostrarDialogo(BuildContext context) {
     showDialog(

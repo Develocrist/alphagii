@@ -3,7 +3,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-//---- ARCHIVO MAIN, EN ESTE SE CONTIENE LA PANTALLA INICIAL CORRESPONDIENTE AL LOGO ULS
+//---- ARCHIVO MAIN, ES LO PRIMERO QUE SE EJECUTA Y, EN ESTE SE CONTIENE LA PANTALLA INICIAL CORRESPONDIENTE AL LOGO ULS
 
 void main() => runApp(const MyApp());
 

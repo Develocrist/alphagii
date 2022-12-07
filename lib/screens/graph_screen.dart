@@ -11,7 +11,9 @@ import 'package:screenshot/screenshot.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
 
+//ARCHIVO CORRESPONDIENTE AL GRÁFICO, DONDE RECIBE LOS VALORES Y COMO LOS GRÁFICA
 class GraphScreen extends StatefulWidget {
+  // LAS VARIABLES DEM, ORD Y MAN, VIENEN DE CALCULATOR1_SCREEN.DART
   const GraphScreen({
     super.key,
     required this.dem,
@@ -52,7 +54,8 @@ class _GraphScreenState extends State<GraphScreen> {
   //-------------------------------------------
 
   //---------------------------------------------
-
+//LO MISMO QUE OTROS ARCHIVOS, SE INICIA CON LA INSTRUCCION
+//ASOCIADA A LA RESPONSIVIDAD, EN ESTE CASO DEL GRÁFICO.
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(builder: (context, sizingInformation) {
@@ -108,9 +111,11 @@ class _GraphScreenState extends State<GraphScreen> {
                     // color: Colors.red,
                     width: 350,
                     height: 570,
+                    //ACA ABAJO SE DECLARA EL GRÁFICO, DE TIPO SFCARTESIANCHART
                     child: SfCartesianChart(
                       key: _cartesianChartKey,
                       onMarkerRender: (MarkerRenderArgs args) {
+                        //esta instruccion es para destacar solo un marcador visual de cada gráfico generado
                         if (!(args.pointIndex == 1)) {
                           args.markerHeight = 0.0;
                           args.markerWidth = 0.0;
@@ -120,7 +125,7 @@ class _GraphScreenState extends State<GraphScreen> {
                       margin: const EdgeInsets.all(10),
                       primaryXAxis: NumericAxis(labelFormat: '{value} días'),
                       primaryYAxis: NumericAxis(labelFormat: '{value} uni'),
-
+                      //AQUI COMIENZA A DIBUJARSE EL GRÁFICO, COMENZANDO POR EL TITULO
                       title: ChartTitle(
                           text: 'Modelo EOQ Básico.',
                           textStyle: const TextStyle(
@@ -132,6 +137,8 @@ class _GraphScreenState extends State<GraphScreen> {
                           overflowMode: LegendItemOverflowMode.wrap,
                           position: LegendPosition.bottom), //ver la leyenda
                       tooltipBehavior: _tooltipBehavior,
+                      //DESDE AQUÍ HACIA ABAJO SE SEÑALA EL TIPO DE GRÁFICO, LA FUENTE DE LOS
+                      //DATOS Y OTRAS COSAS COMO ANCHO DE LA LINEA, SU COLOR, SU NOMBRE Y OTROS AJUSTES ADICIONALES
                       series: <ChartSeries>[
                         LineSeries<SalesData, double>(
                           width: 5,
@@ -208,6 +215,8 @@ class _GraphScreenState extends State<GraphScreen> {
                         ),
                       ],
                     ),
+                    //AQUI SE TERMINA EL GRÁFICO Y MAS ABAJO VIENEN OTRAS OPCIONES COMO
+                    //EL BOTON DE CONVERTIR EL GRAFICO A IMAGEN, DATOS ADICIONALES
                   ),
                   Column(
                     children: [
@@ -270,6 +279,7 @@ class _GraphScreenState extends State<GraphScreen> {
           ),
         );
       }
+      //PARTE RESPONSIVA PERO HACIA LOS TABLETS
       if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
         return SafeArea(
           child: Scaffold(
